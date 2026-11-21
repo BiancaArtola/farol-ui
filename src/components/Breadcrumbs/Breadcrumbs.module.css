@@ -1,0 +1,41 @@
+.breadcrumbs {
+  font-family: var(--farol-font-family, inherit);
+  font-size: var(--farol-font-size-sm);
+  color: var(--farol-color-text-muted);
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* El separador es decoración: el texto alternativo vacío evita que se lea. */
+.item + .item::before {
+  content: "/";
+  content: "/" / "";
+  margin: 0 var(--farol-space-2);
+}
+
+.link {
+  color: var(--farol-color-primary);
+  text-underline-offset: 3px;
+}
+
+.link:hover {
+  color: var(--farol-color-primary-hover);
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--farol-color-focus);
+  outline-offset: 2px;
+  border-radius: var(--farol-radius-sm);
+}
+
+.current {
+  color: var(--farol-color-text);
+  font-weight: var(--farol-font-weight-semibold);
+}

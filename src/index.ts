@@ -85,6 +85,26 @@ export type { ModalPlacement, ModalProps } from "./components/Modal/Modal";
 export { Select } from "./components/Select/Select";
 export type { SelectProps } from "./components/Select/Select";
 
+export { Breadcrumbs } from "./components/Breadcrumbs/Breadcrumbs";
+export type {
+  BreadcrumbItem,
+  BreadcrumbsProps,
+} from "./components/Breadcrumbs/Breadcrumbs";
+
+export { Navbar } from "./components/Navbar/Navbar";
+export type { NavbarProps, NavLinkItem } from "./components/Navbar/Navbar";
+
+export { Pagination } from "./components/Pagination/Pagination";
+export type { PaginationProps } from "./components/Pagination/Pagination";
+export { getPageItems } from "./components/Pagination/pageItems";
+export type { PageItem } from "./components/Pagination/pageItems";
+
+export { Sidebar } from "./components/Sidebar/Sidebar";
+export type {
+  SidebarProps,
+  SidebarSection,
+} from "./components/Sidebar/Sidebar";
+
 export { Accordion } from "./components/Accordion/Accordion";
 export type {
   AccordionHeadingLevel,

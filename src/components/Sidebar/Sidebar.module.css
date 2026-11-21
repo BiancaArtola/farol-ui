@@ -1,0 +1,42 @@
+.sidebar {
+  font-family: var(--farol-font-family, inherit);
+  display: flex;
+  flex-direction: column;
+  gap: var(--farol-space-5);
+  box-sizing: border-box;
+  width: 16rem;
+  max-width: 100%;
+  padding: var(--farol-space-4);
+  color: var(--farol-color-text);
+  background-color: var(--farol-color-bg);
+  border-right: 1px solid var(--farol-color-border);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--farol-space-2);
+}
+
+.title {
+  margin: 0;
+  padding: 0 var(--farol-space-3);
+  font-size: var(--farol-font-size-sm);
+  font-weight: var(--farol-font-weight-semibold);
+  color: var(--farol-color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--farol-space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  composes: link from "../../styles/navLink.module.css";
+}

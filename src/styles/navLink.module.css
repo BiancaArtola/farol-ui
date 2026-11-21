@@ -1,0 +1,27 @@
+/*
+ * Aspecto de un enlace de navegación (Navbar y Sidebar): se comparte con `composes`.
+ * La página actual se marca con aria-current="page", no con una clase aparte.
+ */
+.link {
+  display: block;
+  padding: var(--farol-space-2) var(--farol-space-3);
+  font-weight: var(--farol-font-weight-semibold);
+  color: var(--farol-color-text-muted);
+  text-decoration: none;
+  border-radius: var(--farol-radius-md);
+}
+
+.link:hover {
+  color: var(--farol-color-text);
+  background-color: var(--farol-color-surface);
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--farol-color-focus);
+  outline-offset: 2px;
+}
+
+.link[aria-current="page"] {
+  color: var(--farol-color-primary);
+  background-color: var(--farol-color-surface);
+}
