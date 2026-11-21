@@ -27,7 +27,8 @@
     "**/*.css"
   ],
   "files": [
-    "dist"
+    "dist",
+    "llms.txt"
   ],
   "main": "./dist/farol-ui.js",
   "types": "./dist/index.d.ts",

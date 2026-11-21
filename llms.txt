@@ -1,0 +1,78 @@
+# farol-ui
+
+> React component library (React >= 18) with accessible, themeable components. Plain CSS Modules, no runtime dependencies, light and dark modes. Everything is exported from "farol-ui"; styles from "farol-ui/styles.css".
+
+Setup (once per app):
+
+```tsx
+import "farol-ui/styles.css";
+import { ThemeProvider, createTheme } from "farol-ui";
+
+const theme = createTheme({ primary: "#c2410c" });
+
+<ThemeProvider theme={theme}>{/* app */}</ThemeProvider>;
+```
+
+Rules that apply to every component:
+
+- Labels are required where a control needs a name (`label`, `legend`, `caption`, `title`). Never omit them: they are what screen readers announce.
+- Default texts of the newer components are in Spanish ("Cerrar", "Secciones"). Override them with the `*Label` props when the app is in another language.
+- Components accept standard HTML attributes of their root element and a `className`, unless listed otherwise.
+- Use the component before writing your own markup. If a variant is missing, extend the component.
+
+## Theming
+
+- `createTheme(options)` is pure (no DOM) and returns CSS variables `--farol-*`. Pass it to `ThemeProvider theme={...}`. On the server, `themeToCss(theme)` returns a `:root { ... }` string for a `<style>`.
+- `primary`: one hex (the dark variant is derived) or `{ light, dark }`. The color is adjusted so text on it keeps AA contrast.
+- Optional: `fontFamily`, `headingFontFamily`, `radius` ("sharp" | "default" | "round"), `buttonShape` ("default" | "pill"), `uppercaseButtons`, `shadow` ("none" | "soft"), `tabs` ("underline" | "pill" | "block"), `neutrals` (`{ light, dark }` with `bg, surface, text, muted, border, borderStrong`).
+- `createTheme` throws if a color pair is not readable (AA 4.5:1 for text, 3:1 for borders). Catch this at build time, not at runtime in production.
+- Presets: `farolTheme`, `tealTheme`, `violetTheme` (brand only) and `editorialTheme`, `softTheme`, `technicalTheme` (complete styles). Their fonts have system fallbacks; the app must load the web fonts itself.
+- `useTheme()` returns `{ preference, theme, setPreference, toggleTheme }` and only works inside `ThemeProvider`.
+
+## Buttons and display
+
+- `Button` (`variant`: primary | secondary | ghost | danger; `size`: sm | md | lg; `isLoading`) and `ButtonLink` (same look, renders a link).
+- `Badge` (`tone`: neutral | info | success | warning | danger), `Alert` (`tone`, `title`), `Avatar` (`name` required, shows initials; `size`), `Card` (`title`, `headingLevel`, `footer`), `EmptyState` (`title`, `description`, `action`), `StatCard` (`label`, `value`, `icon`, `hint`, `onClick`).
+
+## Forms
+
+- `Input`, `Textarea`, `Select` take the native attributes plus `label` (required), `hint`, `error`, `hideLabel`. `Select` children are `<option>`.
+- `Checkbox` and `Switch`: `label` required, optional `hint`. `RadioGroup`: `legend`, `options` (`{ value, label, disabled? }`), controlled `value` and `onChange(value)`.
+- `Slider`: native range with `label`, `min`, `max`, `step`, `showValue`; controlled with `value` or uncontrolled with `defaultValue`.
+- `Combobox`: `options` (`{ value, label, disabled? }`), `value: string | null`, `onChange(value)`, `emptyMessage`. Filtering ignores accents and case. It is not a date picker: use `<Input type="date">`.
+- `FileUpload`: `accept`, `multiple`, `maxSizeBytes`, `onChange(files)`, `onReject(rejected)`. It validates type and size and explains rejections. Pure helpers: `validateFiles`, `matchesAccept`, `formatFileSize`.
+
+## Data
+
+- `Table<Row>`: `columns` (`{ key, header, render(row), numeric?, sortable? }`), `rows`, `getRowKey`, `caption` (required, visually hidden), `sort`, `onSortChange(key)`, `emptyMessage`. The table does not sort by itself: use `sortRows(rows, sort, getValue)` and `nextSort`.
+- `TableToolbar`: `searchLabel`, `searchValue`, `onSearchChange`, `filters`, `summary`.
+- `Pagination`: `page` (1-based), `pageCount`, `onPageChange`, `siblings`. `LoadMore`: `visible`, `total`, `onLoadMore` (the "show more" variant).
+- `Timeline`: `items` (`{ id, title, time?, description?, tone? }`), `label`. `Stepper`: `steps` (`{ id, label, description? }`), `currentStep` (index), `label`.
+
+## Feedback
+
+- `ToastProvider` (wrap the app once; `maxToasts`) and `useToast()` which returns `{ showToast, dismissToast }`; `showToast({ message, tone?, duration? })` returns the toast id.
+- `Spinner` (`size`, `label`), `Skeleton` (`shape`: text | rect | circle, `width`, `height`; decorative, mark the container with `aria-busy`), `Progress` (`label` required, `value`, `max`, `tone`, `showValue`; without `value` it is indeterminate).
+
+## Navigation
+
+- `Navbar` (`brand`, `links`, `actions`; links collapse behind a menu button on narrow screens), `Sidebar` (`sections` of `{ id, title?, links }`), `Breadcrumbs` (`items` of `{ label, href? }`, the last one is the current page), `Tabs` (`items` of `{ id, label, content, disabled? }`, `label` required, `defaultTabId`, `onChange`).
+- Links are `{ id, label, href, isCurrent? }` (`NavLinkItem`).
+- `Accordion`: `items` of `{ id, title, content }`, `allowMultiple`, `defaultOpenIds`, `headingLevel`.
+
+## Overlays
+
+- `Modal`: `open`, `onClose`, `title` (required), `footer`, `placement` ("center" | "right" for a side panel). Traps focus, closes with Escape and returns focus to the opener. The element marked `data-autofocus` gets the initial focus.
+- `Popover`: `trigger` (a single element such as a `<button>`; it receives the ARIA and click handling), `label`, `placement` ("bottom-start" | "bottom-end" | "top-start" | "top-end"). Free-form content.
+- `DropdownMenu`: `trigger`, `label`, `items` of `{ id, label, onSelect, disabled?, tone? }`. Arrows, Home, End and Enter work.
+- `Tooltip`: `content` (short text), one child element. It adds to the child's existing `aria-describedby`. Do not put interactive content in it: use `Popover`.
+- `CommandPalette`: `open`, `onClose`, `commands` of `{ id, label, hint?, onSelect, disabled? }`. It is built on `Modal`.
+- Escape closes only the topmost layer: a Popover or Tooltip inside a Modal closes first, a second Escape closes the Modal.
+
+## Common mistakes
+
+- Forgetting `import "farol-ui/styles.css"`: components render unstyled.
+- Passing a color to `createTheme` that cannot reach AA contrast on the neutrals: it throws. Pick a darker or lighter brand, or give `{ light, dark }` explicitly.
+- Using `Tooltip` for content that must be reachable (links, buttons). Use `Popover`.
+- Leaving out `label`, `caption`, `legend` or `title`: the TypeScript types require them on purpose.
+- Rendering `Skeleton` or `Spinner` without telling the container it is loading (`aria-busy`).

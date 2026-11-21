@@ -8,6 +8,7 @@ Accessible React components in blue, with light and dark mode. Small, typed and 
 - **Light and dark from one source:** every color is declared once with CSS `light-dark()`. It follows the system theme, or you can force it.
 - **No runtime styling library:** CSS Modules and CSS variables. About 3.7 kB of JS and 2 kB of CSS (gzipped).
 - **Peer dependencies only:** React 18 or newer.
+- **Ready for AI assistants:** the package ships `llms.txt` (`node_modules/farol-ui/llms.txt`), a compact catalog of components, props and common mistakes.
 
 ## Install
 

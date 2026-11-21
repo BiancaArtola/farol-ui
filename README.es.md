@@ -8,6 +8,7 @@ Componentes React accesibles, en azul, con modo claro y oscuro. Chicos, tipados 
 - **Claro y oscuro desde una sola fuente:** cada color se declara una vez con `light-dark()` de CSS. Sigue al sistema, o se puede forzar.
 - **Sin librería de estilos en ejecución:** CSS Modules y variables CSS. Unos 3,7 kB de JS y 2 kB de CSS (comprimidos).
 - **Solo dependencias peer:** React 18 o superior.
+- **Listos para asistentes de IA:** el paquete incluye `llms.txt` (`node_modules/farol-ui/llms.txt`), un catálogo compacto de componentes, props y errores comunes.
 
 ## Instalación
 
