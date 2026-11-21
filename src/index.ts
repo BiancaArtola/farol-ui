@@ -11,6 +11,25 @@ export { getInitials } from "./components/Avatar/initials";
 export { EmptyState } from "./components/EmptyState/EmptyState";
 export type { EmptyStateProps } from "./components/EmptyState/EmptyState";
 
+export { DropdownMenu } from "./components/DropdownMenu/DropdownMenu";
+export type {
+  DropdownMenuItem,
+  DropdownMenuProps,
+} from "./components/DropdownMenu/DropdownMenu";
+
+export { POPOVER_PLACEMENTS, Popover } from "./components/Popover/Popover";
+export type {
+  PopoverPlacement,
+  PopoverTrigger,
+  PopoverProps,
+} from "./components/Popover/Popover";
+
+export { TOOLTIP_PLACEMENTS, Tooltip } from "./components/Tooltip/Tooltip";
+export type {
+  TooltipPlacement,
+  TooltipProps,
+} from "./components/Tooltip/Tooltip";
+
 export { LoadMore } from "./components/Pagination/LoadMore";
 export type { LoadMoreProps } from "./components/Pagination/LoadMore";
 

@@ -54,3 +54,9 @@
   font-family: var(--farol-font-family, inherit);
   border: 1px solid var(--farol-color-border);
 }
+
+/* Espacio para ver el contenido flotante (menús, popovers, tooltips) de una historia. */
+.story-spacer {
+  min-height: 14rem;
+  padding-top: 5rem;
+}

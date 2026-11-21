@@ -1,0 +1,42 @@
+/*
+ * Contenedor y panel flotante compartidos por Popover y DropdownMenu. El panel se posiciona
+ * con CSS respecto del disparador (sin medir la pantalla): elegir `placement` según el lugar.
+ */
+.anchor {
+  position: relative;
+  display: inline-block;
+}
+
+.panel {
+  position: absolute;
+  z-index: var(--farol-z-popover, 900);
+  box-sizing: border-box;
+  min-width: 12rem;
+  padding: var(--farol-space-3);
+  font-family: var(--farol-font-family, inherit);
+  color: var(--farol-color-text);
+  background-color: var(--farol-color-bg);
+  border: 1px solid var(--farol-color-border);
+  border-radius: var(--farol-radius-md);
+  box-shadow: var(--farol-shadow-md);
+}
+
+.bottom-start {
+  top: calc(100% + var(--farol-space-1));
+  left: 0;
+}
+
+.bottom-end {
+  top: calc(100% + var(--farol-space-1));
+  right: 0;
+}
+
+.top-start {
+  bottom: calc(100% + var(--farol-space-1));
+  left: 0;
+}
+
+.top-end {
+  right: 0;
+  bottom: calc(100% + var(--farol-space-1));
+}

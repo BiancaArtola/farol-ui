@@ -1,0 +1,38 @@
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: var(--farol-space-1);
+  padding: var(--farol-space-1);
+}
+
+.item {
+  width: 100%;
+  padding: var(--farol-space-2) var(--farol-space-3);
+  font: inherit;
+  font-family: var(--farol-font-family, inherit);
+  text-align: left;
+  color: var(--farol-color-text);
+  background: transparent;
+  border: 0;
+  border-radius: var(--farol-radius-sm);
+  cursor: pointer;
+}
+
+.item:hover:not(:disabled),
+.item:focus-visible {
+  background-color: var(--farol-color-surface);
+}
+
+.item:focus-visible {
+  outline: 2px solid var(--farol-color-focus);
+  outline-offset: -2px;
+}
+
+.item:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.danger {
+  color: var(--farol-color-danger);
+}

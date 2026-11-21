@@ -30,6 +30,7 @@
   --farol-color-overlay: rgb(15 23 42 / 55%);
 
   /* Capas: el aviso (Toast) queda siempre por encima del diálogo (Modal). */
+  --farol-z-popover: 900;
   --farol-z-modal: 1000;
   --farol-z-toast: 1100;
 
