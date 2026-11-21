@@ -15,6 +15,34 @@
   composes: title from "../../styles/text.module.css";
 }
 
+.description {
+  margin: 0;
+  color: var(--farol-color-text-muted);
+  font-size: var(--farol-font-size-sm);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--farol-space-3);
+}
+
+.icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--farol-radius-md);
+}
+
+.headingText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--farol-space-1);
+  min-width: 0;
+}
+
 .body {
   color: var(--farol-color-text-muted);
 }

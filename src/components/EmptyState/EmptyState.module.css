@@ -11,6 +11,12 @@
   border-radius: var(--farol-radius-lg);
 }
 
+.icon {
+  display: grid;
+  place-items: center;
+  color: var(--farol-color-text-muted);
+}
+
 .title {
   composes: title from "../../styles/text.module.css";
 }

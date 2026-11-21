@@ -1,9 +1,10 @@
 import { useId, useState, type HTMLAttributes, type ReactNode } from "react";
 import { cx } from "../../utils/classNames";
+import type { HeadingLevel } from "../../utils/headingLevel";
 import { toggleOpenIds } from "./accordionState";
 import styles from "./Accordion.module.css";
 
-export type AccordionHeadingLevel = 2 | 3 | 4 | 5 | 6;
+export type AccordionHeadingLevel = HeadingLevel;
 
 export interface AccordionItem {
   id: string;

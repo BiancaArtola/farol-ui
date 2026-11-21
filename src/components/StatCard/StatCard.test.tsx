@@ -24,4 +24,34 @@ describe("StatCard", () => {
     await userEvent.keyboard("{Enter}");
     expect(handleClick).toHaveBeenCalledTimes(2);
   });
+
+  // Caso real: "Listos" y "Revisar" filtran la tabla; la tarjeta del filtro puesto se
+  // resalta y tiene que anunciarse como presionada a lectores de pantalla.
+  it("con onClick anuncia si el filtro está puesto", () => {
+    const { rerender } = render(
+      <StatCard label="Listos" value={12} onClick={vi.fn()} />,
+    );
+    expect(screen.getByRole("button")).toHaveAttribute("aria-pressed", "false");
+    rerender(<StatCard label="Listos" value={12} onClick={vi.fn()} isActive />);
+    expect(screen.getByRole("button")).toHaveAttribute("aria-pressed", "true");
+  });
+
+  it("sin onClick no declara aria-pressed aunque isActive sea true", () => {
+    const { container } = render(
+      <StatCard label="Listos" value={12} isActive />,
+    );
+    expect(container.querySelector("[aria-pressed]")).toBeNull();
+  });
+
+  // Caso real: el ícono de "Listos" va en verde y el de "Excluidos" en gris, no todos azules.
+  it("el ícono toma el color del tono", () => {
+    render(
+      <>
+        <StatCard label="Listos" value={1} icon="✓" tone="success" />
+        <StatCard label="Excluidos" value={2} icon="–" tone="neutral" />
+      </>,
+    );
+    expect(screen.getByText("✓").className).toContain("success");
+    expect(screen.getByText("–").className).toContain("neutral");
+  });
 });

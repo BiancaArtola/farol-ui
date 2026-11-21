@@ -123,6 +123,15 @@ export type { ToastTone } from "./components/Toast/toastQueue";
 export { Card } from "./components/Card/Card";
 export type { CardHeadingLevel, CardProps } from "./components/Card/Card";
 
+export { DialogProvider, useDialog } from "./components/Dialog/Dialog";
+export type {
+  ConfirmOptions,
+  DialogApi,
+  DialogLabels,
+  DialogProviderProps,
+  PromptOptions,
+} from "./components/Dialog/Dialog";
+
 export { Checkbox } from "./components/Checkbox/Checkbox";
 export type { CheckboxProps } from "./components/Checkbox/Checkbox";
 

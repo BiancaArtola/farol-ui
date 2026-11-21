@@ -6,7 +6,10 @@ import styles from "./Table.module.css";
 export interface TableColumn<Row> {
   /** Identifica la columna; es la clave que recibe `onSortChange`. */
   key: string;
-  header: string;
+  /** Texto o contenido de la cabecera (p. ej. un casillero "seleccionar todos"). */
+  header: ReactNode;
+  /** Clase extra para la cabecera y las celdas de la columna (ancho, alineación puntual). */
+  className?: string;
   /** Cómo se dibuja la celda de esta columna. */
   render: (row: Row) => ReactNode;
   /** Importes y cantidades: se alinean a la derecha. */
@@ -58,7 +61,11 @@ export const Table = <Row,>({
               <th
                 key={column.key}
                 scope="col"
-                className={cx(styles.cell, column.numeric && styles.numeric)}
+                className={cx(
+                  styles.cell,
+                  column.numeric && styles.numeric,
+                  column.className,
+                )}
                 aria-sort={isSortable ? ariaSort : undefined}
               >
                 {isSortable ? (
@@ -93,7 +100,11 @@ export const Table = <Row,>({
               {columns.map((column) => (
                 <td
                   key={column.key}
-                  className={cx(styles.cell, column.numeric && styles.numeric)}
+                  className={cx(
+                    styles.cell,
+                    column.numeric && styles.numeric,
+                    column.className,
+                  )}
                 >
                   {column.render(row)}
                 </td>

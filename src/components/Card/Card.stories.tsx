@@ -28,3 +28,11 @@ export const WithFooter: Story = {
 };
 
 export const WithoutTitle: Story = { args: { title: undefined } };
+
+export const WithIconAndDescription: Story = {
+  args: {
+    icon: "⚙",
+    iconTone: "warning",
+    description: "Recarga la extensión si queda en un estado inesperado.",
+  },
+};

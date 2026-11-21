@@ -19,3 +19,12 @@ export const WithAction: Story = {
     action: <Button size="sm">Agregar cobro</Button>,
   },
 };
+
+export const FullScreen: Story = {
+  args: {
+    headingLevel: 2,
+    icon: "📄",
+    description: "Cuando cargues un cobro, aparece acá.",
+    action: <Button size="sm">Agregar cobro</Button>,
+  },
+};

@@ -15,3 +15,18 @@ export const Default: Story = {};
 export const WithHint: Story = { args: { hint: "Este mes" } };
 
 export const Clickable: Story = { args: { onClick: () => undefined } };
+
+export const Tones: Story = {
+  render: (args) => (
+    <div className="story-grid">
+      <StatCard {...args} tone="info" />
+      <StatCard {...args} tone="success" />
+      <StatCard {...args} tone="warning" />
+      <StatCard {...args} tone="neutral" />
+    </div>
+  ),
+};
+
+export const ActiveFilter: Story = {
+  args: { onClick: () => undefined, isActive: true },
+};

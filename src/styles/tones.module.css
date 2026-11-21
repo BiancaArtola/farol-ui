@@ -21,3 +21,9 @@
   background-color: var(--farol-color-danger-bg);
   color: var(--farol-color-danger);
 }
+
+/* Solo para íconos: sin significado de estado. Badge tiene su propio neutral, con borde. */
+.neutral {
+  background-color: var(--farol-color-bg);
+  color: var(--farol-color-text-muted);
+}

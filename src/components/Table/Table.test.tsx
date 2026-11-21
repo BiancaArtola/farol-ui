@@ -90,4 +90,25 @@ describe("Table", () => {
     const body = screen.getAllByRole("rowgroup")[1];
     expect(within(body).getByText("Sin comprobantes")).toBeInTheDocument();
   });
+
+  // Caso real: la tabla de cobros lleva un casillero "seleccionar todos" en la cabecera
+  // y una columna angosta de selección, que necesita su propia clase de ancho.
+  it("admite contenido en la cabecera y una clase por columna", () => {
+    const selectable: TableColumn<Invoice>[] = [
+      {
+        key: "select",
+        header: <input type="checkbox" aria-label="Seleccionar todos" />,
+        className: "col-check",
+        render: () => <input type="checkbox" aria-label="Seleccionar" />,
+      },
+      ...columns,
+    ];
+    renderTable({ columns: selectable });
+    const headerCell = screen
+      .getByRole("checkbox", { name: "Seleccionar todos" })
+      .closest("th");
+    expect(headerCell).toHaveClass("col-check");
+    const firstRow = screen.getAllByRole("row")[1];
+    expect(within(firstRow).getAllByRole("cell")[0]).toHaveClass("col-check");
+  });
 });

@@ -56,45 +56,46 @@ import { getThemeInitScript } from "farol-ui";
 
 ## Componentes
 
-| Componente                   | Para qué sirve                                                                                                                          |
-| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| `Button`                     | Acciones. Variantes `primary`, `secondary`, `ghost`, `danger`; tamaños; `isLoading`.                                                    |
-| `Input`                      | Campo de texto con etiqueta obligatoria, ayuda y error conectados con `aria-describedby`.                                               |
-| `Select`                     | Selector nativo con la misma etiqueta, ayuda y error.                                                                                   |
-| `Checkbox`                   | Casilla nativa con etiqueta y ayuda.                                                                                                    |
-| `Card`                       | Contenedor con título opcional (se elige el nivel del encabezado) y pie.                                                                |
-| `Badge`                      | Etiqueta de estado. Tonos `neutral`, `info`, `success`, `warning`, `danger`.                                                            |
-| `Modal`                      | Diálogo o panel lateral (`placement="right"`). Escape, foco atrapado, devuelve el foco, scroll bloqueado.                               |
-| `Tabs`                       | Pestañas con flechas, Inicio y Fin, saltando las deshabilitadas.                                                                        |
-| `Table`                      | Tabla de datos accesible: columnas numéricas, cabeceras ordenables (`aria-sort`), estado vacío. Se combina con `sortRows` y `nextSort`. |
-| `TableToolbar`               | Buscador, filtros y contador para poner sobre una `Table`.                                                                              |
-| `LoadMore`                   | Cierre "Mostrando 100 de 250" con botón; no dibuja nada cuando ya se ve todo.                                                           |
-| `Alert`                      | Aviso con tonos `info`, `success`, `warning`, `danger` (rol `alert` en los graves).                                                     |
-| `EmptyState`                 | Título, descripción y una acción para listas sin datos.                                                                                 |
-| `Textarea`                   | Campo multilínea con la misma etiqueta, ayuda y error que `Input`.                                                                      |
-| `Switch`                     | Casilla nativa con `role="switch"`.                                                                                                     |
-| `RadioGroup`                 | Fieldset con leyenda y radios nativos (funcionan las flechas).                                                                          |
-| `Avatar`                     | Iniciales con el nombre completo como nombre accesible.                                                                                 |
-| `StatCard`                   | Dato clave con ícono opcional; si tiene `onClick` pasa a ser un botón.                                                                  |
-| `ButtonLink`                 | Enlace (`<a>`) con el aspecto de un `Button`. Para el `Link` de Next, `className={buttonClassName()}`.                                  |
-| `ToastProvider` / `useToast` | Avisos temporales: `showToast({ message, tone })`. Los errores usan `role="alert"`, el resto `status`; se cierran solos.                |
-| `Spinner`                    | Indicador de carga para una zona (se anuncia como `status`). Los botones ya traen `isLoading`.                                          |
-| `Skeleton`                   | Marcador gris mientras llega el contenido. Es decorativo: marcar el contenedor con `aria-busy`.                                         |
-| `Progress`                   | Barra de progreso con tonos; indeterminada si no hay `value`.                                                                           |
-| `Accordion`                  | Secciones que se abren y cierran; una a la vez o varias (`allowMultiple`).                                                              |
-| `Stepper`                    | Pasos con estado (completo, actual, pendiente) que también se anuncia a lectores de pantalla.                                           |
-| `Timeline`                   | Lista ordenada de eventos con un marcador de color según el tono.                                                                       |
-| `Breadcrumbs`                | Ruta de navegación; el último ítem es la página actual.                                                                                 |
-| `Pagination`                 | Páginas numeradas (1 2 3 … 12) con anterior y siguiente. `LoadMore` es la variante "mostrar más".                                       |
-| `Navbar`                     | Barra superior con marca, enlaces y acciones; en pantallas angostas los enlaces van tras un botón de menú.                              |
-| `Sidebar`                    | Navegación vertical agrupada en secciones.                                                                                              |
-| `Tooltip`                    | Ayuda breve al pasar el mouse o enfocar; Escape la oculta.                                                                              |
-| `Popover`                    | Panel flotante con contenido libre, abierto desde un botón. Escape o un clic afuera lo cierra.                                          |
-| `DropdownMenu`               | Menú de acciones: flechas, Inicio y Fin para moverse, Enter para elegir, Escape para cerrar.                                            |
-| `CommandPalette`             | Diálogo con buscador para ejecutar acciones escribiendo.                                                                                |
-| `Slider`                     | Control deslizante nativo con etiqueta, ayuda, error y valor visible.                                                                   |
-| `FileUpload`                 | Selector de archivos con zona para arrastrar; valida tipo y tamaño y explica los rechazos.                                              |
-| `Combobox`                   | Campo de texto con lista filtrable (sin distinguir tildes). Para fechas, `<Input type="date">`.                                         |
+| Componente                     | Para qué sirve                                                                                                                          |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `Button`                       | Acciones. Variantes `primary`, `secondary`, `ghost`, `danger`; tamaños; `isLoading`.                                                    |
+| `Input`                        | Campo de texto con etiqueta obligatoria, ayuda y error conectados con `aria-describedby`.                                               |
+| `Select`                       | Selector nativo con la misma etiqueta, ayuda y error.                                                                                   |
+| `Checkbox`                     | Casilla nativa con etiqueta y ayuda.                                                                                                    |
+| `Card`                         | Contenedor con título opcional (se elige el nivel del encabezado), descripción, ícono de color y pie.                                   |
+| `Badge`                        | Etiqueta de estado. Tonos `neutral`, `info`, `success`, `warning`, `danger`.                                                            |
+| `Modal`                        | Diálogo o panel lateral (`placement="right"`). Escape, foco atrapado, devuelve el foco, scroll bloqueado.                               |
+| `Tabs`                         | Pestañas con flechas, Inicio y Fin, saltando las deshabilitadas.                                                                        |
+| `Table`                        | Tabla de datos accesible: columnas numéricas, cabeceras ordenables (`aria-sort`), estado vacío. Se combina con `sortRows` y `nextSort`. |
+| `TableToolbar`                 | Buscador, filtros y contador para poner sobre una `Table`.                                                                              |
+| `LoadMore`                     | Cierre "Mostrando 100 de 250" con botón; no dibuja nada cuando ya se ve todo.                                                           |
+| `Alert`                        | Aviso con tonos `info`, `success`, `warning`, `danger` (rol `alert` en los graves).                                                     |
+| `EmptyState`                   | Título (opcionalmente un encabezado), ícono, descripción y una acción para listas sin datos.                                            |
+| `Textarea`                     | Campo multilínea con la misma etiqueta, ayuda y error que `Input`.                                                                      |
+| `Switch`                       | Casilla nativa con `role="switch"`.                                                                                                     |
+| `RadioGroup`                   | Fieldset con leyenda y radios nativos (funcionan las flechas).                                                                          |
+| `Avatar`                       | Iniciales con el nombre completo como nombre accesible.                                                                                 |
+| `StatCard`                     | Dato clave con ícono de color; si tiene `onClick` pasa a ser un botón y `isActive` marca el filtro aplicado.                            |
+| `ButtonLink`                   | Enlace (`<a>`) con el aspecto de un `Button`. Para el `Link` de Next, `className={buttonClassName()}`.                                  |
+| `DialogProvider` / `useDialog` | Reemplazan `confirm()` y `prompt()`: `await confirm({ message })` resuelve un booleano y `await prompt({ message })` el texto o `null`. |
+| `ToastProvider` / `useToast`   | Avisos temporales: `showToast({ message, tone })`. Los errores usan `role="alert"`, el resto `status`; se cierran solos.                |
+| `Spinner`                      | Indicador de carga para una zona (se anuncia como `status`). Los botones ya traen `isLoading`.                                          |
+| `Skeleton`                     | Marcador gris mientras llega el contenido. Es decorativo: marcar el contenedor con `aria-busy`.                                         |
+| `Progress`                     | Barra de progreso con tonos; indeterminada si no hay `value`.                                                                           |
+| `Accordion`                    | Secciones que se abren y cierran; una a la vez o varias (`allowMultiple`).                                                              |
+| `Stepper`                      | Pasos con estado (completo, actual, pendiente) que también se anuncia a lectores de pantalla.                                           |
+| `Timeline`                     | Lista ordenada de eventos con un marcador de color según el tono.                                                                       |
+| `Breadcrumbs`                  | Ruta de navegación; el último ítem es la página actual.                                                                                 |
+| `Pagination`                   | Páginas numeradas (1 2 3 … 12) con anterior y siguiente. `LoadMore` es la variante "mostrar más".                                       |
+| `Navbar`                       | Barra superior con marca, enlaces y acciones; en pantallas angostas los enlaces van tras un botón de menú.                              |
+| `Sidebar`                      | Navegación vertical agrupada en secciones.                                                                                              |
+| `Tooltip`                      | Ayuda breve al pasar el mouse o enfocar; Escape la oculta.                                                                              |
+| `Popover`                      | Panel flotante con contenido libre, abierto desde un botón. Escape o un clic afuera lo cierra.                                          |
+| `DropdownMenu`                 | Menú de acciones: flechas, Inicio y Fin para moverse, Enter para elegir, Escape para cerrar.                                            |
+| `CommandPalette`               | Diálogo con buscador para ejecutar acciones escribiendo.                                                                                |
+| `Slider`                       | Control deslizante nativo con etiqueta, ayuda, error y valor visible.                                                                   |
+| `FileUpload`                   | Selector de archivos con zona para arrastrar; valida tipo y tamaño y explica los rechazos.                                              |
+| `Combobox`                     | Campo de texto con lista filtrable (sin distinguir tildes). Para fechas, `<Input type="date">`.                                         |
 
 ## Personalización
 

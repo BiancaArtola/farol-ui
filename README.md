@@ -56,45 +56,46 @@ import { getThemeInitScript } from "farol-ui";
 
 ## Components
 
-| Component                    | What it is for                                                                                                               |
-| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| `Button`                     | Actions. Variants `primary`, `secondary`, `ghost`, `danger`; sizes; `isLoading`.                                             |
-| `Input`                      | Text field with required label, hint and error wired with `aria-describedby`.                                                |
-| `Select`                     | Native select with the same label, hint and error.                                                                           |
-| `Checkbox`                   | Native checkbox with label and hint.                                                                                         |
-| `Card`                       | Container with optional title (choose the heading level) and footer.                                                         |
-| `Badge`                      | Status label. Tones `neutral`, `info`, `success`, `warning`, `danger`.                                                       |
-| `Modal`                      | Dialog or side panel (`placement="right"`). Escape, focus trap, focus return, scroll lock.                                   |
-| `Tabs`                       | Tabs with arrow keys, Home and End, skipping disabled tabs.                                                                  |
-| `Table`                      | Accessible data table: numeric columns, sortable headers (`aria-sort`), empty state. Pair it with `sortRows` and `nextSort`. |
-| `TableToolbar`               | Search box, filters and counter to put above a `Table`.                                                                      |
-| `LoadMore`                   | "Showing 100 of 250" footer with a button; renders nothing once everything is visible.                                       |
-| `Alert`                      | Message with tones `info`, `success`, `warning`, `danger` (`alert` role for the serious ones).                               |
-| `EmptyState`                 | Title, description and an action for lists without data.                                                                     |
-| `Textarea`                   | Multi-line field with the same label, hint and error as `Input`.                                                             |
-| `Switch`                     | Native checkbox with `role="switch"`.                                                                                        |
-| `RadioGroup`                 | Fieldset with legend and native radios (arrow keys work).                                                                    |
-| `Avatar`                     | Initials with the full name as accessible name.                                                                              |
-| `StatCard`                   | Key figure with optional icon; becomes a button when it has `onClick`.                                                       |
-| `ButtonLink`                 | A link (`<a>`) that looks like a `Button`. For Next's `Link`, use `className={buttonClassName()}`.                           |
-| `ToastProvider` / `useToast` | Temporary messages: `showToast({ message, tone })`. Errors use `role="alert"`, the rest `status`; they close on their own.   |
-| `Spinner`                    | Loading indicator for a zone (announced as `status`). Buttons already have `isLoading`.                                      |
-| `Skeleton`                   | Gray placeholder while content arrives. Decorative: mark the container with `aria-busy`.                                     |
-| `Progress`                   | Progress bar with tones; indeterminate when there is no `value`.                                                             |
-| `Accordion`                  | Sections that open and close; one at a time or several (`allowMultiple`).                                                    |
-| `Stepper`                    | Steps with state (done, current, pending) also announced to screen readers.                                                  |
-| `Timeline`                   | Ordered list of events with a colored marker per tone.                                                                       |
-| `Breadcrumbs`                | Navigation path; the last item is the current page.                                                                          |
-| `Pagination`                 | Numbered pages (1 2 3 … 12) with previous and next. `LoadMore` is the "show more" variant.                                   |
-| `Navbar`                     | Top bar with brand, links and actions; links hide behind a menu button on narrow screens.                                    |
-| `Sidebar`                    | Vertical navigation grouped in sections.                                                                                     |
-| `Tooltip`                    | Short help on hover or focus; Escape hides it.                                                                               |
-| `Popover`                    | Floating panel with free content, opened from a button. Escape or outside click closes it.                                   |
-| `DropdownMenu`               | Action menu: arrows, Home and End to move, Enter to choose, Escape to close.                                                 |
-| `CommandPalette`             | Dialog with a search box to run actions by typing.                                                                           |
-| `Slider`                     | Native range input with label, hint, error and visible value.                                                                |
-| `FileUpload`                 | File picker with a drop zone; validates type and size and explains rejections.                                               |
-| `Combobox`                   | Text field with a filterable list (accent-insensitive). For dates use `<Input type="date">`.                                 |
+| Component                      | What it is for                                                                                                                       |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `Button`                       | Actions. Variants `primary`, `secondary`, `ghost`, `danger`; sizes; `isLoading`.                                                     |
+| `Input`                        | Text field with required label, hint and error wired with `aria-describedby`.                                                        |
+| `Select`                       | Native select with the same label, hint and error.                                                                                   |
+| `Checkbox`                     | Native checkbox with label and hint.                                                                                                 |
+| `Card`                         | Container with optional title (choose the heading level), description, tinted icon and footer.                                       |
+| `Badge`                        | Status label. Tones `neutral`, `info`, `success`, `warning`, `danger`.                                                               |
+| `Modal`                        | Dialog or side panel (`placement="right"`). Escape, focus trap, focus return, scroll lock.                                           |
+| `Tabs`                         | Tabs with arrow keys, Home and End, skipping disabled tabs.                                                                          |
+| `Table`                        | Accessible data table: numeric columns, sortable headers (`aria-sort`), empty state. Pair it with `sortRows` and `nextSort`.         |
+| `TableToolbar`                 | Search box, filters and counter to put above a `Table`.                                                                              |
+| `LoadMore`                     | "Showing 100 of 250" footer with a button; renders nothing once everything is visible.                                               |
+| `Alert`                        | Message with tones `info`, `success`, `warning`, `danger` (`alert` role for the serious ones).                                       |
+| `EmptyState`                   | Title (optionally a heading), icon, description and an action for lists without data.                                                |
+| `Textarea`                     | Multi-line field with the same label, hint and error as `Input`.                                                                     |
+| `Switch`                       | Native checkbox with `role="switch"`.                                                                                                |
+| `RadioGroup`                   | Fieldset with legend and native radios (arrow keys work).                                                                            |
+| `Avatar`                       | Initials with the full name as accessible name.                                                                                      |
+| `StatCard`                     | Key figure with tinted icon; becomes a button when it has `onClick`, and `isActive` marks the applied filter.                        |
+| `ButtonLink`                   | A link (`<a>`) that looks like a `Button`. For Next's `Link`, use `className={buttonClassName()}`.                                   |
+| `DialogProvider` / `useDialog` | Replace `confirm()` and `prompt()`: `await confirm({ message })` resolves a boolean, `await prompt({ message })` the text or `null`. |
+| `ToastProvider` / `useToast`   | Temporary messages: `showToast({ message, tone })`. Errors use `role="alert"`, the rest `status`; they close on their own.           |
+| `Spinner`                      | Loading indicator for a zone (announced as `status`). Buttons already have `isLoading`.                                              |
+| `Skeleton`                     | Gray placeholder while content arrives. Decorative: mark the container with `aria-busy`.                                             |
+| `Progress`                     | Progress bar with tones; indeterminate when there is no `value`.                                                                     |
+| `Accordion`                    | Sections that open and close; one at a time or several (`allowMultiple`).                                                            |
+| `Stepper`                      | Steps with state (done, current, pending) also announced to screen readers.                                                          |
+| `Timeline`                     | Ordered list of events with a colored marker per tone.                                                                               |
+| `Breadcrumbs`                  | Navigation path; the last item is the current page.                                                                                  |
+| `Pagination`                   | Numbered pages (1 2 3 … 12) with previous and next. `LoadMore` is the "show more" variant.                                           |
+| `Navbar`                       | Top bar with brand, links and actions; links hide behind a menu button on narrow screens.                                            |
+| `Sidebar`                      | Vertical navigation grouped in sections.                                                                                             |
+| `Tooltip`                      | Short help on hover or focus; Escape hides it.                                                                                       |
+| `Popover`                      | Floating panel with free content, opened from a button. Escape or outside click closes it.                                           |
+| `DropdownMenu`                 | Action menu: arrows, Home and End to move, Enter to choose, Escape to close.                                                         |
+| `CommandPalette`               | Dialog with a search box to run actions by typing.                                                                                   |
+| `Slider`                       | Native range input with label, hint, error and visible value.                                                                        |
+| `FileUpload`                   | File picker with a drop zone; validates type and size and explains rejections.                                                       |
+| `Combobox`                     | Text field with a filterable list (accent-insensitive). For dates use `<Input type="date">`.                                         |
 
 ## Theming
 

@@ -43,4 +43,35 @@ describe("Card", () => {
     const card = screen.getByRole("article", { name: "Tarjeta de prueba" });
     expect(card).toHaveClass("extra");
   });
+
+  // Caso real: las tarjetas de Configuración llevan un ícono de color, un título y una
+  // línea que explica qué hace cada una.
+  it("muestra la descripción bajo el título", () => {
+    render(
+      <Card title="Copia de seguridad" description="Descarga todos los datos.">
+        x
+      </Card>,
+    );
+    expect(screen.getByText("Descarga todos los datos.")).toBeInTheDocument();
+  });
+
+  it("con ícono lo marca como decorativo y le da el color del tono", () => {
+    render(
+      <Card
+        title="Mantenimiento"
+        icon={<svg data-testid="icono" />}
+        iconTone="warning"
+      >
+        x
+      </Card>,
+    );
+    const iconBox = screen.getByTestId("icono").parentElement;
+    expect(iconBox).toHaveAttribute("aria-hidden", "true");
+    expect(iconBox?.className).toContain("warning");
+  });
+
+  it("sin ícono no deja un contenedor de ícono vacío", () => {
+    const { container } = render(<Card title="Título">x</Card>);
+    expect(container.querySelector("[aria-hidden]")).toBeNull();
+  });
 });
