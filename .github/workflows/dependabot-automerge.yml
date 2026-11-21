@@ -1,0 +1,27 @@
+name: Dependabot automerge
+
+# Dependabot ya abre sus PRs una vez por semana (ver dependabot.yml). Este workflow deja
+# programada la fusión de los que no son cambios mayores: GitHub los fusiona solo cuando
+# el CI ("verificar") termina en verde. Los mayores (eslint 10, typescript 7...) se revisan
+# a mano porque suelen romper herramientas.
+on: pull_request
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  automerge:
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - id: metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Programar la fusión cuando el CI pase
+        if: steps.metadata.outputs.update-type != 'version-update:semver-major'
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
