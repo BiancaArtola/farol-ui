@@ -23,8 +23,6 @@
 }
 
 .hint {
+  composes: hint from "../../styles/text.module.css";
   grid-column: 2;
-  margin: 0;
-  font-size: var(--farol-font-size-sm);
-  color: var(--farol-color-text-muted);
 }

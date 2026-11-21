@@ -11,9 +11,7 @@
 }
 
 .title {
-  margin: 0;
-  font-size: var(--farol-font-size-lg);
-  font-weight: var(--farol-font-weight-bold);
+  composes: title from "../../styles/text.module.css";
 }
 
 .body {

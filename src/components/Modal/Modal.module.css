@@ -1,7 +1,7 @@
 .backdrop {
   position: fixed;
   inset: 0;
-  z-index: 1000;
+  z-index: var(--farol-z-modal);
   display: flex;
   background-color: var(--farol-color-overlay);
 }
@@ -52,34 +52,7 @@
 }
 
 .title {
-  margin: 0;
-  font-size: var(--farol-font-size-lg);
-  font-weight: var(--farol-font-weight-bold);
-}
-
-.close {
-  display: grid;
-  place-items: center;
-  width: 2rem;
-  height: 2rem;
-  font: inherit;
-  font-size: 1.5rem;
-  line-height: 1;
-  color: var(--farol-color-text-muted);
-  background: transparent;
-  border: 0;
-  border-radius: var(--farol-radius-sm);
-  cursor: pointer;
-}
-
-.close:hover {
-  color: var(--farol-color-text);
-  background-color: var(--farol-color-surface);
-}
-
-.close:focus-visible {
-  outline: 2px solid var(--farol-color-focus);
-  outline-offset: 2px;
+  composes: title from "../../styles/text.module.css";
 }
 
 .body {

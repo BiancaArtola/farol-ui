@@ -9,6 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../../utils/classNames";
+import { CloseButton } from "../CloseButton/CloseButton";
 import { getStatusRole } from "../../utils/tones";
 import {
   DEFAULT_MAX_TOASTS,
@@ -79,14 +80,12 @@ const ToastView = ({ toast, closeLabel, onDismiss }: ToastViewProps) => {
       onBlur={() => setHasFocus(false)}
     >
       <p className={styles.message}>{toast.message}</p>
-      <button
-        type="button"
-        className={styles.close}
-        aria-label={closeLabel}
+      <CloseButton
+        label={closeLabel}
+        size="sm"
+        tone="inherit"
         onClick={() => onDismiss(id)}
-      >
-        <span aria-hidden="true">×</span>
-      </button>
+      />
     </div>
   );
 };

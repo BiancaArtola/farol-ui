@@ -3,7 +3,7 @@
   position: fixed;
   right: var(--farol-space-4);
   bottom: var(--farol-space-4);
-  z-index: 1100;
+  z-index: var(--farol-z-toast);
   display: flex;
   flex-direction: column;
   gap: var(--farol-space-2);
@@ -26,25 +26,4 @@
 .message {
   flex: 1;
   margin: 0;
-}
-
-.close {
-  display: grid;
-  place-items: center;
-  width: 1.5rem;
-  height: 1.5rem;
-  padding: 0;
-  font: inherit;
-  font-size: 1.25rem;
-  line-height: 1;
-  color: inherit;
-  background: transparent;
-  border: 0;
-  border-radius: var(--farol-radius-sm);
-  cursor: pointer;
-}
-
-.close:focus-visible {
-  outline: 2px solid var(--farol-color-focus);
-  outline-offset: 2px;
 }

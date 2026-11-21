@@ -49,6 +49,5 @@
 }
 
 .hint {
-  font-size: var(--farol-font-size-sm);
-  color: var(--farol-color-text-muted);
+  composes: hint from "../../styles/text.module.css";
 }

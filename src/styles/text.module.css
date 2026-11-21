@@ -1,0 +1,21 @@
+/*
+ * Estilos de texto compartidos con `composes` por Card, EmptyState, Modal, Field,
+ * ChoiceField, RadioGroup y StatCard. Un cambio de tipografía se hace una sola vez acá.
+ */
+.title {
+  margin: 0;
+  font-size: var(--farol-font-size-lg);
+  font-weight: var(--farol-font-weight-bold);
+}
+
+.hint {
+  margin: 0;
+  font-size: var(--farol-font-size-sm);
+  color: var(--farol-color-text-muted);
+}
+
+.error {
+  margin: 0;
+  font-size: var(--farol-font-size-sm);
+  color: var(--farol-color-danger);
+}

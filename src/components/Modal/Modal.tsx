@@ -7,7 +7,9 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { cx } from "../../utils/classNames";
+import { CloseButton } from "../CloseButton/CloseButton";
 import { getFocusableElements, trapTabKey } from "../../utils/focus";
+import { lockScroll } from "../../utils/scrollLock";
 import styles from "./Modal.module.css";
 
 export const MODAL_PLACEMENTS = ["center", "right"] as const;
@@ -45,7 +47,7 @@ export const Modal = ({
     onCloseRef.current = onClose;
   });
 
-  // Al abrir: guarda quién tenía el foco, lo mueve adentro, bloquea el scroll de fondo y
+  // Al abrir: guarda quién tenía el foco, lo mueve adentro, bloquea el scroll de fondo (lockScroll) y
   // escucha Escape y Tab a nivel de documento (el diálogo no es un elemento interactivo).
   // Al cerrar: devuelve el foco y restaura todo.
   useEffect(() => {
@@ -54,8 +56,7 @@ export const Modal = ({
     }
     const dialog = dialogRef.current;
     const previouslyFocused = document.activeElement as HTMLElement | null;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    const unlockScroll = lockScroll();
     (getFocusableElements(dialog)[0] ?? dialog).focus();
 
     const handleKeyDown = (event: globalThis.KeyboardEvent) => {
@@ -70,7 +71,7 @@ export const Modal = ({
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = previousOverflow;
+      unlockScroll();
       previouslyFocused?.focus();
     };
   }, [open]);
@@ -105,14 +106,7 @@ export const Modal = ({
           <h2 id={titleId} className={styles.title}>
             {title}
           </h2>
-          <button
-            type="button"
-            className={styles.close}
-            aria-label={closeLabel}
-            onClick={onClose}
-          >
-            <span aria-hidden="true">×</span>
-          </button>
+          <CloseButton label={closeLabel} onClick={onClose} />
         </header>
         <div className={styles.body}>{children}</div>
         {footer && <footer className={styles.footer}>{footer}</footer>}
