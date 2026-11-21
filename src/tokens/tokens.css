@@ -1,0 +1,56 @@
+/*
+ * Tokens de Farol. Cada color se declara una sola vez con light-dark(claro, oscuro);
+ * el tema lo decide color-scheme: por defecto el del sistema, o forzado con data-theme
+ * en <html> o en cualquier contenedor.
+ */
+:root {
+  color-scheme: light dark;
+
+  --farol-color-bg: light-dark(#ffffff, #1d1e20);
+  --farol-color-surface: light-dark(#f6f8fb, #26282c);
+  --farol-color-text: light-dark(#1d1e20, #dadadb);
+  --farol-color-text-muted: light-dark(#5c5f66, #a3a5a8);
+  --farol-color-border: light-dark(#d5d8dd, #3a3d42);
+  --farol-color-border-strong: light-dark(#8b9099, #6b6e73);
+
+  --farol-color-primary: light-dark(#1d4ed8, #5b9dff);
+  --farol-color-primary-hover: light-dark(#1e40af, #8bb9ff);
+  --farol-color-primary-contrast: light-dark(#ffffff, #0b1220);
+  --farol-color-focus: light-dark(#1d4ed8, #8bb9ff);
+
+  --farol-color-info: light-dark(#1d4ed8, #8bb9ff);
+  --farol-color-info-bg: light-dark(#e8edf7, #1d2a44);
+  --farol-color-success: light-dark(#0b6b3a, #6fdca0);
+  --farol-color-success-bg: light-dark(#e4f5ec, #16301f);
+  --farol-color-warning: light-dark(#7a4f00, #f2c35b);
+  --farol-color-warning-bg: light-dark(#fdf3dc, #35290f);
+  --farol-color-danger: light-dark(#b42318, #ff8a80);
+  --farol-color-danger-bg: light-dark(#fdeceb, #3a1f1d);
+
+  --farol-color-overlay: rgb(15 23 42 / 55%);
+
+  --farol-space-1: 0.25rem;
+  --farol-space-2: 0.5rem;
+  --farol-space-3: 0.75rem;
+  --farol-space-4: 1rem;
+  --farol-space-5: 1.5rem;
+  --farol-space-6: 2rem;
+
+  --farol-radius-sm: 4px;
+  --farol-radius-md: 8px;
+  --farol-radius-lg: 12px;
+
+  --farol-font-size-sm: 0.875rem;
+  --farol-font-size-md: 1rem;
+  --farol-font-size-lg: 1.125rem;
+
+  --farol-shadow-md: 0 8px 24px rgb(15 23 42 / 18%);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+}

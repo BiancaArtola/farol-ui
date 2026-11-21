@@ -1,0 +1,26 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--farol-space-3);
+  padding: var(--farol-space-4);
+  background-color: var(--farol-color-surface);
+  color: var(--farol-color-text);
+  border: 1px solid var(--farol-color-border);
+  border-radius: var(--farol-radius-lg);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--farol-font-size-lg);
+  font-weight: 700;
+}
+
+.body {
+  color: var(--farol-color-text-muted);
+}
+
+.footer {
+  margin-top: auto;
+  padding-top: var(--farol-space-3);
+  border-top: 1px solid var(--farol-color-border);
+}

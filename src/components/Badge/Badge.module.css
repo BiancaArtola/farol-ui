@@ -1,0 +1,36 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem var(--farol-space-2);
+  border-radius: 999px;
+  font-size: var(--farol-font-size-sm);
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.neutral {
+  background-color: var(--farol-color-surface);
+  color: var(--farol-color-text);
+  border: 1px solid var(--farol-color-border);
+}
+
+.info {
+  background-color: var(--farol-color-info-bg);
+  color: var(--farol-color-info);
+}
+
+.success {
+  background-color: var(--farol-color-success-bg);
+  color: var(--farol-color-success);
+}
+
+.warning {
+  background-color: var(--farol-color-warning-bg);
+  color: var(--farol-color-warning);
+}
+
+.danger {
+  background-color: var(--farol-color-danger-bg);
+  color: var(--farol-color-danger);
+}

@@ -1,0 +1,95 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  background-color: var(--farol-color-overlay);
+}
+
+.center {
+  align-items: center;
+  justify-content: center;
+  padding: var(--farol-space-4);
+}
+
+.right {
+  justify-content: flex-end;
+}
+
+.dialog {
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  color: var(--farol-color-text);
+  background-color: var(--farol-color-bg);
+  border: 1px solid var(--farol-color-border);
+  box-shadow: var(--farol-shadow-md);
+}
+
+.dialog:focus {
+  outline: none;
+}
+
+.dialog-center {
+  width: min(32rem, 100%);
+  border-radius: var(--farol-radius-lg);
+}
+
+.dialog-right {
+  width: min(28rem, 100%);
+  height: 100%;
+  border-width: 0 0 0 1px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--farol-space-3);
+  padding: var(--farol-space-4);
+  border-bottom: 1px solid var(--farol-color-border);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--farol-font-size-lg);
+  font-weight: 700;
+}
+
+.close {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  font: inherit;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--farol-color-text-muted);
+  background: transparent;
+  border: 0;
+  border-radius: var(--farol-radius-sm);
+  cursor: pointer;
+}
+
+.close:hover {
+  color: var(--farol-color-text);
+  background-color: var(--farol-color-surface);
+}
+
+.close:focus-visible {
+  outline: 2px solid var(--farol-color-focus);
+  outline-offset: 2px;
+}
+
+.body {
+  padding: var(--farol-space-4);
+  overflow-y: auto;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--farol-space-2);
+  padding: var(--farol-space-4);
+  border-top: 1px solid var(--farol-color-border);
+}
