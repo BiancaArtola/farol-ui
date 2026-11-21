@@ -1,0 +1,38 @@
+.spinner {
+  display: inline-block;
+  box-sizing: border-box;
+  color: var(--farol-color-primary);
+  border: 3px solid var(--farol-color-border);
+  border-top-color: currentcolor;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.sm {
+  width: 1rem;
+  height: 1rem;
+  border-width: 2px;
+}
+
+.md {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.lg {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-width: 4px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 2.4s;
+  }
+}

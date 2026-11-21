@@ -1,0 +1,74 @@
+.stepper {
+  font-family: var(--farol-font-family, inherit);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--farol-space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--farol-color-text);
+}
+
+.step {
+  display: flex;
+  flex: 1 1 10rem;
+  align-items: flex-start;
+  gap: var(--farol-space-3);
+  padding-top: var(--farol-space-3);
+  border-top: 3px solid var(--farol-color-border);
+}
+
+.complete {
+  border-top-color: var(--farol-color-primary);
+}
+
+.current {
+  border-top-color: var(--farol-color-primary);
+}
+
+.marker {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  font-size: var(--farol-font-size-sm);
+  font-weight: var(--farol-font-weight-bold);
+  color: var(--farol-color-text-muted);
+  border: 2px solid var(--farol-color-border-strong);
+  border-radius: 50%;
+}
+
+.complete .marker {
+  color: var(--farol-color-primary-contrast);
+  background-color: var(--farol-color-primary);
+  border-color: var(--farol-color-primary);
+}
+
+.current .marker {
+  color: var(--farol-color-primary);
+  border-color: var(--farol-color-primary);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-weight: var(--farol-font-weight-semibold);
+}
+
+.upcoming .label {
+  color: var(--farol-color-text-muted);
+}
+
+.description {
+  font-size: var(--farol-font-size-sm);
+  color: var(--farol-color-text-muted);
+}
+
+.hidden {
+  composes: visuallyHidden from "../../styles/a11y.module.css";
+}

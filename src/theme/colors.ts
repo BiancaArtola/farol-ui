@@ -2,7 +2,7 @@
 import { contrastRatio } from "../tokens/contrast";
 
 /** Contraste mínimo WCAG AA para texto. */
-export const AA_TEXT = 4.5;
+const AA_TEXT = 4.5;
 /** Contraste mínimo WCAG AA para bordes y componentes de interfaz. */
 export const AA_UI_COMPONENT = 3;
 

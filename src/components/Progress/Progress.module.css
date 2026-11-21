@@ -1,0 +1,72 @@
+.progress {
+  font-family: var(--farol-font-family, inherit);
+  display: flex;
+  flex-direction: column;
+  gap: var(--farol-space-2);
+  color: var(--farol-color-text);
+  font-size: var(--farol-font-size-sm);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--farol-space-3);
+  font-weight: var(--farol-font-weight-semibold);
+}
+
+.track {
+  overflow: hidden;
+  height: 0.625rem;
+  background-color: var(--farol-color-surface);
+  border: 1px solid var(--farol-color-border);
+  border-radius: var(--farol-radius-md);
+}
+
+.fill {
+  height: 100%;
+  border-radius: inherit;
+  transition: width 0.3s ease;
+}
+
+.primary {
+  background-color: var(--farol-color-primary);
+}
+
+.success {
+  background-color: var(--farol-color-success);
+}
+
+.warning {
+  background-color: var(--farol-color-warning);
+}
+
+.danger {
+  background-color: var(--farol-color-danger);
+}
+
+.indeterminate {
+  width: 40%;
+  animation: slide 1.2s ease-in-out infinite;
+}
+
+@keyframes slide {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(250%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fill {
+    transition: none;
+  }
+
+  .indeterminate {
+    width: 100%;
+    animation: none;
+    opacity: 0.5;
+  }
+}
