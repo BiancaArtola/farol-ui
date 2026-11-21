@@ -121,6 +121,8 @@ npm run storybook   # galería de componentes con cambio claro/oscuro en http://
 npm run verificar   # lint, tipos, tests y build
 ```
 
+TypeScript está instalado dos veces a propósito: `typescript` es un alias de TypeScript 6 (el que soporta `typescript-eslint`) y `@typescript/native` es TypeScript 7, que aporta el binario `tsc`. `eslint-plugin-jsx-a11y` todavía no declara soporte para ESLint 10, por eso `package.json` tiene una entrada `overrides`; el lint y los tests funcionan con ella. Se quitan las dos cosas cuando los paquetes se pongan al día.
+
 ## Licencia
 
 MIT

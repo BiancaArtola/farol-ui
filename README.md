@@ -121,6 +121,8 @@ npm run storybook   # component gallery with a light/dark switch at http://local
 npm run verificar   # lint, typecheck, tests and build
 ```
 
+TypeScript is installed twice on purpose: `typescript` is an alias of TypeScript 6 (the one `typescript-eslint` supports) and `@typescript/native` is TypeScript 7, which provides the `tsc` binary. `eslint-plugin-jsx-a11y` does not declare ESLint 10 support yet, so `package.json` has an `overrides` entry; the tests and lint keep working with it. Remove both when the packages catch up.
+
 ## License
 
 MIT

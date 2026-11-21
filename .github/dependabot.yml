@@ -8,16 +8,7 @@ updates:
     groups:
       minor-and-patch:
         update-types: [minor, patch]
-    # Los majors llegan como PR aparte para revisarlos con cuidado. Estos tres se ignoran
-    # porque hoy rompen el lint: eslint-plugin-jsx-a11y no soporta ESLint 10 y
-    # typescript-eslint no soporta TypeScript 7. Quitar el ignore cuando lo soporten.
-    ignore:
-      - dependency-name: eslint
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "@eslint/js"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: typescript
-        update-types: ["version-update:semver-major"]
+    # Los majors llegan como PR aparte para revisarlos con cuidado.
     open-pull-requests-limit: 5
   # Las acciones de GitHub Actions del CI (checkout, setup-node).
   - package-ecosystem: github-actions
