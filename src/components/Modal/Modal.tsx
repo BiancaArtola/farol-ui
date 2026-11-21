@@ -57,7 +57,13 @@ export const Modal = ({
     const dialog = dialogRef.current;
     const previouslyFocused = document.activeElement as HTMLElement | null;
     const unlockScroll = lockScroll();
-    (getFocusableElements(dialog)[0] ?? dialog).focus();
+    // Un elemento con data-autofocus (por ejemplo el buscador de una paleta) tiene prioridad;
+    // si no hay, el primero enfocable.
+    (
+      dialog.querySelector<HTMLElement>("[data-autofocus]") ??
+      getFocusableElements(dialog)[0] ??
+      dialog
+    ).focus();
 
     const handleKeyDown = (event: globalThis.KeyboardEvent) => {
       if (event.key === "Escape") {

@@ -77,6 +77,23 @@ import { getThemeInitScript } from "farol-ui";
 | `StatCard`                   | Key figure with optional icon; becomes a button when it has `onClick`.                                                       |
 | `ButtonLink`                 | A link (`<a>`) that looks like a `Button`. For Next's `Link`, use `className={buttonClassName()}`.                           |
 | `ToastProvider` / `useToast` | Temporary messages: `showToast({ message, tone })`. Errors use `role="alert"`, the rest `status`; they close on their own.   |
+| `Spinner`                    | Loading indicator for a zone (announced as `status`). Buttons already have `isLoading`.                                      |
+| `Skeleton`                   | Gray placeholder while content arrives. Decorative: mark the container with `aria-busy`.                                     |
+| `Progress`                   | Progress bar with tones; indeterminate when there is no `value`.                                                             |
+| `Accordion`                  | Sections that open and close; one at a time or several (`allowMultiple`).                                                    |
+| `Stepper`                    | Steps with state (done, current, pending) also announced to screen readers.                                                  |
+| `Timeline`                   | Ordered list of events with a colored marker per tone.                                                                       |
+| `Breadcrumbs`                | Navigation path; the last item is the current page.                                                                          |
+| `Pagination`                 | Numbered pages (1 2 3 … 12) with previous and next. `LoadMore` is the "show more" variant.                                   |
+| `Navbar`                     | Top bar with brand, links and actions; links hide behind a menu button on narrow screens.                                    |
+| `Sidebar`                    | Vertical navigation grouped in sections.                                                                                     |
+| `Tooltip`                    | Short help on hover or focus; Escape hides it.                                                                               |
+| `Popover`                    | Floating panel with free content, opened from a button. Escape or outside click closes it.                                   |
+| `DropdownMenu`               | Action menu: arrows, Home and End to move, Enter to choose, Escape to close.                                                 |
+| `CommandPalette`             | Dialog with a search box to run actions by typing.                                                                           |
+| `Slider`                     | Native range input with label, hint, error and visible value.                                                                |
+| `FileUpload`                 | File picker with a drop zone; validates type and size and explains rejections.                                               |
+| `Combobox`                   | Text field with a filterable list (accent-insensitive). For dates use `<Input type="date">`.                                 |
 
 ## Theming
 
@@ -98,8 +115,29 @@ const theme = createTheme({
 
 - A single hex is nudged until text and buttons reach WCAG AA (4.5:1) in both themes. To choose both exactly, pass `{ light, dark }`; if that pair is not readable, `createTheme` throws and says which one.
 - Without `fontFamily`, components inherit the font of your page. Load the font yourself (for example with `next/font`) and use `font-family: var(--farol-font-family)` in your own CSS to match.
-- Ready-made examples: `farolTheme`, `tealTheme`, `violetTheme`.
+- Brand-only examples: `farolTheme`, `tealTheme`, `violetTheme`.
 - On the server, `themeToCss(theme)` returns a `:root { ... }` string you can put in a `<style>` so the first paint already has your brand.
+
+### Complete styles
+
+Beyond the brand color, a theme can change the whole look. These options are all optional and keep today's look when omitted:
+
+```tsx
+createTheme({
+  primary: { light: "#c2410c", dark: "#ff9a6c" },
+  buttonShape: "pill", // "default" | "pill" (also rounds badges)
+  uppercaseButtons: false,
+  shadow: "soft", // "none" | "soft" (cards, tables, accordions)
+  tabs: "pill", // "underline" | "pill" | "block"
+  headingFontFamily: '"Fraunces", Georgia, serif',
+  neutrals: {
+    light: {/* bg, surface, text, muted, border, borderStrong */},
+    dark: {/* … */},
+  },
+});
+```
+
+`neutrals` replaces the background, text and border colors (warm, cool, dark…). Every pair that components use together is checked for contrast, and `createTheme` throws if one is not readable. Three finished styles are included: `editorialTheme` (serif titles, thin borders, no shadows), `softTheme` (large corners, pill buttons, warm colors) and `technicalTheme` (monospaced titles, hard borders, uppercase buttons). Fonts are named with system fallbacks; loading them is up to your app. See `Theme/Presets` in Storybook.
 
 ### Plain CSS
 

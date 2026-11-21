@@ -73,6 +73,15 @@ describe("Modal", () => {
     expect(screen.getByRole("button", { name: "Close" })).toHaveFocus();
   });
 
+  it("da prioridad al elemento marcado con data-autofocus", () => {
+    render(
+      <Modal open onClose={vi.fn()} title="Buscar">
+        <input aria-label="Buscador" data-autofocus />
+      </Modal>,
+    );
+    expect(screen.getByRole("textbox", { name: "Buscador" })).toHaveFocus();
+  });
+
   it("Tab no escapa del diálogo: desde el último vuelve al primero", async () => {
     renderModal();
     screen.getByLabelText("Motivo").focus();

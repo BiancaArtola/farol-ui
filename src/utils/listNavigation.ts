@@ -1,22 +1,21 @@
-// Navegación con teclado de un menú, como en el patrón WAI-ARIA "Menu": flechas para
-// moverse (dando la vuelta en los extremos), Inicio/Fin para ir a los extremos, saltando
-// los ítems deshabilitados.
-
-export interface MenuTarget {
+// Navegación con teclado de una lista de opciones (menú, combobox): flechas para moverse
+// (dando la vuelta en los extremos), Inicio/Fin para ir a los extremos, saltando los ítems
+// deshabilitados. Sigue los patrones WAI-ARIA "Menu" y "Combobox".
+export interface ListTarget {
   disabled?: boolean;
 }
 
-const MENU_NAVIGATION_KEYS = ["ArrowDown", "ArrowUp", "Home", "End"] as const;
-export type MenuNavigationKey = (typeof MENU_NAVIGATION_KEYS)[number];
+const LIST_NAVIGATION_KEYS = ["ArrowDown", "ArrowUp", "Home", "End"] as const;
+export type ListNavigationKey = (typeof LIST_NAVIGATION_KEYS)[number];
 
-export const isMenuNavigationKey = (key: string): key is MenuNavigationKey =>
-  MENU_NAVIGATION_KEYS.some((navigationKey) => navigationKey === key);
+export const isListNavigationKey = (key: string): key is ListNavigationKey =>
+  LIST_NAVIGATION_KEYS.some((navigationKey) => navigationKey === key);
 
 /** Posición del ítem al que hay que mover el foco, o -1 si no hay ninguno habilitado. */
-export const getNextMenuIndex = (
-  items: MenuTarget[],
+export const getNextEnabledIndex = (
+  items: ListTarget[],
   currentIndex: number,
-  key: MenuNavigationKey,
+  key: ListNavigationKey,
 ): number => {
   const enabledIndexes = items.flatMap((item, index) =>
     item.disabled ? [] : [index],

@@ -11,6 +11,37 @@ export { getInitials } from "./components/Avatar/initials";
 export { EmptyState } from "./components/EmptyState/EmptyState";
 export type { EmptyStateProps } from "./components/EmptyState/EmptyState";
 
+export { CommandPalette } from "./components/CommandPalette/CommandPalette";
+export type {
+  Command,
+  CommandPaletteProps,
+} from "./components/CommandPalette/CommandPalette";
+
+export { Combobox } from "./components/Combobox/Combobox";
+export type {
+  ComboboxOption,
+  ComboboxProps,
+} from "./components/Combobox/Combobox";
+export {
+  filterOptions,
+  normalizeSearchText,
+} from "./components/Combobox/filterOptions";
+
+export { FileUpload } from "./components/FileUpload/FileUpload";
+export type { FileUploadProps } from "./components/FileUpload/FileUpload";
+export {
+  formatFileSize,
+  matchesAccept,
+  validateFiles,
+} from "./components/FileUpload/fileValidation";
+export type {
+  FileRejectReason,
+  RejectedFile,
+} from "./components/FileUpload/fileValidation";
+
+export { Slider } from "./components/Slider/Slider";
+export type { SliderProps } from "./components/Slider/Slider";
+
 export { DropdownMenu } from "./components/DropdownMenu/DropdownMenu";
 export type {
   DropdownMenuItem,

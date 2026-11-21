@@ -6,7 +6,10 @@ import {
   type PopoverPlacement,
   type PopoverTrigger,
 } from "../Popover/usePopover";
-import { getNextMenuIndex, isMenuNavigationKey } from "./menuNavigation";
+import {
+  getNextEnabledIndex,
+  isListNavigationKey,
+} from "../../utils/listNavigation";
 import styles from "./DropdownMenu.module.css";
 
 export interface DropdownMenuItem {
@@ -46,7 +49,7 @@ export const DropdownMenu = ({
   // Al abrir, el foco pasa al primer ítem habilitado para poder usar las flechas enseguida.
   useEffect(() => {
     if (isOpen) {
-      const first = getNextMenuIndex(items, -1, "Home");
+      const first = getNextEnabledIndex(items, -1, "Home");
       itemRefs.current[first]?.focus();
     }
     // Solo al abrir: si `items` cambia con el menú abierto no hay que mover el foco.
@@ -58,14 +61,14 @@ export const DropdownMenu = ({
       close(false);
       return;
     }
-    if (!isMenuNavigationKey(event.key)) {
+    if (!isListNavigationKey(event.key)) {
       return;
     }
     event.preventDefault();
     const current = itemRefs.current.findIndex(
       (element) => element === document.activeElement,
     );
-    itemRefs.current[getNextMenuIndex(items, current, event.key)]?.focus();
+    itemRefs.current[getNextEnabledIndex(items, current, event.key)]?.focus();
   };
 
   const select = (item: DropdownMenuItem) => {
