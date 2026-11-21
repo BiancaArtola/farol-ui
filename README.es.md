@@ -118,6 +118,7 @@ Forzá un tema en toda la página o en un contenedor con `data-theme="light"` o 
 ```bash
 npm install
 npm run storybook   # galería de componentes con cambio claro/oscuro en http://localhost:6006
+npm run deuda       # código duplicado (jscpd, falla si pasa de 3 %) y código sin uso (knip)
 npm run verificar   # lint, tipos, tests y build
 ```
 

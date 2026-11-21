@@ -1,22 +1,18 @@
 import { useId, type ReactNode } from "react";
 import { cx } from "../../utils/classNames";
 import styles from "./Field.module.css";
+import type { FieldOwnProps } from "./fieldProps";
 
-/** Clase compartida por los controles de texto y selección (Input, Select). */
+/** Clase compartida por los controles de texto y selección (Input, Textarea, Select). */
 export const fieldControlClassName = styles.control;
 
-export interface FieldControlProps {
+interface FieldControlProps {
   id: string;
   "aria-describedby"?: string;
   "aria-invalid"?: true;
 }
 
-export interface FieldProps {
-  label: string;
-  hint?: string;
-  error?: string;
-  /** Oculta la etiqueta visualmente pero la mantiene para lectores de pantalla. */
-  hideLabel?: boolean;
+export interface FieldProps extends FieldOwnProps {
   id?: string;
   /** Recibe los atributos de accesibilidad que el control debe llevar. */
   children: (controlProps: FieldControlProps) => ReactNode;
@@ -25,7 +21,7 @@ export interface FieldProps {
 /**
  * Envuelve un control con su etiqueta, ayuda y mensaje de error, y le da los atributos
  * que los conectan (id, aria-describedby, aria-invalid). Es interno: se usa desde
- * Input y Select para no repetir esta lógica.
+ * Input, Textarea y Select para no repetir esta lógica.
  */
 export const Field = ({
   label,

@@ -15,23 +15,3 @@
   color: var(--farol-color-text);
   border: 1px solid var(--farol-color-border);
 }
-
-.info {
-  background-color: var(--farol-color-info-bg);
-  color: var(--farol-color-info);
-}
-
-.success {
-  background-color: var(--farol-color-success-bg);
-  color: var(--farol-color-success);
-}
-
-.warning {
-  background-color: var(--farol-color-warning-bg);
-  color: var(--farol-color-warning);
-}
-
-.danger {
-  background-color: var(--farol-color-danger-bg);
-  color: var(--farol-color-danger);
-}

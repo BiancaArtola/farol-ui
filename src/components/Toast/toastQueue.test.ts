@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { addToast, removeToast, type ToastItem } from "./toastQueue";
+import {
+  addToast,
+  getRemainingTime,
+  removeToast,
+  type ToastItem,
+} from "./toastQueue";
 
 const makeToast = (id: string): ToastItem => ({
   id,
@@ -28,5 +33,21 @@ describe("toastQueue", () => {
     const toasts = [makeToast("1"), makeToast("2")];
     expect(removeToast(toasts, "1").map((toast) => toast.id)).toEqual(["2"]);
     expect(removeToast(toasts, "inexistente")).toHaveLength(2);
+  });
+});
+
+// Caso real: alguien está leyendo un aviso de 5 s, pasa el mouse encima a los 4,5 s y lo
+// suelta. Si se reanudara con 0,5 s, desaparecería al instante; tiene que quedar un margen.
+describe("getRemainingTime", () => {
+  it("descuenta el tiempo transcurrido", () => {
+    expect(getRemainingTime(5000, 5000, 1000)).toBe(4000);
+  });
+
+  it("no baja del mínimo al reanudar", () => {
+    expect(getRemainingTime(5000, 600, 500)).toBe(1000);
+  });
+
+  it("nunca supera la duración original (un aviso corto no se alarga)", () => {
+    expect(getRemainingTime(400, 400, 300)).toBe(400);
   });
 });

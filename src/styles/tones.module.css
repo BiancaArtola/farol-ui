@@ -1,0 +1,23 @@
+/*
+ * Colores por tono (fondo y texto), compartidos con `composes` por Badge, Alert, Toast,
+ * Avatar y StatCard. Un cambio de paleta se hace una sola vez en los tokens o acá.
+ */
+.info {
+  background-color: var(--farol-color-info-bg);
+  color: var(--farol-color-info);
+}
+
+.success {
+  background-color: var(--farol-color-success-bg);
+  color: var(--farol-color-success);
+}
+
+.warning {
+  background-color: var(--farol-color-warning-bg);
+  color: var(--farol-color-warning);
+}
+
+.danger {
+  background-color: var(--farol-color-danger-bg);
+  color: var(--farol-color-danger);
+}

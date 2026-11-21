@@ -1,6 +1,7 @@
 import type { HTMLAttributes } from "react";
 import { cx } from "../../utils/classNames";
 import { getInitials } from "./initials";
+import tones from "../../styles/tones.module.css";
 import styles from "./Avatar.module.css";
 
 export const AVATAR_SIZES = ["sm", "md", "lg"] as const;
@@ -22,7 +23,7 @@ export const Avatar = ({
     {...rest}
     role="img"
     aria-label={name}
-    className={cx(styles.avatar, styles[size], className)}
+    className={cx(styles.avatar, tones.info, styles[size], className)}
   >
     <span aria-hidden="true">{getInitials(name)}</span>
   </span>

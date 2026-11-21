@@ -119,6 +119,7 @@ Force a theme on the whole page or on one container with `data-theme="light"` or
 npm install
 npm run storybook   # component gallery with a light/dark switch at http://localhost:6006
 npm run verificar   # lint, typecheck, tests and build
+npm run deuda       # duplicated code (jscpd, fails above 3%) and unused code (knip)
 ```
 
 TypeScript is installed twice on purpose: `typescript` is an alias of TypeScript 6 (the one `typescript-eslint` supports) and `@typescript/native` is TypeScript 7, which provides the `tsc` binary. `eslint-plugin-jsx-a11y` does not declare ESLint 10 support yet, so `package.json` has an `overrides` entry; the tests and lint keep working with it. Remove both when the packages catch up.

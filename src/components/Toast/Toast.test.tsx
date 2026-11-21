@@ -1,4 +1,4 @@
-import { act, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { ToastProvider, useToast, type ShowToastOptions } from "./Toast";
@@ -56,6 +56,38 @@ describe("Toast", () => {
     vi.useFakeTimers();
     renderWithToast({ message: "Importando", duration: 0 });
     act(() => screen.getByRole("button", { name: "avisar" }).click());
+    act(() => vi.advanceTimersByTime(60000));
+    expect(screen.getByRole("status")).toBeInTheDocument();
+  });
+
+  it("no se cierra mientras el mouse está encima y sigue un rato al soltarlo", () => {
+    vi.useFakeTimers();
+    renderWithToast({ message: "Guardado", duration: 2000 });
+    act(() => screen.getByRole("button", { name: "avisar" }).click());
+    const toast = screen.getByRole("status");
+
+    act(() => vi.advanceTimersByTime(1500));
+    fireEvent.mouseEnter(toast);
+    act(() => vi.advanceTimersByTime(60000));
+    expect(screen.getByRole("status")).toBeInTheDocument();
+
+    fireEvent.mouseLeave(toast);
+    act(() => vi.advanceTimersByTime(900));
+    expect(screen.getByRole("status")).toBeInTheDocument();
+    act(() => vi.advanceTimersByTime(200));
+    expect(screen.queryByRole("status")).not.toBeInTheDocument();
+  });
+
+  it("sigue pausado con el foco adentro aunque el mouse se vaya", () => {
+    vi.useFakeTimers();
+    renderWithToast({ message: "Guardado", duration: 1000 });
+    act(() => screen.getByRole("button", { name: "avisar" }).click());
+    const toast = screen.getByRole("status");
+    const closeButton = screen.getByRole("button", { name: "Dismiss" });
+
+    fireEvent.mouseEnter(toast);
+    fireEvent.focus(closeButton);
+    fireEvent.mouseLeave(toast);
     act(() => vi.advanceTimersByTime(60000));
     expect(screen.getByRole("status")).toBeInTheDocument();
   });

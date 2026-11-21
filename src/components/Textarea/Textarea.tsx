@@ -1,32 +1,22 @@
 import { forwardRef, type TextareaHTMLAttributes } from "react";
 import { cx } from "../../utils/classNames";
 import { Field, fieldControlClassName } from "../Field/Field";
+import { splitFieldProps, type FieldOwnProps } from "../Field/fieldProps";
 
-export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  /** La etiqueta es obligatoria: un campo sin nombre no es accesible. */
-  label: string;
-  hint?: string;
-  error?: string;
-  hideLabel?: boolean;
-}
+export interface TextareaProps
+  extends TextareaHTMLAttributes<HTMLTextAreaElement>, FieldOwnProps {}
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
-  function Textarea(
-    { label, hint, error, hideLabel, id, className, rows = 4, ...rest },
-    ref,
-  ) {
+  function Textarea(props, ref) {
+    const { fieldProps, controlProps } = splitFieldProps(props);
+    const { className, rows = 4, ...rest } = controlProps;
+
     return (
-      <Field
-        label={label}
-        hint={hint}
-        error={error}
-        hideLabel={hideLabel}
-        id={id}
-      >
-        {(controlProps) => (
+      <Field {...fieldProps}>
+        {(accessibilityProps) => (
           <textarea
             {...rest}
-            {...controlProps}
+            {...accessibilityProps}
             ref={ref}
             rows={rows}
             className={cx(fieldControlClassName, className)}

@@ -1,35 +1,27 @@
 import { forwardRef, type InputHTMLAttributes } from "react";
 import { cx } from "../../utils/classNames";
 import { Field, fieldControlClassName } from "../Field/Field";
+import { splitFieldProps, type FieldOwnProps } from "../Field/fieldProps";
 
-export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  /** La etiqueta es obligatoria: un campo sin nombre no es accesible. */
-  label: string;
-  hint?: string;
-  error?: string;
-  hideLabel?: boolean;
-}
+export interface InputProps
+  extends InputHTMLAttributes<HTMLInputElement>, FieldOwnProps {}
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
-  { label, hint, error, hideLabel, id, className, ...rest },
-  ref,
-) {
-  return (
-    <Field
-      label={label}
-      hint={hint}
-      error={error}
-      hideLabel={hideLabel}
-      id={id}
-    >
-      {(controlProps) => (
-        <input
-          {...rest}
-          {...controlProps}
-          ref={ref}
-          className={cx(fieldControlClassName, className)}
-        />
-      )}
-    </Field>
-  );
-});
+export const Input = forwardRef<HTMLInputElement, InputProps>(
+  function Input(props, ref) {
+    const { fieldProps, controlProps } = splitFieldProps(props);
+    const { className, ...rest } = controlProps;
+
+    return (
+      <Field {...fieldProps}>
+        {(accessibilityProps) => (
+          <input
+            {...rest}
+            {...accessibilityProps}
+            ref={ref}
+            className={cx(fieldControlClassName, className)}
+          />
+        )}
+      </Field>
+    );
+  },
+);

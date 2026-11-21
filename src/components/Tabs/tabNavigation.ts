@@ -6,12 +6,7 @@ export interface TabTarget {
   disabled?: boolean;
 }
 
-export const TAB_NAVIGATION_KEYS = [
-  "ArrowRight",
-  "ArrowLeft",
-  "Home",
-  "End",
-] as const;
+const TAB_NAVIGATION_KEYS = ["ArrowRight", "ArrowLeft", "Home", "End"] as const;
 export type TabNavigationKey = (typeof TAB_NAVIGATION_KEYS)[number];
 
 export const isTabNavigationKey = (key: string): key is TabNavigationKey =>

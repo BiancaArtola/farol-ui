@@ -1,0 +1,8 @@
+{
+  "path": ["src"],
+  "ignore": ["**/*.stories.tsx", "**/*.test.ts", "**/*.test.tsx"],
+  "minLines": 5,
+  "minTokens": 40,
+  "reporters": ["console"],
+  "threshold": 3
+}

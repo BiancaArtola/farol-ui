@@ -1,9 +1,15 @@
 import type { HTMLAttributes, ReactNode } from "react";
 import { cx } from "../../utils/classNames";
+import {
+  STATUS_TONES,
+  getStatusRole,
+  type StatusTone,
+} from "../../utils/tones";
+import tones from "../../styles/tones.module.css";
 import styles from "./Alert.module.css";
 
-export const ALERT_TONES = ["info", "success", "warning", "danger"] as const;
-export type AlertTone = (typeof ALERT_TONES)[number];
+export const ALERT_TONES = STATUS_TONES;
+export type AlertTone = StatusTone;
 
 export interface AlertProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
@@ -13,9 +19,6 @@ export interface AlertProps extends Omit<
   title?: ReactNode;
 }
 
-// Los avisos graves se anuncian de inmediato (alert); el resto, sin interrumpir (status).
-const INTERRUPTING_TONES: readonly AlertTone[] = ["warning", "danger"];
-
 export const Alert = ({
   tone = "info",
   title,
@@ -24,9 +27,9 @@ export const Alert = ({
   ...rest
 }: AlertProps) => (
   <div
-    role={INTERRUPTING_TONES.includes(tone) ? "alert" : "status"}
+    role={getStatusRole(tone)}
     {...rest}
-    className={cx(styles.alert, styles[tone], className)}
+    className={cx(styles.alert, tones[tone], className)}
   >
     {title && <p className={styles.title}>{title}</p>}
     <div>{children}</div>

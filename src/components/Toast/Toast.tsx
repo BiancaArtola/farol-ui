@@ -9,14 +9,17 @@ import {
   type ReactNode,
 } from "react";
 import { cx } from "../../utils/classNames";
+import { getStatusRole } from "../../utils/tones";
 import {
   DEFAULT_MAX_TOASTS,
   DEFAULT_TOAST_DURATION,
   addToast,
+  getRemainingTime,
   removeToast,
   type ToastItem,
   type ToastTone,
 } from "./toastQueue";
+import tones from "../../styles/tones.module.css";
 import styles from "./Toast.module.css";
 
 export interface ShowToastOptions {
@@ -34,9 +37,6 @@ interface ToastContextValue {
 
 const ToastContext = createContext<ToastContextValue | null>(null);
 
-// Errores y advertencias se anuncian de inmediato; el resto, sin interrumpir.
-const INTERRUPTING_TONES: readonly ToastTone[] = ["warning", "danger"];
-
 interface ToastViewProps {
   toast: ToastItem;
   closeLabel: string;
@@ -45,19 +45,38 @@ interface ToastViewProps {
 
 const ToastView = ({ toast, closeLabel, onDismiss }: ToastViewProps) => {
   const { id, duration } = toast;
+  // Pausa mientras el mouse está encima o el foco está adentro (WCAG 2.2.1: quien lee
+  // despacio o navega con teclado no puede perder el mensaje).
+  const [isHovered, setIsHovered] = useState(false);
+  const [hasFocus, setHasFocus] = useState(false);
+  const isPaused = isHovered || hasFocus;
+  const remainingRef = useRef(duration);
 
   useEffect(() => {
-    if (duration <= 0) {
+    if (duration <= 0 || isPaused) {
       return;
     }
-    const timer = window.setTimeout(() => onDismiss(id), duration);
-    return () => window.clearTimeout(timer);
-  }, [id, duration, onDismiss]);
+    const startedAt = Date.now();
+    const timer = window.setTimeout(() => onDismiss(id), remainingRef.current);
+    // Al pausar (o desmontar) se descuenta lo que ya pasó para reanudar con el resto.
+    return () => {
+      window.clearTimeout(timer);
+      remainingRef.current = getRemainingTime(
+        duration,
+        remainingRef.current,
+        Date.now() - startedAt,
+      );
+    };
+  }, [id, duration, isPaused, onDismiss]);
 
   return (
     <div
-      role={INTERRUPTING_TONES.includes(toast.tone) ? "alert" : "status"}
-      className={cx(styles.toast, styles[toast.tone])}
+      role={getStatusRole(toast.tone)}
+      className={cx(styles.toast, tones[toast.tone])}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onFocus={() => setHasFocus(true)}
+      onBlur={() => setHasFocus(false)}
     >
       <p className={styles.message}>{toast.message}</p>
       <button

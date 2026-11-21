@@ -4,8 +4,6 @@
   place-items: center;
   flex-shrink: 0;
   font-weight: var(--farol-font-weight-bold);
-  color: var(--farol-color-info);
-  background-color: var(--farol-color-info-bg);
   border-radius: 50%;
 }
 

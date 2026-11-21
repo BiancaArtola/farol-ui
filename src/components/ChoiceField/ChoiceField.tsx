@@ -2,7 +2,7 @@ import { useId, type ReactNode } from "react";
 import { cx } from "../../utils/classNames";
 import styles from "./ChoiceField.module.css";
 
-export interface ChoiceControlProps {
+interface ChoiceControlProps {
   id: string;
   "aria-describedby"?: string;
 }

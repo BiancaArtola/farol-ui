@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { cx } from "../../utils/classNames";
+import tones from "../../styles/tones.module.css";
 import styles from "./StatCard.module.css";
 
 export interface StatCardProps {
@@ -24,7 +25,7 @@ export const StatCard = ({
   const content = (
     <>
       {icon && (
-        <span className={styles.icon} aria-hidden="true">
+        <span className={cx(styles.icon, tones.info)} aria-hidden="true">
           {icon}
         </span>
       )}
