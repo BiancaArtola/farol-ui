@@ -32,6 +32,11 @@ export const Tooltip = ({
 }: TooltipProps) => {
   const tooltipId = useId();
   const [isOpen, setIsOpen] = useState(false);
+  // Suma el tooltip a lo que el hijo ya tuviera (por ejemplo la ayuda de su campo).
+  const describedBy =
+    [children.props["aria-describedby"], isOpen ? tooltipId : undefined]
+      .filter(Boolean)
+      .join(" ") || undefined;
 
   const handleKeyDown = (event: KeyboardEvent<HTMLSpanElement>) => {
     if (event.key === "Escape" && isOpen) {
@@ -50,9 +55,7 @@ export const Tooltip = ({
       onBlur={() => setIsOpen(false)}
       onKeyDown={handleKeyDown}
     >
-      {cloneElement(children, {
-        "aria-describedby": isOpen ? tooltipId : undefined,
-      })}
+      {cloneElement(children, { "aria-describedby": describedBy })}
       {isOpen && (
         <span
           id={tooltipId}

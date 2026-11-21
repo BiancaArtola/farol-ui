@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import { Modal } from "../Modal/Modal";
 import { Popover } from "./Popover";
 
 const renderPopover = () =>
@@ -77,5 +78,27 @@ describe("Popover", () => {
     await user.click(screen.getByRole("button", { name: "Abrir" }));
     expect(clicks).toBe(1);
     expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
+
+  // Caso real: un filtro (Popover) dentro de un panel lateral (Modal). Escape cierra primero
+  // el filtro y recién con un segundo Escape se cierra el panel.
+  it("dentro de un Modal, Escape cierra solo el popover", async () => {
+    const user = userEvent.setup();
+    const onClose = vi.fn();
+    render(
+      <Modal open onClose={onClose} title="Detalle">
+        <Popover trigger={<button>Filtros</button>} label="Filtros de la lista">
+          Contenido
+        </Popover>
+      </Modal>,
+    );
+    await user.click(screen.getByRole("button", { name: "Filtros" }));
+    await user.keyboard("{Escape}");
+    expect(
+      screen.queryByRole("dialog", { name: "Filtros de la lista" }),
+    ).not.toBeInTheDocument();
+    expect(onClose).not.toHaveBeenCalled();
+    await user.keyboard("{Escape}");
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 });

@@ -24,6 +24,9 @@ export const useDismiss = (
     }
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
+        // Se corta acá para que un Modal que contenga este elemento flotante no se cierre
+        // también: Escape cierra primero lo de más arriba.
+        event.stopPropagation();
         onDismissRef.current("escape");
       }
     };
@@ -33,10 +36,11 @@ export const useDismiss = (
         onDismissRef.current("outside");
       }
     };
-    document.addEventListener("keydown", handleKeyDown);
+    // En captura: corre antes que el listener (en burbuja) del Modal.
+    document.addEventListener("keydown", handleKeyDown, true);
     document.addEventListener("mousedown", handleMouseDown);
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keydown", handleKeyDown, true);
       document.removeEventListener("mousedown", handleMouseDown);
     };
   }, [isOpen, containerRef]);

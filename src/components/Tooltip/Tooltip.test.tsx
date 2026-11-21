@@ -48,6 +48,25 @@ describe("Tooltip", () => {
     );
   });
 
+  it("conserva el aria-describedby que el botón ya tenía", async () => {
+    const user = userEvent.setup();
+    render(
+      <>
+        <p id="ayuda-propia">Se guarda en la nube</p>
+        <Tooltip content="Guardar los cambios">
+          <button aria-describedby="ayuda-propia">Guardar</button>
+        </Tooltip>
+      </>,
+    );
+    expect(screen.getByRole("button")).toHaveAccessibleDescription(
+      "Se guarda en la nube",
+    );
+    await user.hover(screen.getByRole("button"));
+    expect(screen.getByRole("button")).toHaveAccessibleDescription(
+      "Se guarda en la nube Guardar los cambios",
+    );
+  });
+
   it("Escape lo oculta aunque el botón siga enfocado", async () => {
     const user = userEvent.setup();
     renderTooltip();
