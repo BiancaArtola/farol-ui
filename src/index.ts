@@ -89,14 +89,33 @@ export { Tabs } from "./components/Tabs/Tabs";
 export type { TabItem, TabsProps } from "./components/Tabs/Tabs";
 
 export { ThemeProvider, useTheme } from "./theme/ThemeProvider";
-export { THEME_RADII, createTheme, themeToCss } from "./theme/createTheme";
+export {
+  BUTTON_SHAPES,
+  TAB_STYLES,
+  THEME_RADII,
+  THEME_SHADOWS,
+  createTheme,
+  themeToCss,
+} from "./theme/createTheme";
 export type {
   BrandColor,
+  ButtonShape,
+  NeutralColors,
+  TabStyle,
+  ThemeNeutrals,
   ThemeOptions,
   ThemeRadius,
+  ThemeShadow,
   ThemeVariables,
 } from "./theme/createTheme";
-export { farolTheme, tealTheme, violetTheme } from "./theme/presets";
+export {
+  editorialTheme,
+  farolTheme,
+  softTheme,
+  technicalTheme,
+  tealTheme,
+  violetTheme,
+} from "./theme/presets";
 export {
   DEFAULT_THEME_STORAGE_KEY,
   THEME_PREFERENCES,

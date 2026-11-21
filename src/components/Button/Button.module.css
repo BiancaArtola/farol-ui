@@ -8,7 +8,9 @@
   font-weight: var(--farol-font-weight-semibold);
   line-height: 1.25;
   border: 1px solid transparent;
-  border-radius: var(--farol-radius-md);
+  border-radius: var(--farol-radius-button, var(--farol-radius-md));
+  text-transform: var(--farol-button-transform, none);
+  letter-spacing: var(--farol-button-letter-spacing, normal);
   cursor: pointer;
   text-decoration: none;
   transition:

@@ -35,3 +35,22 @@
   gap: 1rem;
   max-width: 40rem;
 }
+
+/* Cada preset se aplica solo a su recuadro (con style), así se comparan lado a lado. */
+.story-presets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.story-preset {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  background-color: var(--farol-color-bg);
+  color: var(--farol-color-text);
+  font-family: var(--farol-font-family, inherit);
+  border: 1px solid var(--farol-color-border);
+}

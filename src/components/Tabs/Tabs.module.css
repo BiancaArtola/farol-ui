@@ -7,7 +7,10 @@
 .list {
   display: flex;
   gap: var(--farol-space-1);
-  border-bottom: 1px solid var(--farol-color-border);
+  border-bottom: var(
+    --farol-tab-list-border,
+    1px solid var(--farol-color-border)
+  );
 }
 
 .tab {
@@ -18,7 +21,8 @@
   color: var(--farol-color-text-muted);
   background: transparent;
   border: 0;
-  border-bottom: 2px solid transparent;
+  border-bottom: var(--farol-tab-indicator, 2px) solid transparent;
+  border-radius: var(--farol-tab-radius, 0);
   margin-bottom: -1px;
   cursor: pointer;
 }
@@ -38,7 +42,8 @@
 }
 
 .active {
-  color: var(--farol-color-primary);
+  color: var(--farol-tab-active-color, var(--farol-color-primary));
+  background: var(--farol-tab-active-bg, transparent);
   border-bottom-color: var(--farol-color-primary);
 }
 

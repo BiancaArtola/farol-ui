@@ -10,6 +10,7 @@
   background-color: var(--farol-color-surface);
   border: 1px solid var(--farol-color-border);
   border-radius: var(--farol-radius-lg);
+  box-shadow: var(--farol-shadow-card, none);
 }
 
 .interactive {

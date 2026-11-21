@@ -4,6 +4,10 @@
  */
 .title {
   margin: 0;
+  font-family: var(
+    --farol-font-family-heading,
+    var(--farol-font-family, inherit)
+  );
   font-size: var(--farol-font-size-lg);
   font-weight: var(--farol-font-weight-bold);
 }

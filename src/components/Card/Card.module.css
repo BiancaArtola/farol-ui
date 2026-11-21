@@ -8,6 +8,7 @@
   color: var(--farol-color-text);
   border: 1px solid var(--farol-color-border);
   border-radius: var(--farol-radius-lg);
+  box-shadow: var(--farol-shadow-card, none);
 }
 
 .title {
