@@ -31,14 +31,13 @@ describe("getFocusableElements", () => {
 
   it("devuelve solo lo enfocable, en orden", () => {
     const container = buildContainer();
-    expect(getFocusableElements(container).map((el) => el.id)).toEqual([
-      "primero",
-      "medio",
-      "enlace",
-    ]);
+    expect(
+      getFocusableElements(container).map((element) => element.id),
+    ).toEqual(["primero", "medio", "enlace"]);
   });
 });
 
+// Dentro de un Modal, Tab no debe escapar al contenido de fondo: el foco se queda atrapado.
 describe("trapTabKey", () => {
   let container: HTMLElement;
 

@@ -44,6 +44,11 @@
   --farol-font-size-md: 1rem;
   --farol-font-size-lg: 1.125rem;
 
+  /* No se declara --farol-font-family acá: sin tema, los componentes heredan la fuente de
+     la página (font-family: var(--farol-font-family, inherit)). createTheme() la define. */
+  --farol-font-weight-semibold: 600;
+  --farol-font-weight-bold: 700;
+
   --farol-shadow-md: 0 8px 24px rgb(15 23 42 / 18%);
 }
 

@@ -1,0 +1,25 @@
+.toolbar {
+  font-family: var(--farol-font-family, inherit);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--farol-space-3);
+  margin-bottom: var(--farol-space-3);
+}
+
+.search {
+  flex: 1 1 14rem;
+  max-width: 24rem;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--farol-space-2);
+}
+
+.summary {
+  margin: 0 0 0 auto;
+  font-size: var(--farol-font-size-sm);
+  color: var(--farol-color-text-muted);
+}

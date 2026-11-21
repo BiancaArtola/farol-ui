@@ -19,6 +19,15 @@ export default tseslint.config(
       "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": "warn",
       "@typescript-eslint/no-explicit-any": "error",
+      // Nombres descriptivos: `event`, no `e`. `i`, `x`/`y`, `id` (atributo HTML) y `cx` (helper de clases) se permiten.
+      "id-length": [
+        "error",
+        {
+          min: 3,
+          properties: "never",
+          exceptions: ["i", "x", "y", "_", "id", "cx"],
+        },
+      ],
       "@typescript-eslint/ban-ts-comment": [
         "error",
         { "ts-expect-error": "allow-with-description" },

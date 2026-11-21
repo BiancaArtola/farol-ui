@@ -1,0 +1,32 @@
+.alert {
+  font-family: var(--farol-font-family, inherit);
+  padding: var(--farol-space-3) var(--farol-space-4);
+  font-size: var(--farol-font-size-sm);
+  border-left: 4px solid currentcolor;
+  border-radius: var(--farol-radius-md);
+}
+
+.title {
+  margin: 0 0 var(--farol-space-1);
+  font-weight: var(--farol-font-weight-bold);
+}
+
+.info {
+  background-color: var(--farol-color-info-bg);
+  color: var(--farol-color-info);
+}
+
+.success {
+  background-color: var(--farol-color-success-bg);
+  color: var(--farol-color-success);
+}
+
+.warning {
+  background-color: var(--farol-color-warning-bg);
+  color: var(--farol-color-warning);
+}
+
+.danger {
+  background-color: var(--farol-color-danger-bg);
+  color: var(--farol-color-danger);
+}

@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createRef } from "react";
 import { describe, expect, it, vi } from "vitest";
-import { Button } from "./Button";
+import { Button, ButtonLink, buttonClassName } from "./Button";
 
 // Caso real: un botón dentro de un formulario sin type envía el form sin querer; y un
 // botón "cargando" no debe poder dispararse dos veces.
@@ -66,5 +66,27 @@ describe("Button", () => {
     );
     expect(ref.current).toBe(screen.getByRole("button"));
     expect(ref.current).toHaveClass("extra");
+  });
+});
+
+// Caso real: "Descargar CV" y "Ver proyectos" son enlaces; tienen que verse como botones
+// pero seguir siendo enlaces para teclado, lectores de pantalla y "abrir en pestaña nueva".
+describe("ButtonLink", () => {
+  it("es un enlace con el aspecto de un botón", () => {
+    render(
+      <ButtonLink href="/cv.pdf" download variant="secondary">
+        Descargar CV
+      </ButtonLink>,
+    );
+    const link = screen.getByRole("link", { name: "Descargar CV" });
+    expect(link).toHaveAttribute("href", "/cv.pdf");
+    expect(link).toHaveAttribute("download");
+    expect(link.className).toMatch(/secondary/);
+  });
+
+  it("buttonClassName permite dar el estilo a un Link de otra librería", () => {
+    expect(buttonClassName({ size: "lg", className: "extra" })).toMatch(
+      /primary.*lg.*extra/,
+    );
   });
 });

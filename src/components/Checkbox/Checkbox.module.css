@@ -1,37 +1,7 @@
-.wrapper {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  column-gap: var(--farol-space-2);
-  align-items: center;
-}
-
 .checkbox {
   width: 1.125rem;
   height: 1.125rem;
   margin: 0;
   accent-color: var(--farol-color-primary);
   cursor: pointer;
-}
-
-.checkbox:focus-visible {
-  outline: 2px solid var(--farol-color-focus);
-  outline-offset: 2px;
-}
-
-.checkbox:disabled,
-.checkbox:disabled + .label {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-
-.label {
-  color: var(--farol-color-text);
-  cursor: pointer;
-}
-
-.hint {
-  grid-column: 2;
-  margin: 0;
-  font-size: var(--farol-font-size-sm);
-  color: var(--farol-color-text-muted);
 }

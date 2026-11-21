@@ -17,6 +17,7 @@
 }
 
 .dialog {
+  font-family: var(--farol-font-family, inherit);
   display: flex;
   flex-direction: column;
   max-height: 100%;
@@ -53,7 +54,7 @@
 .title {
   margin: 0;
   font-size: var(--farol-font-size-lg);
-  font-weight: 700;
+  font-weight: var(--farol-font-weight-bold);
 }
 
 .close {

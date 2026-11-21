@@ -1,0 +1,14 @@
+.loadMore {
+  font-family: var(--farol-font-family, inherit);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--farol-space-2);
+  padding: var(--farol-space-4) 0;
+}
+
+.summary {
+  margin: 0;
+  font-size: var(--farol-font-size-sm);
+  color: var(--farol-color-text-muted);
+}

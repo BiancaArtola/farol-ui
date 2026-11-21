@@ -1,0 +1,31 @@
+.group {
+  font-family: var(--farol-font-family, inherit);
+  display: flex;
+  flex-direction: column;
+  gap: var(--farol-space-2);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.legend {
+  padding: 0;
+  margin-bottom: var(--farol-space-1);
+  font-size: var(--farol-font-size-sm);
+  font-weight: var(--farol-font-weight-semibold);
+  color: var(--farol-color-text);
+}
+
+.radio {
+  width: 1.125rem;
+  height: 1.125rem;
+  margin: 0;
+  accent-color: var(--farol-color-primary);
+  cursor: pointer;
+}
+
+.hint {
+  margin: 0;
+  font-size: var(--farol-font-size-sm);
+  color: var(--farol-color-text-muted);
+}

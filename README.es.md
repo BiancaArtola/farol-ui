@@ -55,20 +55,55 @@ import { getThemeInitScript } from "farol-ui";
 
 ## Componentes
 
-| Componente | Para qué sirve                                                                                            |
-| ---------- | --------------------------------------------------------------------------------------------------------- |
-| `Button`   | Acciones. Variantes `primary`, `secondary`, `ghost`, `danger`; tamaños; `isLoading`.                      |
-| `Input`    | Campo de texto con etiqueta obligatoria, ayuda y error conectados con `aria-describedby`.                 |
-| `Select`   | Selector nativo con la misma etiqueta, ayuda y error.                                                     |
-| `Checkbox` | Casilla nativa con etiqueta y ayuda.                                                                      |
-| `Card`     | Contenedor con título opcional (se elige el nivel del encabezado) y pie.                                  |
-| `Badge`    | Etiqueta de estado. Tonos `neutral`, `info`, `success`, `warning`, `danger`.                              |
-| `Modal`    | Diálogo o panel lateral (`placement="right"`). Escape, foco atrapado, devuelve el foco, scroll bloqueado. |
-| `Tabs`     | Pestañas con flechas, Inicio y Fin, saltando las deshabilitadas.                                          |
+| Componente                   | Para qué sirve                                                                                                                          |
+| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `Button`                     | Acciones. Variantes `primary`, `secondary`, `ghost`, `danger`; tamaños; `isLoading`.                                                    |
+| `Input`                      | Campo de texto con etiqueta obligatoria, ayuda y error conectados con `aria-describedby`.                                               |
+| `Select`                     | Selector nativo con la misma etiqueta, ayuda y error.                                                                                   |
+| `Checkbox`                   | Casilla nativa con etiqueta y ayuda.                                                                                                    |
+| `Card`                       | Contenedor con título opcional (se elige el nivel del encabezado) y pie.                                                                |
+| `Badge`                      | Etiqueta de estado. Tonos `neutral`, `info`, `success`, `warning`, `danger`.                                                            |
+| `Modal`                      | Diálogo o panel lateral (`placement="right"`). Escape, foco atrapado, devuelve el foco, scroll bloqueado.                               |
+| `Tabs`                       | Pestañas con flechas, Inicio y Fin, saltando las deshabilitadas.                                                                        |
+| `Table`                      | Tabla de datos accesible: columnas numéricas, cabeceras ordenables (`aria-sort`), estado vacío. Se combina con `sortRows` y `nextSort`. |
+| `TableToolbar`               | Buscador, filtros y contador para poner sobre una `Table`.                                                                              |
+| `LoadMore`                   | Cierre "Mostrando 100 de 250" con botón; no dibuja nada cuando ya se ve todo.                                                           |
+| `Alert`                      | Aviso con tonos `info`, `success`, `warning`, `danger` (rol `alert` en los graves).                                                     |
+| `EmptyState`                 | Título, descripción y una acción para listas sin datos.                                                                                 |
+| `Textarea`                   | Campo multilínea con la misma etiqueta, ayuda y error que `Input`.                                                                      |
+| `Switch`                     | Casilla nativa con `role="switch"`.                                                                                                     |
+| `RadioGroup`                 | Fieldset con leyenda y radios nativos (funcionan las flechas).                                                                          |
+| `Avatar`                     | Iniciales con el nombre completo como nombre accesible.                                                                                 |
+| `StatCard`                   | Dato clave con ícono opcional; si tiene `onClick` pasa a ser un botón.                                                                  |
+| `ButtonLink`                 | Enlace (`<a>`) con el aspecto de un `Button`. Para el `Link` de Next, `className={buttonClassName()}`.                                  |
+| `ToastProvider` / `useToast` | Avisos temporales: `showToast({ message, tone })`. Los errores usan `role="alert"`, el resto `status`; se cierran solos.                |
 
 ## Personalización
 
-Colores, espaciados, radios y tamaños de letra son variables CSS con el prefijo `--farol-`. Se pueden sobrescribir en tu propio CSS:
+### Una marca para todos los componentes
+
+`createTheme` convierte un color de marca, una tipografía y un estilo de esquinas en variables CSS, y `ThemeProvider` las aplica a toda la página. Todos los componentes de farol-ui las toman, así que el estilo se define una vez por proyecto:
+
+```tsx
+import { ThemeProvider, createTheme } from "farol-ui";
+
+const theme = createTheme({
+  primary: "#0e7490", // un solo hex: se ajusta para que se lea en claro y en oscuro
+  fontFamily: '"Inter", system-ui, sans-serif',
+  radius: "round", // "sharp" | "default" | "round"
+});
+
+<ThemeProvider theme={theme}>{/* tu app */}</ThemeProvider>;
+```
+
+- Un hex suelto se corrige hasta que el texto y los botones lleguen a WCAG AA (4,5:1) en ambos temas. Para elegir los dos exactos, pasá `{ light, dark }`; si ese par no se lee, `createTheme` falla y dice cuál.
+- Sin `fontFamily`, los componentes heredan la fuente de tu página. La fuente se carga por tu cuenta (por ejemplo con `next/font`) y en tu CSS podés usar `font-family: var(--farol-font-family)` para que coincida.
+- Ejemplos listos: `farolTheme`, `tealTheme`, `violetTheme`.
+- En el servidor, `themeToCss(theme)` devuelve un `:root { ... }` para poner en un `<style>` y que el primer pintado ya tenga tu marca.
+
+### CSS directo
+
+Colores, espaciados, radios y tamaños de letra son variables CSS con el prefijo `--farol-`. También se pueden sobrescribir en tu propio CSS:
 
 ```css
 :root {

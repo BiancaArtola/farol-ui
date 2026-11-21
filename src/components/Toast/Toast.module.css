@@ -1,0 +1,70 @@
+.region {
+  font-family: var(--farol-font-family, inherit);
+  position: fixed;
+  right: var(--farol-space-4);
+  bottom: var(--farol-space-4);
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  gap: var(--farol-space-2);
+  width: min(24rem, calc(100vw - 2 * var(--farol-space-4)));
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--farol-space-3);
+  padding: var(--farol-space-3) var(--farol-space-4);
+  font-size: var(--farol-font-size-sm);
+  border-left: 4px solid currentcolor;
+  border-radius: var(--farol-radius-md);
+  box-shadow: var(--farol-shadow-md);
+  pointer-events: auto;
+}
+
+.message {
+  flex: 1;
+  margin: 0;
+}
+
+.close {
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  font: inherit;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  border-radius: var(--farol-radius-sm);
+  cursor: pointer;
+}
+
+.close:focus-visible {
+  outline: 2px solid var(--farol-color-focus);
+  outline-offset: 2px;
+}
+
+.info {
+  background-color: var(--farol-color-info-bg);
+  color: var(--farol-color-info);
+}
+
+.success {
+  background-color: var(--farol-color-success-bg);
+  color: var(--farol-color-success);
+}
+
+.warning {
+  background-color: var(--farol-color-warning-bg);
+  color: var(--farol-color-warning);
+}
+
+.danger {
+  background-color: var(--farol-color-danger-bg);
+  color: var(--farol-color-danger);
+}

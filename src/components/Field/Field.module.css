@@ -1,4 +1,5 @@
 .field {
+  font-family: var(--farol-font-family, inherit);
   display: flex;
   flex-direction: column;
   gap: var(--farol-space-1);
@@ -6,7 +7,7 @@
 
 .label {
   font-size: var(--farol-font-size-sm);
-  font-weight: 600;
+  font-weight: var(--farol-font-weight-semibold);
   color: var(--farol-color-text);
 }
 
@@ -27,6 +28,7 @@
   width: 100%;
   padding: var(--farol-space-2) var(--farol-space-3);
   font: inherit;
+  font-family: var(--farol-font-family, inherit);
   color: var(--farol-color-text);
   background-color: var(--farol-color-bg);
   border: 1px solid var(--farol-color-border-strong);

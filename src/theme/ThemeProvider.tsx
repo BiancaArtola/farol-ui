@@ -7,6 +7,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import type { ThemeVariables } from "./createTheme";
 import {
   DEFAULT_THEME_STORAGE_KEY,
   parsePreference,
@@ -45,11 +46,14 @@ const prefersDark = (): boolean =>
 interface ThemeProviderProps {
   children: ReactNode;
   storageKey?: string;
+  /** Marca y tipografía (resultado de createTheme). Se aplica a toda la página. */
+  theme?: ThemeVariables;
 }
 
 export const ThemeProvider = ({
   children,
   storageKey = DEFAULT_THEME_STORAGE_KEY,
+  theme: themeVariables,
 }: ThemeProviderProps) => {
   // Servidor y primer render del cliente coinciden (system + claro); lo guardado y el
   // sistema se leen después de montar para no romper la hidratación.
@@ -83,6 +87,18 @@ export const ThemeProvider = ({
       root.setAttribute("data-theme", preference);
     }
   }, [preference]);
+
+  // Las variables de marca van en <html> para que lleguen también a lo que se renderiza
+  // en un portal (Modal). Al cambiar de tema o desmontar se quitan, sin dejar restos.
+  useEffect(() => {
+    if (!themeVariables) {
+      return;
+    }
+    const root = document.documentElement;
+    const entries = Object.entries(themeVariables);
+    entries.forEach(([name, value]) => root.style.setProperty(name, value));
+    return () => entries.forEach(([name]) => root.style.removeProperty(name));
+  }, [themeVariables]);
 
   const setPreference = useCallback(
     (nextPreference: ThemePreference) => {

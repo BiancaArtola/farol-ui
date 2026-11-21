@@ -1,5 +1,6 @@
-import { forwardRef, useId, type InputHTMLAttributes } from "react";
+import { forwardRef, type InputHTMLAttributes } from "react";
 import { cx } from "../../utils/classNames";
+import { ChoiceField } from "../ChoiceField/ChoiceField";
 import styles from "./Checkbox.module.css";
 
 export interface CheckboxProps extends Omit<
@@ -12,29 +13,18 @@ export interface CheckboxProps extends Omit<
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
   function Checkbox({ label, hint, id, className, ...rest }, ref) {
-    const generatedId = useId();
-    const inputId = id ?? generatedId;
-    const hintId = hint ? `${inputId}-hint` : undefined;
-
     return (
-      <div className={styles.wrapper}>
-        <input
-          {...rest}
-          ref={ref}
-          id={inputId}
-          type="checkbox"
-          aria-describedby={hintId}
-          className={cx(styles.checkbox, className)}
-        />
-        <label htmlFor={inputId} className={styles.label}>
-          {label}
-        </label>
-        {hint && (
-          <p id={hintId} className={styles.hint}>
-            {hint}
-          </p>
+      <ChoiceField label={label} hint={hint} id={id}>
+        {(controlProps) => (
+          <input
+            {...rest}
+            {...controlProps}
+            ref={ref}
+            type="checkbox"
+            className={cx(styles.checkbox, className)}
+          />
         )}
-      </div>
+      </ChoiceField>
     );
   },
 );

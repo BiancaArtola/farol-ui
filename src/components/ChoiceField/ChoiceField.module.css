@@ -1,0 +1,30 @@
+.wrapper {
+  font-family: var(--farol-font-family, inherit);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: var(--farol-choice-gap, var(--farol-space-2));
+  align-items: center;
+}
+
+.wrapper input:focus-visible {
+  outline: 2px solid var(--farol-color-focus);
+  outline-offset: 2px;
+}
+
+.wrapper input:disabled,
+.wrapper input:disabled + .label {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.label {
+  color: var(--farol-color-text);
+  cursor: pointer;
+}
+
+.hint {
+  grid-column: 2;
+  margin: 0;
+  font-size: var(--farol-font-size-sm);
+  color: var(--farol-color-text-muted);
+}

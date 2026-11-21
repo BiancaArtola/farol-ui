@@ -1,0 +1,24 @@
+.emptyState {
+  font-family: var(--farol-font-family, inherit);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--farol-space-2);
+  padding: var(--farol-space-6) var(--farol-space-4);
+  text-align: center;
+  color: var(--farol-color-text);
+  border: 1px dashed var(--farol-color-border-strong);
+  border-radius: var(--farol-radius-lg);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--farol-font-size-lg);
+  font-weight: var(--farol-font-weight-bold);
+}
+
+.description {
+  margin: 0;
+  max-width: 32rem;
+  color: var(--farol-color-text-muted);
+}

@@ -55,20 +55,55 @@ import { getThemeInitScript } from "farol-ui";
 
 ## Components
 
-| Component  | What it is for                                                                             |
-| ---------- | ------------------------------------------------------------------------------------------ |
-| `Button`   | Actions. Variants `primary`, `secondary`, `ghost`, `danger`; sizes; `isLoading`.           |
-| `Input`    | Text field with required label, hint and error wired with `aria-describedby`.              |
-| `Select`   | Native select with the same label, hint and error.                                         |
-| `Checkbox` | Native checkbox with label and hint.                                                       |
-| `Card`     | Container with optional title (choose the heading level) and footer.                       |
-| `Badge`    | Status label. Tones `neutral`, `info`, `success`, `warning`, `danger`.                     |
-| `Modal`    | Dialog or side panel (`placement="right"`). Escape, focus trap, focus return, scroll lock. |
-| `Tabs`     | Tabs with arrow keys, Home and End, skipping disabled tabs.                                |
+| Component                    | What it is for                                                                                                               |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `Button`                     | Actions. Variants `primary`, `secondary`, `ghost`, `danger`; sizes; `isLoading`.                                             |
+| `Input`                      | Text field with required label, hint and error wired with `aria-describedby`.                                                |
+| `Select`                     | Native select with the same label, hint and error.                                                                           |
+| `Checkbox`                   | Native checkbox with label and hint.                                                                                         |
+| `Card`                       | Container with optional title (choose the heading level) and footer.                                                         |
+| `Badge`                      | Status label. Tones `neutral`, `info`, `success`, `warning`, `danger`.                                                       |
+| `Modal`                      | Dialog or side panel (`placement="right"`). Escape, focus trap, focus return, scroll lock.                                   |
+| `Tabs`                       | Tabs with arrow keys, Home and End, skipping disabled tabs.                                                                  |
+| `Table`                      | Accessible data table: numeric columns, sortable headers (`aria-sort`), empty state. Pair it with `sortRows` and `nextSort`. |
+| `TableToolbar`               | Search box, filters and counter to put above a `Table`.                                                                      |
+| `LoadMore`                   | "Showing 100 of 250" footer with a button; renders nothing once everything is visible.                                       |
+| `Alert`                      | Message with tones `info`, `success`, `warning`, `danger` (`alert` role for the serious ones).                               |
+| `EmptyState`                 | Title, description and an action for lists without data.                                                                     |
+| `Textarea`                   | Multi-line field with the same label, hint and error as `Input`.                                                             |
+| `Switch`                     | Native checkbox with `role="switch"`.                                                                                        |
+| `RadioGroup`                 | Fieldset with legend and native radios (arrow keys work).                                                                    |
+| `Avatar`                     | Initials with the full name as accessible name.                                                                              |
+| `StatCard`                   | Key figure with optional icon; becomes a button when it has `onClick`.                                                       |
+| `ButtonLink`                 | A link (`<a>`) that looks like a `Button`. For Next's `Link`, use `className={buttonClassName()}`.                           |
+| `ToastProvider` / `useToast` | Temporary messages: `showToast({ message, tone })`. Errors use `role="alert"`, the rest `status`; they close on their own.   |
 
 ## Theming
 
-Colors, spacing, radii and font sizes are CSS variables prefixed with `--farol-`. Override them in your own CSS:
+### One brand for every component
+
+`createTheme` turns a brand color, a font and a corner style into CSS variables, and `ThemeProvider` applies them to the whole page. Every farol-ui component picks them up, so you set the look once per project:
+
+```tsx
+import { ThemeProvider, createTheme } from "farol-ui";
+
+const theme = createTheme({
+  primary: "#0e7490", // one hex: it is adjusted to be readable in light and dark
+  fontFamily: '"Inter", system-ui, sans-serif',
+  radius: "round", // "sharp" | "default" | "round"
+});
+
+<ThemeProvider theme={theme}>{/* your app */}</ThemeProvider>;
+```
+
+- A single hex is nudged until text and buttons reach WCAG AA (4.5:1) in both themes. To choose both exactly, pass `{ light, dark }`; if that pair is not readable, `createTheme` throws and says which one.
+- Without `fontFamily`, components inherit the font of your page. Load the font yourself (for example with `next/font`) and use `font-family: var(--farol-font-family)` in your own CSS to match.
+- Ready-made examples: `farolTheme`, `tealTheme`, `violetTheme`.
+- On the server, `themeToCss(theme)` returns a `:root { ... }` string you can put in a `<style>` so the first paint already has your brand.
+
+### Plain CSS
+
+Colors, spacing, radii and font sizes are CSS variables prefixed with `--farol-`. You can also override them in your own CSS:
 
 ```css
 :root {

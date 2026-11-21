@@ -1,0 +1,28 @@
+.avatar {
+  font-family: var(--farol-font-family, inherit);
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  font-weight: var(--farol-font-weight-bold);
+  color: var(--farol-color-info);
+  background-color: var(--farol-color-info-bg);
+  border-radius: 50%;
+}
+
+.sm {
+  width: 1.75rem;
+  height: 1.75rem;
+  font-size: 0.75rem;
+}
+
+.md {
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: var(--farol-font-size-sm);
+}
+
+.lg {
+  width: 3.5rem;
+  height: 3.5rem;
+  font-size: var(--farol-font-size-lg);
+}

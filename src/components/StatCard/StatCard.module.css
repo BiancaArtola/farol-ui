@@ -1,0 +1,56 @@
+.card {
+  font: inherit;
+  font-family: var(--farol-font-family, inherit);
+  display: flex;
+  align-items: center;
+  gap: var(--farol-space-3);
+  padding: var(--farol-space-4);
+  text-align: left;
+  color: var(--farol-color-text);
+  background-color: var(--farol-color-surface);
+  border: 1px solid var(--farol-color-border);
+  border-radius: var(--farol-radius-lg);
+}
+
+.interactive {
+  cursor: pointer;
+}
+
+.interactive:hover {
+  border-color: var(--farol-color-primary);
+}
+
+.interactive:focus-visible {
+  outline: 2px solid var(--farol-color-focus);
+  outline-offset: 2px;
+}
+
+.icon {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  color: var(--farol-color-info);
+  background-color: var(--farol-color-info-bg);
+  border-radius: var(--farol-radius-md);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-size: var(--farol-font-size-sm);
+  color: var(--farol-color-text-muted);
+}
+
+.value {
+  font-size: var(--farol-font-size-lg);
+  font-weight: var(--farol-font-weight-bold);
+}
+
+.hint {
+  font-size: var(--farol-font-size-sm);
+  color: var(--farol-color-text-muted);
+}

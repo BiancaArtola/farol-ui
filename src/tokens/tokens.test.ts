@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
+import { TOKEN_REFERENCE_COLORS } from "../theme/createTheme";
 import { contrastRatio } from "./contrast";
 
 type ColorScheme = "light" | "dark";
@@ -55,8 +56,24 @@ describe("tokens de color", () => {
       ["primary", "bg"],
       ["focus", "bg"],
       ["border-strong", "bg"],
-    ])("%s sobre %s cumple AA para componentes de interfaz", (a, b) => {
-      expect(ratio(a, b)).toBeGreaterThanOrEqual(AA_UI_COMPONENT);
-    });
+    ])(
+      "%s sobre %s cumple AA para componentes de interfaz",
+      (foreground, background) => {
+        expect(ratio(foreground, background)).toBeGreaterThanOrEqual(
+          AA_UI_COMPONENT,
+        );
+      },
+    );
   });
+});
+
+// Caso real: createTheme valida el contraste contra fondos copiados de tokens.css. Si los
+// tokens cambian y la copia no, un tema "válido" podría ser ilegible sobre el fondo real.
+describe("colores de referencia de createTheme", () => {
+  it.each(Object.entries(TOKEN_REFERENCE_COLORS))(
+    "%s coincide con tokens.css",
+    (name, expected) => {
+      expect(tokens[name]).toEqual(expected);
+    },
+  );
 });

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { BUTTON_SIZES, BUTTON_VARIANTS, Button } from "./Button";
+import { BUTTON_SIZES, BUTTON_VARIANTS, Button, ButtonLink } from "./Button";
 
 const meta = {
   title: "Components/Button",
@@ -45,3 +45,15 @@ export const Loading: Story = {
 };
 
 export const Disabled: Story = { args: { disabled: true } };
+
+// Un enlace con aspecto de botón (navega o descarga).
+export const AsLink: Story = {
+  render: () => (
+    <div style={{ display: "flex", gap: "0.5rem" }}>
+      <ButtonLink href="#proyectos">Ver proyectos</ButtonLink>
+      <ButtonLink href="#cv" variant="secondary" download>
+        Descargar CV
+      </ButtonLink>
+    </div>
+  ),
+};

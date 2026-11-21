@@ -1,0 +1,77 @@
+.wrapper {
+  font-family: var(--farol-font-family, inherit);
+  overflow-x: auto;
+  border: 1px solid var(--farol-color-border);
+  border-radius: var(--farol-radius-lg);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--farol-color-text);
+  font-size: var(--farol-font-size-sm);
+}
+
+.caption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.cell {
+  padding: var(--farol-space-3) var(--farol-space-4);
+  text-align: left;
+  border-bottom: 1px solid var(--farol-color-border);
+}
+
+thead .cell {
+  background-color: var(--farol-color-surface);
+  color: var(--farol-color-text-muted);
+  font-weight: var(--farol-font-weight-semibold);
+  white-space: nowrap;
+}
+
+tbody tr:last-child .cell {
+  border-bottom: 0;
+}
+
+.numeric {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.sortButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--farol-space-1);
+  padding: 0;
+  font: inherit;
+  font-family: var(--farol-font-family, inherit);
+  color: inherit;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.sortButton:hover {
+  color: var(--farol-color-text);
+}
+
+.sortButton:focus-visible {
+  outline: 2px solid var(--farol-color-focus);
+  outline-offset: 2px;
+}
+
+.arrow {
+  font-size: 0.75em;
+}
+
+.empty {
+  padding: var(--farol-space-5) var(--farol-space-4);
+  text-align: center;
+  color: var(--farol-color-text-muted);
+}

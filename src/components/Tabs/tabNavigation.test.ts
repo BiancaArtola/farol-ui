@@ -38,6 +38,7 @@ describe("getNextTabId", () => {
   });
 });
 
+// Las flechas arriba/abajo no navegan pestañas horizontales: si se capturaran, se bloquearía el scroll de la página.
 describe("isTabNavigationKey", () => {
   it("reconoce solo las teclas de navegación", () => {
     expect(isTabNavigationKey("Home")).toBe(true);

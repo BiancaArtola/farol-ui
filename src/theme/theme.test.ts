@@ -19,6 +19,7 @@ describe("parsePreference", () => {
   });
 });
 
+// Un valor viejo o manipulado en localStorage no debe colarse como tema válido.
 describe("isThemePreference", () => {
   it("distingue valores válidos de cualquier otro tipo", () => {
     expect(isThemePreference("dark")).toBe(true);

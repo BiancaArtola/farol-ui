@@ -123,3 +123,21 @@ describe("useTheme", () => {
     vi.restoreAllMocks();
   });
 });
+
+// Caso real: un proyecto pasa su marca al proveedor y espera que todo lo de farol-ui la use,
+// incluido lo que se dibuja en un portal; al desmontar no tiene que quedar nada en <html>.
+describe("ThemeProvider con tema de marca", () => {
+  it("aplica las variables en <html> y las quita al desmontar", () => {
+    const { unmount } = render(
+      <ThemeProvider theme={{ "--farol-font-family": "Inter, sans-serif" }}>
+        <p>contenido</p>
+      </ThemeProvider>,
+    );
+    const root = document.documentElement;
+    expect(root.style.getPropertyValue("--farol-font-family")).toBe(
+      "Inter, sans-serif",
+    );
+    unmount();
+    expect(root.style.getPropertyValue("--farol-font-family")).toBe("");
+  });
+});

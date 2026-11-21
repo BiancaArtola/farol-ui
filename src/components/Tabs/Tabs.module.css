@@ -1,4 +1,5 @@
 .tabs {
+  font-family: var(--farol-font-family, inherit);
   display: flex;
   flex-direction: column;
 }
@@ -12,7 +13,8 @@
 .tab {
   padding: var(--farol-space-2) var(--farol-space-4);
   font: inherit;
-  font-weight: 600;
+  font-family: var(--farol-font-family, inherit);
+  font-weight: var(--farol-font-weight-semibold);
   color: var(--farol-color-text-muted);
   background: transparent;
   border: 0;
