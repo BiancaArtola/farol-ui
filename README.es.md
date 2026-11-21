@@ -82,7 +82,7 @@ Forzá un tema en toda la página o en un contenedor con `data-theme="light"` o 
 
 ```bash
 npm install
-npm run demo        # galería de componentes en http://localhost:5199
+npm run storybook   # galería de componentes con cambio claro/oscuro en http://localhost:6006
 npm run verificar   # lint, tipos, tests y build
 ```
 

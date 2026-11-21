@@ -82,7 +82,7 @@ Force a theme on the whole page or on one container with `data-theme="light"` or
 
 ```bash
 npm install
-npm run demo        # component gallery at http://localhost:5199
+npm run storybook   # component gallery with a light/dark switch at http://localhost:6006
 npm run verificar   # lint, typecheck, tests and build
 ```
 
