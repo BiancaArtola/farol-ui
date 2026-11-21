@@ -49,7 +49,7 @@ export const Disabled: Story = { args: { disabled: true } };
 // Un enlace con aspecto de botón (navega o descarga).
 export const AsLink: Story = {
   render: () => (
-    <div style={{ display: "flex", gap: "0.5rem" }}>
+    <div className="story-row">
       <ButtonLink href="#proyectos">Ver proyectos</ButtonLink>
       <ButtonLink href="#cv" variant="secondary" download>
         Descargar CV

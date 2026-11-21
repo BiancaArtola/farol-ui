@@ -25,3 +25,13 @@
   gap: 1rem;
   max-width: 24rem;
 }
+
+.story-row-spaced {
+  margin-bottom: 1.5rem;
+}
+
+.story-grid {
+  display: grid;
+  gap: 1rem;
+  max-width: 40rem;
+}

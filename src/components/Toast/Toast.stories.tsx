@@ -20,7 +20,7 @@ type Story = StoryObj<typeof meta>;
 const Buttons = () => {
   const { showToast } = useToast();
   return (
-    <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+    <div className="story-row">
       {TOAST_TONES.map((tone) => (
         <Button
           key={tone}

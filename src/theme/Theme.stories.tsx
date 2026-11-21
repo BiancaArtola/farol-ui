@@ -45,7 +45,7 @@ const Playground = () => {
 
   return (
     <div style={variables as CSSProperties}>
-      <div style={{ display: "flex", gap: "1rem", marginBottom: "1.5rem" }}>
+      <div className="story-row story-row-spaced">
         <label>
           Color de marca{" "}
           <input
@@ -79,9 +79,9 @@ const Playground = () => {
           </select>
         </label>
       </div>
-      <div style={{ display: "grid", gap: "1rem", maxWidth: "40rem" }}>
+      <div className="story-grid">
         <Card title="Todos los componentes comparten la marca">
-          <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+          <div className="story-row">
             <Button>Principal</Button>
             <Button variant="secondary">Secundario</Button>
             <Badge tone="info">Info</Badge>
