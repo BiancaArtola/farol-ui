@@ -54,3 +54,31 @@ describe("TableToolbar con ícono", () => {
     );
   });
 });
+
+// Caso real: el buscador de Historial busca por receptor, CUIT o número; el nombre accesible
+// es corto ("Buscar comprobante") y el texto de ayuda dice qué se puede buscar.
+describe("TableToolbar con placeholder", () => {
+  it("usa searchPlaceholder y, sin él, la etiqueta", () => {
+    const { rerender } = render(
+      <TableToolbar
+        searchLabel="Buscar comprobante"
+        searchPlaceholder="Receptor, CUIT o número"
+        searchValue=""
+        onSearchChange={() => undefined}
+      />,
+    );
+    expect(
+      screen.getByRole("searchbox", { name: "Buscar comprobante" }),
+    ).toHaveAttribute("placeholder", "Receptor, CUIT o número");
+    rerender(
+      <TableToolbar
+        searchLabel="Buscar comprobante"
+        searchValue=""
+        onSearchChange={() => undefined}
+      />,
+    );
+    expect(
+      screen.getByRole("searchbox", { name: "Buscar comprobante" }),
+    ).toHaveAttribute("placeholder", "Buscar comprobante");
+  });
+});

@@ -129,6 +129,20 @@ describe("Table (filas)", () => {
     expect(handleRowClick).toHaveBeenCalledWith(invoices[0]);
   });
 
+  it("con renderRow las columnas no necesitan render", () => {
+    renderTable({
+      columns: [{ key: "client", header: "Cliente" }],
+      renderRow: (row) => (
+        <tr>
+          <td>{row.client}</td>
+        </tr>
+      ),
+    });
+    expect(
+      screen.getByRole("cell", { name: "Juan Pérez" }),
+    ).toBeInTheDocument();
+  });
+
   it("con renderRow la fila la dibuja quien usa el componente", () => {
     renderTable({
       renderRow: (row) => (

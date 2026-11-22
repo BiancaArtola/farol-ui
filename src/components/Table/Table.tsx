@@ -10,8 +10,8 @@ export interface TableColumn<Row> {
   header: ReactNode;
   /** Clase extra para la cabecera y las celdas de la columna (ancho, alineación puntual). */
   className?: string;
-  /** Cómo se dibuja la celda de esta columna. */
-  render: (row: Row) => ReactNode;
+  /** Cómo se dibuja la celda de esta columna. Se puede omitir si la tabla usa `renderRow`. */
+  render?: (row: Row) => ReactNode;
   /** Importes y cantidades: se alinean a la derecha. */
   numeric?: boolean;
   /** La cabecera pasa a ser un botón que ordena (requiere `onSortChange`). */
@@ -124,7 +124,7 @@ export const Table = <Row,>({
                       column.className,
                     )}
                   >
-                    {column.render(row)}
+                    {column.render?.(row)}
                   </td>
                 ))}
               </tr>

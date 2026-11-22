@@ -11,6 +11,8 @@ export interface TableToolbarProps {
   filters?: ReactNode;
   /** Texto del contador, por ejemplo "12 comprobantes". */
   summary?: string;
+  /** Texto de ayuda dentro del buscador; si falta, se usa `searchLabel`. */
+  searchPlaceholder?: string;
   /** Ícono decorativo (una lupa) a la izquierda del buscador. */
   searchIcon?: ReactNode;
   className?: string;
@@ -24,6 +26,7 @@ export const TableToolbar = ({
   onSearchChange,
   filters,
   summary,
+  searchPlaceholder,
   searchIcon,
   className,
 }: TableToolbarProps) => (
@@ -38,7 +41,7 @@ export const TableToolbar = ({
         type="search"
         label={searchLabel}
         hideLabel
-        placeholder={searchLabel}
+        placeholder={searchPlaceholder ?? searchLabel}
         value={searchValue}
         onChange={(event) => onSearchChange(event.target.value)}
       />
