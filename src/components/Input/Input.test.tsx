@@ -67,3 +67,27 @@ describe("Input", () => {
     expect(ref.current).toBe(screen.getByLabelText("Con ref"));
   });
 });
+
+// Caso real: la etiqueta de un campo opcional lleva "(opcional)" y un ícono de ayuda; el campo
+// tiene que seguir encontrándose por su nombre, y la ayuda puede llevar énfasis.
+describe("Input con etiqueta y ayuda con contenido", () => {
+  it("acepta contenido en label y hint y los enlaza al control", () => {
+    render(
+      <Input
+        label={
+          <>
+            Nombre <span>(opcional)</span>
+          </>
+        }
+        hint={
+          <>
+            Se completa <b>sola</b>.
+          </>
+        }
+      />,
+    );
+    const input = screen.getByRole("textbox", { name: /Nombre/ });
+    expect(input).toHaveAccessibleName("Nombre (opcional)");
+    expect(input).toHaveAccessibleDescription("Se completa sola.");
+  });
+});

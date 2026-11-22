@@ -36,7 +36,7 @@ Rules that apply to every component:
 
 ## Forms
 
-- `Input`, `Textarea`, `Select` take the native attributes plus `label` (required), `hint`, `error`, `hideLabel`. `Select` children are `<option>`.
+- `Input`, `Textarea`, `Select` take the native attributes plus `label` (required; text or content such as text + "(optional)" + a help icon), `hint` (text or content), `error`, `hideLabel`. `Select` children are `<option>`.
 - `Checkbox` and `Switch`: `label` required, optional `hint`. `RadioGroup`: `legend`, `options` (`{ value, label, disabled? }`), controlled `value` and `onChange(value)`.
 - `Slider`: native range with `label`, `min`, `max`, `step`, `showValue`; controlled with `value` or uncontrolled with `defaultValue`.
 - `Combobox`: `options` (`{ value, label, disabled? }`), `value: string | null`, `onChange(value)`, `emptyMessage`. Filtering ignores accents and case. It is not a date picker: use `<Input type="date">`.
