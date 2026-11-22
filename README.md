@@ -157,7 +157,7 @@ Force a theme on the whole page or on one container with `data-theme="light"` or
 
 ```bash
 npm install
-npm run storybook   # component gallery with a light/dark switch at http://localhost:6006
+npm run storybook   # component gallery with a light/dark switch at http://localhost:6006 (also published at https://biancaartola.github.io/farol-ui/)
 npm run verificar   # lint, typecheck, tests and build
 npm run deuda       # duplicated code (jscpd, fails above 3%) and unused code (knip)
 ```
