@@ -1,6 +1,6 @@
 {
   "name": "farol-ui",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Accessible React components in blue, with light and dark mode.",
   "type": "module",
   "license": "MIT",
