@@ -17,24 +17,26 @@
   composes: visuallyHidden from "../../styles/a11y.module.css";
 }
 
-.cell {
+/* Por elemento y no por clase: con `renderRow` las celdas las dibuja quien usa la tabla. */
+.table th,
+.table td {
   padding: var(--farol-space-3) var(--farol-space-4);
   text-align: left;
   border-bottom: 1px solid var(--farol-color-border);
 }
 
-thead .cell {
+.table thead th {
   background-color: var(--farol-color-surface);
   color: var(--farol-color-text-muted);
   font-weight: var(--farol-font-weight-semibold);
   white-space: nowrap;
 }
 
-tbody tr:last-child .cell {
+.table tbody tr:last-child td {
   border-bottom: 0;
 }
 
-.numeric {
+.table .numeric {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
@@ -65,7 +67,7 @@ tbody tr:last-child .cell {
   font-size: 0.75em;
 }
 
-.empty {
+.table .empty {
   padding: var(--farol-space-5) var(--farol-space-4);
   text-align: center;
   color: var(--farol-color-text-muted);

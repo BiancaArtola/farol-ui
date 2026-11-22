@@ -75,7 +75,6 @@ export const Table = <Row,>({
                 key={column.key}
                 scope="col"
                 className={cx(
-                  styles.cell,
                   column.numeric && styles.numeric,
                   column.className,
                 )}
@@ -121,7 +120,6 @@ export const Table = <Row,>({
                   <td
                     key={column.key}
                     className={cx(
-                      styles.cell,
                       column.numeric && styles.numeric,
                       column.className,
                     )}
