@@ -36,3 +36,21 @@ describe("TableToolbar", () => {
     expect(screen.getByText("12 comprobantes")).toBeInTheDocument();
   });
 });
+
+// Caso real: el buscador de las listas lleva una lupa decorativa que no debe leerse.
+describe("TableToolbar con ícono", () => {
+  it("muestra el ícono oculto a lectores de pantalla", () => {
+    render(
+      <TableToolbar
+        searchLabel="Buscar"
+        searchValue=""
+        onSearchChange={() => undefined}
+        searchIcon={<svg data-testid="lupa" />}
+      />,
+    );
+    expect(screen.getByTestId("lupa").parentElement).toHaveAttribute(
+      "aria-hidden",
+      "true",
+    );
+  });
+});

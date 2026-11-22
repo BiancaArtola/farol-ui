@@ -23,3 +23,22 @@
   font-size: var(--farol-font-size-sm);
   color: var(--farol-color-text-muted);
 }
+
+.search {
+  position: relative;
+}
+
+.icon {
+  position: absolute;
+  left: var(--farol-space-3);
+  bottom: 0;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  color: var(--farol-color-text-muted);
+  pointer-events: none;
+}
+
+.withIcon input {
+  padding-left: calc(var(--farol-space-3) + 1.5rem);
+}

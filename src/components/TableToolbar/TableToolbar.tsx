@@ -11,6 +11,8 @@ export interface TableToolbarProps {
   filters?: ReactNode;
   /** Texto del contador, por ejemplo "12 comprobantes". */
   summary?: string;
+  /** Ícono decorativo (una lupa) a la izquierda del buscador. */
+  searchIcon?: ReactNode;
   className?: string;
 }
 
@@ -22,10 +24,16 @@ export const TableToolbar = ({
   onSearchChange,
   filters,
   summary,
+  searchIcon,
   className,
 }: TableToolbarProps) => (
   <div className={cx(styles.toolbar, className)}>
-    <div className={styles.search}>
+    <div className={cx(styles.search, Boolean(searchIcon) && styles.withIcon)}>
+      {searchIcon && (
+        <span className={styles.icon} aria-hidden="true">
+          {searchIcon}
+        </span>
+      )}
       <Input
         type="search"
         label={searchLabel}

@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 import { cx } from "../../utils/classNames";
 import type { SortDirection, TableSort } from "./sortRows";
 import styles from "./Table.module.css";
@@ -30,6 +30,16 @@ export interface TableProps<Row> {
   /** Texto cuando no hay filas. */
   emptyMessage?: string;
   className?: string;
+  /** Clase extra de cada fila (estado, fila activa). */
+  rowClassName?: (row: Row) => string | undefined;
+  /** Clic en la fila. Los controles de las celdas (botones, selects) deben detener la propagación. */
+  onRowClick?: (row: Row) => void;
+  /**
+   * Dibuja la fila entera (un `<tr>`), por ejemplo un componente memoizado cuando hay
+   * miles de filas con controles. Reemplaza a `columns[].render`, `rowClassName` y
+   * `onRowClick`; las celdas deben llevar las mismas clases de columna si se las quiere iguales.
+   */
+  renderRow?: (row: Row) => ReactNode;
 }
 
 const ARIA_SORT: Record<SortDirection, "ascending" | "descending"> = {
@@ -47,6 +57,9 @@ export const Table = <Row,>({
   onSortChange,
   emptyMessage = "No data",
   className,
+  rowClassName,
+  onRowClick,
+  renderRow,
 }: TableProps<Row>) => (
   <div className={cx(styles.wrapper, className)}>
     <table className={styles.table}>
@@ -95,22 +108,30 @@ export const Table = <Row,>({
             </td>
           </tr>
         ) : (
-          rows.map((row) => (
-            <tr key={getRowKey(row)}>
-              {columns.map((column) => (
-                <td
-                  key={column.key}
-                  className={cx(
-                    styles.cell,
-                    column.numeric && styles.numeric,
-                    column.className,
-                  )}
-                >
-                  {column.render(row)}
-                </td>
-              ))}
-            </tr>
-          ))
+          rows.map((row) =>
+            renderRow ? (
+              <Fragment key={getRowKey(row)}>{renderRow(row)}</Fragment>
+            ) : (
+              <tr
+                key={getRowKey(row)}
+                className={rowClassName?.(row)}
+                onClick={onRowClick ? () => onRowClick(row) : undefined}
+              >
+                {columns.map((column) => (
+                  <td
+                    key={column.key}
+                    className={cx(
+                      styles.cell,
+                      column.numeric && styles.numeric,
+                      column.className,
+                    )}
+                  >
+                    {column.render(row)}
+                  </td>
+                ))}
+              </tr>
+            ),
+          )
         )}
       </tbody>
     </table>

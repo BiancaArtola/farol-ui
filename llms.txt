@@ -44,8 +44,8 @@ Rules that apply to every component:
 
 ## Data
 
-- `Table<Row>`: `columns` (`{ key, header, render(row), numeric?, sortable?, className? }`; `header` can be any node, e.g. a select-all checkbox), `rows`, `getRowKey`, `caption` (required, visually hidden), `sort`, `onSortChange(key)`, `emptyMessage`. The table does not sort by itself: use `sortRows(rows, sort, getValue)` and `nextSort`.
-- `TableToolbar`: `searchLabel`, `searchValue`, `onSearchChange`, `filters`, `summary`.
+- `Table<Row>`: `rowClassName(row)`, `onRowClick(row)`, `renderRow(row)` (whole `<tr>`, e.g. a memoized row), `columns` (`{ key, header, render(row), numeric?, sortable?, className? }`; `header` can be any node, e.g. a select-all checkbox), `rows`, `getRowKey`, `caption` (required, visually hidden), `sort`, `onSortChange(key)`, `emptyMessage`. The table does not sort by itself: use `sortRows(rows, sort, getValue)` and `nextSort`.
+- `TableToolbar`: `searchIcon`, `searchLabel`, `searchValue`, `onSearchChange`, `filters`, `summary`.
 - `Pagination`: `page` (1-based), `pageCount`, `onPageChange`, `siblings`. `LoadMore`: `visible`, `total`, `onLoadMore` (the "show more" variant).
 - `Timeline`: `items` (`{ id, title, time?, description?, tone? }`), `label`. `Stepper`: `steps` (`{ id, label, description? }`), `currentStep` (index), `label`.
 

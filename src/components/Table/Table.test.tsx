@@ -112,3 +112,31 @@ describe("Table", () => {
     expect(within(firstRow).getAllByRole("cell")[0]).toHaveClass("col-check");
   });
 });
+
+// Caso real: Agenda y Emisores abren un panel al hacer clic en la fila y marcan la activa;
+// con miles de filas la pantalla dibuja la fila entera con un componente memoizado.
+describe("Table (filas)", () => {
+  it("aplica la clase de cada fila y avisa el clic con su dato", async () => {
+    const handleRowClick = vi.fn();
+    renderTable({
+      rowClassName: (row) => (row.id === "2" ? "activa" : undefined),
+      onRowClick: handleRowClick,
+    });
+    const rows = screen.getAllByRole("row");
+    expect(rows[2]).toHaveClass("activa");
+    expect(rows[1]).not.toHaveClass("activa");
+    await userEvent.click(rows[1]);
+    expect(handleRowClick).toHaveBeenCalledWith(invoices[0]);
+  });
+
+  it("con renderRow la fila la dibuja quien usa el componente", () => {
+    renderTable({
+      renderRow: (row) => (
+        <tr data-testid="propia">
+          <td>{row.client}</td>
+        </tr>
+      ),
+    });
+    expect(screen.getAllByTestId("propia")).toHaveLength(2);
+  });
+});
