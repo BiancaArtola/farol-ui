@@ -26,3 +26,7 @@
   composes: hint from "../../styles/text.module.css";
   grid-column: 2;
 }
+
+.visuallyHidden {
+  composes: visuallyHidden from "../../styles/a11y.module.css";
+}

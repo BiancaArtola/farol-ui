@@ -9,12 +9,14 @@ export interface CheckboxProps extends Omit<
 > {
   label: string;
   hint?: string;
+  /** Oculta la etiqueta visualmente (por ejemplo en una celda de tabla) pero la conserva. */
+  hideLabel?: boolean;
 }
 
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
-  function Checkbox({ label, hint, id, className, ...rest }, ref) {
+  function Checkbox({ label, hint, hideLabel, id, className, ...rest }, ref) {
     return (
-      <ChoiceField label={label} hint={hint} id={id}>
+      <ChoiceField label={label} hint={hint} hideLabel={hideLabel} id={id}>
         {(controlProps) => (
           <input
             {...rest}

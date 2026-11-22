@@ -37,7 +37,7 @@ Rules that apply to every component:
 ## Forms
 
 - `Input`, `Textarea`, `Select` take the native attributes plus `label` (required; text or content such as text + "(optional)" + a help icon), `hint` (text or content), `error`, `hideLabel`. `Select` children are `<option>`.
-- `Checkbox` and `Switch`: `label` required, optional `hint`. `RadioGroup`: `legend`, `options` (`{ value, label, disabled? }`), controlled `value` and `onChange(value)`.
+- `Checkbox` and `Switch`: `label` required, optional `hint` and `hideLabel` (visually hidden, e.g. in a table cell). `RadioGroup`: `legend`, `options` (`{ value, label, disabled? }`), controlled `value` and `onChange(value)`.
 - `Slider`: native range with `label`, `min`, `max`, `step`, `showValue`; controlled with `value` or uncontrolled with `defaultValue`.
 - `Combobox`: `options` (`{ value, label, disabled? }`), `value: string | null`, `onChange(value)`, `emptyMessage`. Filtering ignores accents and case. It is not a date picker: use `<Input type="date">`.
 - `FileUpload`: `accept`, `multiple`, `maxSizeBytes`, `onChange(files)`, `onReject(rejected)`. It validates type and size and explains rejections. Pure helpers: `validateFiles`, `matchesAccept`, `formatFileSize`.

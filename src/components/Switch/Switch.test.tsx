@@ -34,3 +34,17 @@ describe("Switch", () => {
     expect(toggle).not.toBeChecked();
   });
 });
+
+// Caso real: el interruptor "Facturar" de cada fila de una tabla no muestra texto, pero un
+// lector de pantalla tiene que anunciar a qué cobro pertenece.
+describe("Switch con la etiqueta oculta", () => {
+  it("conserva el nombre accesible y oculta el texto", () => {
+    render(<Switch label="Facturar a Juan Pérez" hideLabel />);
+    expect(
+      screen.getByRole("switch", { name: "Facturar a Juan Pérez" }),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Facturar a Juan Pérez").className).toMatch(
+      /visuallyHidden/,
+    );
+  });
+});

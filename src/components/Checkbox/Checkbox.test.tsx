@@ -49,3 +49,18 @@ describe("Checkbox", () => {
     expect(screen.getByRole("checkbox")).toBeChecked();
   });
 });
+
+// Caso real: en una tabla, cada fila lleva su casillero "Seleccionar a Juan Pérez" sin texto
+// visible; el nombre tiene que seguir llegando a los lectores de pantalla.
+describe("Checkbox con la etiqueta oculta", () => {
+  it("conserva el nombre accesible y oculta el texto", () => {
+    render(<Checkbox label="Seleccionar a Juan Pérez" hideLabel />);
+    const checkbox = screen.getByRole("checkbox", {
+      name: "Seleccionar a Juan Pérez",
+    });
+    expect(checkbox).toBeInTheDocument();
+    expect(screen.getByText("Seleccionar a Juan Pérez").className).toMatch(
+      /visuallyHidden/,
+    );
+  });
+});

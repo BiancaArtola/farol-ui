@@ -9,16 +9,24 @@ export interface SwitchProps extends Omit<
 > {
   label: string;
   hint?: string;
+  /** Oculta la etiqueta visualmente (por ejemplo en una celda de tabla) pero la conserva. */
+  hideLabel?: boolean;
 }
 
 // Es un checkbox nativo con role="switch": teclado, foco y formularios funcionan solos;
 // el CSS solo cambia cómo se ve.
 export const Switch = forwardRef<HTMLInputElement, SwitchProps>(function Switch(
-  { label, hint, id, className, ...rest },
+  { label, hint, hideLabel, id, className, ...rest },
   ref,
 ) {
   return (
-    <ChoiceField label={label} hint={hint} id={id} className={styles.wrapper}>
+    <ChoiceField
+      label={label}
+      hint={hint}
+      hideLabel={hideLabel}
+      id={id}
+      className={styles.wrapper}
+    >
       {(controlProps) => (
         <input
           {...rest}

@@ -10,6 +10,8 @@ interface ChoiceControlProps {
 interface ChoiceFieldProps {
   label: string;
   hint?: string;
+  /** Oculta la etiqueta visualmente pero la mantiene para lectores de pantalla. */
+  hideLabel?: boolean;
   id?: string;
   className?: string;
   /** Recibe el id y el aria-describedby que el control (input) debe llevar. */
@@ -23,6 +25,7 @@ interface ChoiceFieldProps {
 export const ChoiceField = ({
   label,
   hint,
+  hideLabel = false,
   id: idProp,
   className,
   children,
@@ -34,7 +37,10 @@ export const ChoiceField = ({
   return (
     <div className={cx(styles.wrapper, className)}>
       {children({ id, "aria-describedby": hintId })}
-      <label htmlFor={id} className={styles.label}>
+      <label
+        htmlFor={id}
+        className={cx(styles.label, hideLabel && styles.visuallyHidden)}
+      >
         {label}
       </label>
       {hint && (
