@@ -36,3 +36,8 @@
 .danger {
   color: var(--farol-color-danger);
 }
+
+.current {
+  background-color: var(--farol-color-surface);
+  font-weight: var(--farol-font-weight-semibold);
+}

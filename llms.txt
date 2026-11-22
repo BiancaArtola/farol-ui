@@ -64,7 +64,7 @@ Rules that apply to every component:
 
 - `Modal`: `open`, `onClose`, `title` (required), `footer`, `placement` ("center" | "right" for a side panel). Traps focus, closes with Escape and returns focus to the opener. The element marked `data-autofocus` gets the initial focus.
 - `Popover`: `trigger` (a single element such as a `<button>`; it receives the ARIA and click handling), `label`, `placement` ("bottom-start" | "bottom-end" | "top-start" | "top-end"). Free-form content.
-- `DropdownMenu`: `trigger`, `label`, `items` of `{ id, label, onSelect, disabled?, tone? }`. Arrows, Home, End and Enter work.
+- `DropdownMenu`: `trigger`, `label`, `items` of `{ id, label (text or content), onSelect, disabled?, tone?, isCurrent? }`. Arrows, Home, End and Enter work.
 - `Tooltip`: `content` (short text), one child element. It adds to the child's existing `aria-describedby`. Do not put interactive content in it: use `Popover`.
 - `DialogProvider` (wrap the app once; `labels` to translate) and `useDialog()` which returns `{ confirm, prompt }`: `await confirm({ message, title?, confirmLabel?, isDanger? })` resolves a boolean and `await prompt({ message, initialValue?, placeholder? })` resolves the text or `null`. They replace the native `confirm()` and `prompt()`. Without a provider they resolve as cancelled.
 - `CommandPalette`: `open`, `onClose`, `commands` of `{ id, label, hint?, onSelect, disabled? }`. It is built on `Modal`.

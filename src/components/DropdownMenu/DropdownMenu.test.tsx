@@ -98,3 +98,36 @@ describe("DropdownMenu", () => {
     expect(screen.queryByRole("menu")).not.toBeInTheDocument();
   });
 });
+
+// Caso real: el selector de emisor activo muestra, en cada ítem, el nombre y el CUIT, y marca
+// cuál es el vigente; el ítem se encuentra por todo su contenido.
+describe("DropdownMenu con contenido en los ítems", () => {
+  it("acepta contenido en label y marca el ítem vigente con aria-current", async () => {
+    render(
+      <DropdownMenu
+        trigger={<button>Emisor</button>}
+        label="Elegir emisor"
+        items={[
+          {
+            id: "a",
+            label: (
+              <>
+                <b>María González</b> <small>27-98765432-0</small>
+              </>
+            ),
+            onSelect: () => undefined,
+            isCurrent: true,
+          },
+          { id: "b", label: "Ricardo Fernández", onSelect: () => undefined },
+        ]}
+      />,
+    );
+    await userEvent.click(screen.getByRole("button", { name: "Emisor" }));
+    const current = screen.getByRole("menuitem", { name: /María González/ });
+    expect(current).toHaveAttribute("aria-current", "true");
+    expect(current).toHaveTextContent("27-98765432-0");
+    expect(
+      screen.getByRole("menuitem", { name: "Ricardo Fernández" }),
+    ).not.toHaveAttribute("aria-current");
+  });
+});

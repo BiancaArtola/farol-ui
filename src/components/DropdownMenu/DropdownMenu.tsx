@@ -1,4 +1,4 @@
-import { useEffect, useRef, type KeyboardEvent } from "react";
+import { useEffect, useRef, type KeyboardEvent, type ReactNode } from "react";
 import { cx } from "../../utils/classNames";
 import popover from "../../styles/popover.module.css";
 import {
@@ -14,9 +14,12 @@ import styles from "./DropdownMenu.module.css";
 
 export interface DropdownMenuItem {
   id: string;
-  label: string;
+  /** Texto o contenido del ítem (por ejemplo un nombre con una segunda línea y un ícono). */
+  label: ReactNode;
   onSelect: () => void;
   disabled?: boolean;
+  /** Marca el ítem de la opción vigente (aria-current) y le da un fondo suave. */
+  isCurrent?: boolean;
   /** "danger" marca acciones destructivas (eliminar, cerrar sesión). */
   tone?: "default" | "danger";
 }
@@ -103,9 +106,11 @@ export const DropdownMenu = ({
               role="menuitem"
               tabIndex={-1}
               disabled={item.disabled}
+              aria-current={item.isCurrent ? "true" : undefined}
               className={cx(
                 styles.item,
                 item.tone === "danger" && styles.danger,
+                item.isCurrent && styles.current,
               )}
               onClick={() => select(item)}
             >
