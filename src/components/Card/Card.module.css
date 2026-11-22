@@ -43,10 +43,6 @@
   min-width: 0;
 }
 
-.body {
-  color: var(--farol-color-text-muted);
-}
-
 .footer {
   margin-top: auto;
   padding-top: var(--farol-space-3);

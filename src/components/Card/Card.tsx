@@ -53,7 +53,7 @@ export const Card = ({
       ) : (
         heading
       )}
-      <div className={styles.body}>{children}</div>
+      <div>{children}</div>
       {footer && <footer className={styles.footer}>{footer}</footer>}
     </article>
   );
