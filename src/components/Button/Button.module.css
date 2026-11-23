@@ -53,15 +53,30 @@
   background-color: var(--farol-color-primary-hover);
 }
 
+/* Los tokens --farol-button-secondary-* permiten un secundario neutro (borde gris, texto
+   oscuro) sin tocar el primario; sin ellos queda el contorno de acento de siempre. */
 .secondary {
-  background-color: transparent;
-  border-color: var(--farol-color-primary);
-  color: var(--farol-color-primary);
+  background-color: var(--farol-button-secondary-bg, transparent);
+  border-color: var(
+    --farol-button-secondary-border,
+    var(--farol-color-primary)
+  );
+  color: var(--farol-button-secondary-color, var(--farol-color-primary));
 }
 
 .secondary:hover:not(:disabled) {
-  background-color: var(--farol-color-primary);
-  color: var(--farol-color-primary-contrast);
+  background-color: var(
+    --farol-button-secondary-hover-bg,
+    var(--farol-color-primary)
+  );
+  border-color: var(
+    --farol-button-secondary-hover-border,
+    var(--farol-button-secondary-border, var(--farol-color-primary))
+  );
+  color: var(
+    --farol-button-secondary-hover-color,
+    var(--farol-color-primary-contrast)
+  );
 }
 
 .ghost {
