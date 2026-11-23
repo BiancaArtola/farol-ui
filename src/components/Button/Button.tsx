@@ -53,6 +53,7 @@ export const ButtonLink = forwardRef<HTMLAnchorElement, ButtonLinkProps>(
       <a
         {...rest}
         ref={ref}
+        data-farol="button"
         className={buttonClassName({ variant, size, className })}
       >
         {children}
@@ -81,6 +82,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         // type="button" por defecto: dentro de un form no envía sin querer.
         type={type}
+        // Gancho estable para los estilos de quien usa la librería (los nombres de las clases
+        // generadas llevan un hash que puede cambiar entre versiones).
+        data-farol="button"
         disabled={disabled || isLoading}
         aria-busy={isLoading || undefined}
         className={buttonClassName({ variant, size, className })}

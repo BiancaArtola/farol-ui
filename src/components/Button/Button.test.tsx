@@ -90,3 +90,24 @@ describe("ButtonLink", () => {
     );
   });
 });
+
+// Caso real: una app que ajusta el tamaño de los íconos dentro de los botones necesita un
+// selector que no dependa del nombre (con hash) de la clase generada.
+describe("Button: gancho para estilos", () => {
+  it('Button y ButtonLink llevan data-farol="button"', () => {
+    render(
+      <>
+        <Button>Guardar</Button>
+        <ButtonLink href="/x">Ir</ButtonLink>
+      </>,
+    );
+    expect(screen.getByRole("button", { name: "Guardar" })).toHaveAttribute(
+      "data-farol",
+      "button",
+    );
+    expect(screen.getByRole("link", { name: "Ir" })).toHaveAttribute(
+      "data-farol",
+      "button",
+    );
+  });
+});
