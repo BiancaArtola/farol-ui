@@ -1,4 +1,10 @@
-import { useRef, useState, type ChangeEvent, type DragEvent } from "react";
+import {
+  useRef,
+  useState,
+  type ChangeEvent,
+  type DragEvent,
+  type ReactNode,
+} from "react";
 import { cx } from "../../utils/classNames";
 import { CloseButton } from "../CloseButton/CloseButton";
 import { Field } from "../Field/Field";
@@ -18,12 +24,21 @@ export interface FileUploadProps extends FieldOwnProps {
   multiple?: boolean;
   maxSizeBytes?: number;
   disabled?: boolean;
-  /** Recibe la lista completa de archivos aceptados cada vez que cambia. */
+  /**
+   * Recibe la lista completa de archivos aceptados cada vez que cambia. Con
+   * `keepFiles={false}` recibe solo los archivos que se acaban de elegir o soltar.
+   */
   onChange?: (files: File[]) => void;
+  /**
+   * Por defecto el componente guarda y lista los archivos (un formulario de adjuntos). Con
+   * `false` no guarda ni lista nada: cada vez que se elige o suelta algo avisa `onChange` con
+   * esos archivos nuevos (una zona que procesa los archivos al recibirlos).
+   */
+  keepFiles?: boolean;
   /** Se llama con los archivos que no cumplieron el tipo o el tamaño. */
   onReject?: (rejected: RejectedFile<File>[]) => void;
-  /** Texto de la zona de arrastre. */
-  dropHint?: string;
+  /** Texto o contenido de la zona de arrastre. */
+  dropHint?: ReactNode;
   /** Texto accesible del botón que quita un archivo: recibe el nombre. */
   formatRemoveLabel?: (fileName: string) => string;
   /** Mensaje de error cuando se rechazan archivos. */
@@ -50,6 +65,7 @@ export const FileUpload = ({
   maxSizeBytes,
   disabled,
   onChange,
+  keepFiles = true,
   onReject,
   dropHint = "o arrastrar los archivos hasta acá",
   formatRemoveLabel = (fileName) => `Quitar ${fileName}`,
@@ -74,6 +90,10 @@ export const FileUpload = ({
       onReject?.(rejected);
     }
     if (accepted.length > 0) {
+      if (!keepFiles) {
+        onChange?.(multiple ? accepted : accepted.slice(0, 1));
+        return;
+      }
       const next = multiple ? [...files, ...accepted] : accepted.slice(0, 1);
       setFiles(next);
       onChange?.(next);

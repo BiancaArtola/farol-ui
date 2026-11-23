@@ -97,3 +97,30 @@ describe("FileUpload", () => {
     expect(screen.getByRole("alert")).toHaveTextContent("Falta adjuntar el CV");
   });
 });
+
+// Caso real: la zona "Arrastrar las capturas" de un panel procesa cada archivo apenas llega y no
+// guarda una lista; si se soltaran otros después, solo tienen que llegar los nuevos.
+describe("FileUpload sin guardar archivos", () => {
+  it("con keepFiles={false} avisa solo los archivos nuevos y no los lista", async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    render(
+      <FileUpload
+        label="Capturas"
+        multiple
+        keepFiles={false}
+        onChange={onChange}
+      />,
+    );
+    const input = screen.getByLabelText("Capturas");
+    await user.upload(input, pdf("a.pdf"));
+    await user.upload(input, pdf("b.pdf"));
+    expect(onChange).toHaveBeenNthCalledWith(1, [
+      expect.objectContaining({ name: "a.pdf" }),
+    ]);
+    expect(onChange).toHaveBeenNthCalledWith(2, [
+      expect.objectContaining({ name: "b.pdf" }),
+    ]);
+    expect(screen.queryByText("a.pdf")).not.toBeInTheDocument();
+  });
+});

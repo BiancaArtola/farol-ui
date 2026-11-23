@@ -122,3 +122,45 @@ describe("Tabs", () => {
     expect(screen.queryByRole("tabpanel")).not.toBeInTheDocument();
   });
 });
+
+// Caso real: el encabezado de una app cambia de vista con pestañas; la vista actual también
+// cambia desde otros lugares (un botón "Administrar") y las pantallas las dibuja la app.
+describe("Tabs controladas y sin panel", () => {
+  const vistas: TabItem[] = [
+    { id: "facturar", label: <span>Facturar</span> },
+    { id: "agenda", label: <span>Agenda</span> },
+  ];
+
+  it("usa activeTabId, avisa onChange sin cambiar por su cuenta y no dibuja panel", async () => {
+    const onChange = vi.fn();
+    const { rerender } = render(
+      <Tabs
+        label="Secciones"
+        items={vistas}
+        activeTabId="facturar"
+        onChange={onChange}
+      />,
+    );
+    expect(screen.getByRole("tab", { name: "Facturar" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+    expect(screen.queryByRole("tabpanel")).not.toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: "Agenda" })).not.toHaveAttribute(
+      "aria-controls",
+    );
+
+    await userEvent.click(screen.getByRole("tab", { name: "Agenda" }));
+    expect(onChange).toHaveBeenCalledWith("agenda");
+    expect(screen.getByRole("tab", { name: "Agenda" })).toHaveAttribute(
+      "aria-selected",
+      "false",
+    );
+
+    rerender(<Tabs label="Secciones" items={vistas} activeTabId="agenda" />);
+    expect(screen.getByRole("tab", { name: "Agenda" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+  });
+});

@@ -64,6 +64,8 @@ export type {
 export { LoadMore } from "./components/Pagination/LoadMore";
 export type { LoadMoreProps } from "./components/Pagination/LoadMore";
 
+export { Radio } from "./components/Radio/Radio";
+export type { RadioProps } from "./components/Radio/Radio";
 export { RadioGroup } from "./components/Radio/RadioGroup";
 export type {
   RadioGroupProps,

@@ -37,7 +37,7 @@ Rules that apply to every component:
 ## Forms
 
 - `Input`, `Textarea`, `Select` take the native attributes plus `label` (required; text or content such as text + "(optional)" + a help icon), `hint` (text or content), `error`, `hideLabel`. `Select` children are `<option>`.
-- `Checkbox` and `Switch`: `label` required, optional `hint` and `hideLabel` (visually hidden, e.g. in a table cell). `RadioGroup`: `legend`, `options` (`{ value, label, disabled? }`), controlled `value` and `onChange(value)`.
+- `Checkbox`, `Switch` and `Radio` (one radio on its own, e.g. one per table row): `label` required, optional `hint` and `hideLabel` (visually hidden, e.g. in a table cell). `RadioGroup`: `legend`, `options` (`{ value, label, disabled? }`), controlled `value` and `onChange(value)`.
 - `Slider`: native range with `label`, `min`, `max`, `step`, `showValue`; controlled with `value` or uncontrolled with `defaultValue`.
 - `Combobox`: `options` (`{ value, label, disabled? }`), `value: string | null`, `onChange(value)`, `emptyMessage`. Filtering ignores accents and case. It is not a date picker: use `<Input type="date">`.
 - `FileUpload`: `accept`, `multiple`, `maxSizeBytes`, `onChange(files)`, `onReject(rejected)`. It validates type and size and explains rejections. Pure helpers: `validateFiles`, `matchesAccept`, `formatFileSize`.
@@ -56,7 +56,7 @@ Rules that apply to every component:
 
 ## Navigation
 
-- `Navbar` (`brand`, `links`, `actions`; links collapse behind a menu button on narrow screens), `Sidebar` (`sections` of `{ id, title?, links }`), `Breadcrumbs` (`items` of `{ label, href? }`, the last one is the current page), `Tabs` (`items` of `{ id, label, content, disabled? }`, `label` required, `defaultTabId`, `onChange`).
+- `Navbar` (`brand`, `links`, `actions`; links collapse behind a menu button on narrow screens), `Sidebar` (`sections` of `{ id, title?, links }`), `Breadcrumbs` (`items` of `{ label, href? }`, the last one is the current page), `Tabs` (`items` of `{ id, label (text or content), content?, disabled? }`; omit `content` when the app draws the screen itself; `label` required, `defaultTabId` or controlled `activeTabId`, `onChange`).
 - Links are `{ id, label, href, isCurrent? }` (`NavLinkItem`).
 - `Accordion`: `items` of `{ id, title, content }`, `allowMultiple`, `defaultOpenIds`, `headingLevel`.
 

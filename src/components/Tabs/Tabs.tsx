@@ -11,8 +11,13 @@ import styles from "./Tabs.module.css";
 
 export interface TabItem {
   id: string;
-  label: string;
-  content: ReactNode;
+  /** Texto o contenido de la pestaña (por ejemplo un ícono y un texto). */
+  label: ReactNode;
+  /**
+   * Contenido del panel. Se puede omitir cuando la pantalla de abajo la dibuja la app (la
+   * pestaña solo cambia de vista): entonces no se renderiza ningún panel.
+   */
+  content?: ReactNode;
   disabled?: boolean;
 }
 
@@ -20,6 +25,11 @@ export interface TabsProps {
   items: TabItem[];
   /** Pestaña inicial; por defecto, la primera habilitada. */
   defaultTabId?: string;
+  /**
+   * Pestaña activa cuando la controla la app (por ejemplo la vista actual, que también cambia
+   * desde otros lugares). Con este valor, `onChange` avisa y la app decide.
+   */
+  activeTabId?: string;
   /** Nombre accesible del grupo de pestañas. */
   label: string;
   onChange?: (tabId: string) => void;
@@ -29,13 +39,15 @@ export interface TabsProps {
 export const Tabs = ({
   items,
   defaultTabId,
+  activeTabId,
   label,
   onChange,
   className,
 }: TabsProps) => {
   const baseId = useId();
   const firstEnabledId = items.find((item) => !item.disabled)?.id ?? "";
-  const [activeId, setActiveId] = useState(defaultTabId ?? firstEnabledId);
+  const [ownActiveId, setActiveId] = useState(defaultTabId ?? firstEnabledId);
+  const activeId = activeTabId ?? ownActiveId;
   const tabRefs = useRef(new Map<string, HTMLButtonElement>());
 
   const activate = (tabId: string) => {
@@ -85,7 +97,11 @@ export const Tabs = ({
               type="button"
               role="tab"
               aria-selected={isActive}
-              aria-controls={`${baseId}-panel-${item.id}`}
+              aria-controls={
+                item.content === undefined
+                  ? undefined
+                  : `${baseId}-panel-${item.id}`
+              }
               // Solo la pestaña activa entra en la secuencia de Tab; el resto, con flechas.
               tabIndex={isActive ? 0 : -1}
               disabled={item.disabled}
@@ -97,7 +113,7 @@ export const Tabs = ({
           );
         })}
       </div>
-      {activeItem && (
+      {activeItem && activeItem.content !== undefined && (
         <div
           role="tabpanel"
           id={`${baseId}-panel-${activeItem.id}`}
