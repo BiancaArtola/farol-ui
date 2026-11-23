@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
 import { Badge } from "../Badge/Badge";
 import { Table, type TableColumn } from "./Table";
+import { filterRows, setColumnFilter, type ColumnFilters } from "./filterRows";
 import { nextSort, sortRows, type TableSort } from "./sortRows";
 
 interface Invoice {
@@ -85,4 +86,34 @@ const SortableTable = (args: Story["args"]) => {
 // Orden controlado: la tabla muestra el estado y quien la usa decide cómo ordenar.
 export const Sortable: Story = {
   render: (args) => <SortableTable {...args} />,
+};
+
+const FilterableTable = (args: Story["args"]) => {
+  const [filters, setFilters] = useState<ColumnFilters>({});
+  const filterableColumns = columns.map((column) => ({
+    ...column,
+    filterable: column.key !== "status",
+  }));
+  const rows = filterRows(invoices, filters, (row, key) =>
+    key === "total" ? row.total : row.client,
+  );
+  return (
+    <Table
+      caption="Comprobantes"
+      getRowKey={(row) => row.id}
+      {...args}
+      columns={filterableColumns}
+      rows={rows}
+      filters={filters}
+      onFilterChange={(key, value) =>
+        setFilters(setColumnFilter(filters, key, value))
+      }
+      emptyMessage="Ningún comprobante coincide con los filtros"
+    />
+  );
+};
+
+// Filtro por columna controlado: la tabla muestra los campos y quien la usa filtra con filterRows.
+export const Filterable: Story = {
+  render: (args) => <FilterableTable {...args} />,
 };

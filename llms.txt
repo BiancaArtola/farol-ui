@@ -44,7 +44,7 @@ Rules that apply to every component:
 
 ## Data
 
-- `Table<Row>`: `rowClassName(row)`, `onRowClick(row)`, `renderRow(row)` (whole `<tr>`, e.g. a memoized row), `columns` (`{ key, header, render?(row), numeric?, sortable?, className? }`; `header` can be any node, e.g. a select-all checkbox), `rows`, `getRowKey`, `caption` (required, visually hidden), `sort`, `onSortChange(key)`, `emptyMessage`. The table does not sort by itself: use `sortRows(rows, sort, getValue)` and `nextSort`.
+- `Table<Row>`: `rowClassName(row)`, `onRowClick(row)`, `renderRow(row)` (whole `<tr>`, e.g. a memoized row), `columns` (`{ key, header, render?(row), numeric?, sortable?, className? }`; `header` can be any node, e.g. a select-all checkbox), `rows`, `getRowKey`, `caption` (required, visually hidden), `sort`, `onSortChange(key)`, `emptyMessage`. The table does not sort by itself: use `sortRows(rows, sort, getValue)` and `nextSort`. Per-column filters: mark columns `filterable` (optional `filterLabel`), pass `filters` (`{ [key]: text }`) and `onFilterChange(key, value)`; the table only draws the inputs, so filter the rows yourself with `filterRows(rows, filters, getValue)` and update state with `setColumnFilter(filters, key, value)`. Matching ignores accents and case, and several filters combine with AND.
 - `TableToolbar`: `searchPlaceholder`, `searchIcon`, `searchLabel`, `searchValue`, `onSearchChange`, `filters`, `summary`.
 - `Pagination`: `page` (1-based), `pageCount`, `onPageChange`, `siblings`. `LoadMore`: `visible`, `total`, `onLoadMore` (the "show more" variant).
 - `Timeline`: `items` (`{ id, title, time?, description?, tone? }`), `label`. `Stepper`: `steps` (`{ id, label, description? }`), `currentStep` (index), `label`.

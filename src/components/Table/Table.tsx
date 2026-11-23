@@ -1,5 +1,6 @@
 import { Fragment, type ReactNode } from "react";
 import { cx } from "../../utils/classNames";
+import type { ColumnFilters } from "./filterRows";
 import type { SortDirection, TableSort } from "./sortRows";
 import styles from "./Table.module.css";
 
@@ -16,6 +17,10 @@ export interface TableColumn<Row> {
   numeric?: boolean;
   /** La cabecera pasa a ser un botón que ordena (requiere `onSortChange`). */
   sortable?: boolean;
+  /** Agrega un campo de texto bajo la cabecera para filtrar (requiere `onFilterChange`). */
+  filterable?: boolean;
+  /** Nombre accesible del filtro; sin esto es "Filtrar" + la cabecera (si es texto) o la clave. */
+  filterLabel?: string;
 }
 
 export interface TableProps<Row> {
@@ -27,6 +32,9 @@ export interface TableProps<Row> {
   /** Orden vigente. La tabla no ordena sola: usar `sortRows` con este valor. */
   sort?: TableSort | null;
   onSortChange?: (key: string) => void;
+  /** Texto de cada filtro por columna. La tabla no filtra sola: usar `filterRows` con este valor. */
+  filters?: ColumnFilters;
+  onFilterChange?: (key: string, value: string) => void;
   /** Texto cuando no hay filas. */
   emptyMessage?: string;
   className?: string;
@@ -48,6 +56,41 @@ const ARIA_SORT: Record<SortDirection, "ascending" | "descending"> = {
 };
 const ARROWS: Record<SortDirection, string> = { asc: "▲", desc: "▼" };
 
+interface FilterRowProps<Row> {
+  columns: readonly TableColumn<Row>[];
+  filters: ColumnFilters;
+  onFilterChange: (key: string, value: string) => void;
+}
+
+/** Segunda fila de la cabecera: un campo de búsqueda bajo cada columna filtrable. */
+const FilterRow = <Row,>({
+  columns,
+  filters,
+  onFilterChange,
+}: FilterRowProps<Row>) => (
+  <tr className={styles.filterRow}>
+    {columns.map((column) => (
+      <td
+        key={column.key}
+        className={cx(column.numeric && styles.numeric, column.className)}
+      >
+        {column.filterable && (
+          <input
+            type="search"
+            className={styles.filterInput}
+            aria-label={
+              column.filterLabel ??
+              `Filtrar ${typeof column.header === "string" ? column.header : column.key}`
+            }
+            value={filters[column.key] ?? ""}
+            onChange={(event) => onFilterChange(column.key, event.target.value)}
+          />
+        )}
+      </td>
+    ))}
+  </tr>
+);
+
 export const Table = <Row,>({
   columns,
   rows,
@@ -55,6 +98,8 @@ export const Table = <Row,>({
   caption,
   sort = null,
   onSortChange,
+  filters = {},
+  onFilterChange,
   emptyMessage = "No data",
   className,
   rowClassName,
@@ -98,6 +143,13 @@ export const Table = <Row,>({
             );
           })}
         </tr>
+        {onFilterChange && columns.some((column) => column.filterable) && (
+          <FilterRow
+            columns={columns}
+            filters={filters}
+            onFilterChange={onFilterChange}
+          />
+        )}
       </thead>
       <tbody>
         {rows.length === 0 ? (

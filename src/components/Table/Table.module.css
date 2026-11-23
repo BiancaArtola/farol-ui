@@ -72,3 +72,16 @@
   text-align: center;
   color: var(--farol-color-text-muted);
 }
+
+/* Segunda fila de la cabecera: un campo de búsqueda por columna filtrable. */
+.table thead .filterRow td {
+  background-color: var(--farol-color-surface);
+  font-weight: var(--farol-font-weight-normal, 400);
+}
+
+.filterInput {
+  composes: control from "../Field/Field.module.css";
+  min-width: 6rem;
+  padding: var(--farol-space-1) var(--farol-space-2);
+  font-size: var(--farol-font-size-sm);
+}

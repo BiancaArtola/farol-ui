@@ -153,4 +153,48 @@ describe("Table (filas)", () => {
     });
     expect(screen.getAllByTestId("propia")).toHaveLength(2);
   });
+
+  // Caso real: filtrar el listado por cliente. La tabla solo muestra el campo y avisa lo
+  // escrito; quien la usa filtra las filas con filterRows.
+  describe("filtros por columna", () => {
+    const filterable = columns.map((column) => ({
+      ...column,
+      filterable: column.key === "client",
+    }));
+
+    it("muestra un campo con nombre accesible solo en las columnas filtrables", () => {
+      renderTable({ columns: filterable, onFilterChange: vi.fn() });
+      expect(
+        screen.getByRole("searchbox", { name: "Filtrar Cliente" }),
+      ).toBeInTheDocument();
+      expect(screen.getAllByRole("searchbox")).toHaveLength(1);
+    });
+
+    it("sin onFilterChange no dibuja la fila de filtros", () => {
+      renderTable({ columns: filterable });
+      expect(screen.queryByRole("searchbox")).not.toBeInTheDocument();
+    });
+
+    it("avisa cada cambio con la clave de la columna", async () => {
+      const handleFilterChange = vi.fn();
+      renderTable({ columns: filterable, onFilterChange: handleFilterChange });
+      await userEvent.type(screen.getByRole("searchbox"), "ju");
+      expect(handleFilterChange).toHaveBeenLastCalledWith("client", "u");
+      expect(handleFilterChange).toHaveBeenCalledTimes(2);
+    });
+
+    it("muestra el texto vigente y acepta un nombre accesible propio", () => {
+      renderTable({
+        columns: filterable.map((column) => ({
+          ...column,
+          filterLabel: "Buscar cliente",
+        })),
+        filters: { client: "maria" },
+        onFilterChange: vi.fn(),
+      });
+      expect(
+        screen.getByRole("searchbox", { name: "Buscar cliente" }),
+      ).toHaveValue("maria");
+    });
+  });
 });

@@ -80,6 +80,8 @@ export type { SwitchProps } from "./components/Switch/Switch";
 
 export { Table } from "./components/Table/Table";
 export type { TableColumn, TableProps } from "./components/Table/Table";
+export { filterRows, setColumnFilter } from "./components/Table/filterRows";
+export type { ColumnFilters } from "./components/Table/filterRows";
 export {
   SORT_DIRECTIONS,
   nextSort,
