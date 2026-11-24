@@ -86,3 +86,47 @@ describe("setColumnFilter", () => {
     expect(original).toEqual({ client: "ana" });
   });
 });
+
+// Caso real: filtrar los cobros de noviembre por la columna Fecha con un calendario; el valor del
+// filtro es el rango como texto y las filas aportan su fecha (un `Date` o "AAAA-MM-DD").
+describe("filterRows con rango de fechas", () => {
+  const rows = [
+    { id: "a", date: new Date(2026, 10, 3) },
+    { id: "b", date: new Date(2026, 10, 20) },
+    { id: "c", date: new Date(2026, 11, 2) },
+    { id: "d", date: null as Date | null },
+  ];
+  const ids = (filters: Record<string, string>) =>
+    filterRows(rows, filters, (row) => row.date).map((row) => row.id);
+
+  it("deja las fechas dentro del rango, extremos incluidos, y descarta las filas sin fecha", () => {
+    expect(ids({ date: "2026-11-03..2026-11-20" })).toEqual(["a", "b"]);
+    expect(ids({ date: "2026-11-04..2026-12-02" })).toEqual(["b", "c"]);
+  });
+
+  it("un lado abierto no limita ese extremo", () => {
+    expect(ids({ date: "2026-11-20.." })).toEqual(["b", "c"]);
+    expect(ids({ date: "..2026-11-03" })).toEqual(["a"]);
+  });
+
+  it("también acepta filas con la fecha como texto ISO", () => {
+    const texts = [{ date: "2026-11-05" }, { date: "05/11/2026" }];
+    expect(
+      filterRows(texts, { date: "2026-11-01..2026-11-30" }, (row) => row.date),
+    ).toEqual([{ date: "2026-11-05" }]);
+  });
+
+  it("se combina con un filtro de texto de otra columna", () => {
+    const people = [
+      { name: "Ana", date: new Date(2026, 10, 3) },
+      { name: "Beto", date: new Date(2026, 10, 4) },
+    ];
+    expect(
+      filterRows(
+        people,
+        { date: "2026-11-01..2026-11-30", name: "be" },
+        (row, key) => (key === "date" ? row.date : row.name),
+      ),
+    ).toEqual([people[1]]);
+  });
+});

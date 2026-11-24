@@ -22,6 +22,12 @@ export interface TableColumn<Row> {
   filterable?: boolean;
   /** Nombre accesible del filtro; sin esto es "Filtrar" + la cabecera (si es texto) o la clave. */
   filterLabel?: string;
+  /**
+   * Cómo se escribe el filtro: `"text"` (por defecto) un campo de texto o `"date"` un calendario de
+   * rango (solo con `filterMode="icon"`). Con `"date"` el valor del filtro es el texto de
+   * `serializeDateRange` y `filterRows` lo compara con la fecha de cada fila.
+   */
+  filterType?: "text" | "date";
 }
 
 export type TableFilterMode = "row" | "icon";
@@ -159,6 +165,7 @@ export const Table = <Row,>({
                     <ColumnFilter
                       label={filterLabelOf(column)}
                       value={filters[column.key] ?? ""}
+                      type={column.filterType}
                       onChange={(value) => onFilterChange?.(column.key, value)}
                     />
                   </span>

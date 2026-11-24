@@ -293,4 +293,71 @@ describe("Table (filas)", () => {
       ).toBeInTheDocument();
     });
   });
+
+  // Caso real: una columna de fechas se filtra eligiendo desde y hasta en un calendario.
+  describe("filtro de fecha con ícono", () => {
+    const dateColumns: TableColumn<Invoice>[] = [
+      ...columns,
+      {
+        key: "date",
+        header: "Fecha",
+        filterable: true,
+        filterType: "date",
+        filterLabel: "Filtrar por fecha",
+        render: () => "",
+      },
+    ];
+
+    it("el panel muestra un calendario y no un campo de texto", async () => {
+      renderTable({
+        columns: dateColumns,
+        filterMode: "icon",
+        onFilterChange: vi.fn(),
+      });
+      await userEvent.click(
+        screen.getByRole("button", { name: "Filtrar por fecha" }),
+      );
+      expect(screen.getByRole("grid")).toBeInTheDocument();
+      expect(screen.queryByRole("searchbox")).not.toBeInTheDocument();
+    });
+
+    it("elegir desde y hasta avisa el rango como texto", async () => {
+      const handleFilterChange = vi.fn();
+      renderTable({
+        columns: dateColumns,
+        filterMode: "icon",
+        filters: { date: "2026-11-03.." },
+        onFilterChange: handleFilterChange,
+      });
+      await userEvent.click(
+        screen.getByRole("button", { name: "Filtrar por fecha" }),
+      );
+      await userEvent.click(
+        screen.getByRole("button", { name: /20 de noviembre de 2026/ }),
+      );
+      expect(handleFilterChange).toHaveBeenCalledWith(
+        "date",
+        "2026-11-03..2026-11-20",
+      );
+    });
+
+    it("con un rango puesto lo anuncia en lenguaje natural y permite borrarlo", async () => {
+      const handleFilterChange = vi.fn();
+      renderTable({
+        columns: dateColumns,
+        filterMode: "icon",
+        filters: { date: "2026-11-03..2026-11-20" },
+        onFilterChange: handleFilterChange,
+      });
+      const trigger = screen.getByRole("button", { name: "Filtrar por fecha" });
+      expect(trigger).toHaveAccessibleDescription(
+        "Filtro activo: 03/11/2026 – 20/11/2026",
+      );
+      await userEvent.click(trigger);
+      await userEvent.click(
+        screen.getByRole("button", { name: "Borrar fechas" }),
+      );
+      expect(handleFilterChange).toHaveBeenCalledWith("date", "");
+    });
+  });
 });

@@ -1,0 +1,141 @@
+.picker {
+  display: flex;
+  flex-direction: column;
+  gap: var(--farol-space-2);
+  width: 18rem;
+  font-family: var(--farol-font-family, inherit);
+  font-size: var(--farol-font-size-sm);
+  font-weight: var(--farol-font-weight-normal, 400);
+  color: var(--farol-color-text);
+}
+
+.presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--farol-space-1);
+}
+
+.preset,
+.clear {
+  padding: var(--farol-space-1) var(--farol-space-2);
+  font: inherit;
+  color: var(--farol-color-primary);
+  background: transparent;
+  border: 1px solid var(--farol-color-border);
+  border-radius: var(--farol-radius-md);
+  cursor: pointer;
+}
+
+.preset:hover,
+.clear:hover:not(:disabled) {
+  background-color: var(--farol-color-surface);
+}
+
+.clear {
+  color: var(--farol-color-text-muted);
+  border-color: transparent;
+  text-decoration: underline;
+}
+
+.clear:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-weight: var(--farol-font-weight-semibold);
+  text-transform: capitalize;
+}
+
+.nav {
+  width: 1.75rem;
+  height: 1.75rem;
+  font: inherit;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  border-radius: var(--farol-radius-md);
+  cursor: pointer;
+}
+
+.nav:hover {
+  background-color: var(--farol-color-surface);
+}
+
+.grid {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+/* Las celdas llevan solo el botón del día: sin los bordes y rellenos de las demás tablas. */
+.grid th,
+.grid td {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: center;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.grid th {
+  padding-bottom: var(--farol-space-1);
+  font-weight: var(--farol-font-weight-semibold);
+  color: var(--farol-color-text-muted);
+  text-transform: capitalize;
+}
+
+.day {
+  width: 100%;
+  padding: var(--farol-space-1) 0;
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  color: inherit;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--farol-radius-md);
+  cursor: pointer;
+}
+
+.day:hover {
+  background-color: var(--farol-color-surface);
+}
+
+.day:focus-visible {
+  outline: 2px solid var(--farol-color-focus);
+  outline-offset: -2px;
+}
+
+.outside {
+  color: var(--farol-color-text-muted);
+  opacity: 0.55;
+}
+
+.today {
+  border-color: var(--farol-color-border-strong);
+}
+
+.between {
+  background-color: var(--farol-color-info-bg);
+  border-radius: 0;
+}
+
+.edge,
+.edge:hover {
+  color: var(--farol-color-primary-contrast);
+  background-color: var(--farol-color-primary);
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+}

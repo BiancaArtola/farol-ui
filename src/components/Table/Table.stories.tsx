@@ -122,3 +122,50 @@ export const Filterable: Story = {
 export const FilterableWithIcon: Story = {
   render: (args) => <FilterableTable {...args} filterMode="icon" />,
 };
+
+// Columna de fechas: el filtro es un calendario de rango. `filterRows` entiende el rango si la
+// celda devuelve la fecha (un `Date` o "AAAA-MM-DD").
+const DateFilterTable = () => {
+  const [filters, setFilters] = useState<ColumnFilters>({});
+  const dated = [
+    { id: "1", client: "Juan Pérez", total: 1200, date: new Date(2026, 10, 3) },
+    {
+      id: "2",
+      client: "María Gómez",
+      total: 350,
+      date: new Date(2026, 10, 20),
+    },
+    { id: "3", client: "Ana Ruiz", total: 90, date: new Date(2026, 11, 2) },
+  ];
+  const rows = filterRows(dated, filters, (row, key) =>
+    key === "date" ? row.date : key === "total" ? row.total : row.client,
+  );
+  return (
+    <Table
+      caption="Cobros"
+      getRowKey={(row) => row.id}
+      columns={[
+        { key: "client", header: "Cliente", render: (row) => row.client },
+        {
+          key: "date",
+          header: "Fecha",
+          filterable: true,
+          filterType: "date",
+          filterLabel: "Filtrar por fecha",
+          render: (row) => row.date.toLocaleDateString("es-AR"),
+        },
+      ]}
+      rows={rows}
+      filters={filters}
+      onFilterChange={(key, value) =>
+        setFilters(setColumnFilter(filters, key, value))
+      }
+      filterMode="icon"
+      emptyMessage="Ningún cobro en ese período"
+    />
+  );
+};
+
+export const DateFilter: Story = {
+  render: () => <DateFilterTable />,
+};

@@ -85,7 +85,23 @@ export type {
   TableProps,
 } from "./components/Table/Table";
 export { filterRows, setColumnFilter } from "./components/Table/filterRows";
-export type { ColumnFilters } from "./components/Table/filterRows";
+export type { ColumnFilters, FilterValue } from "./components/Table/filterRows";
+export { DateRangePicker } from "./components/DateRangePicker/DateRangePicker";
+export type {
+  DateRangePickerLabels,
+  DateRangePickerProps,
+} from "./components/DateRangePicker/DateRangePicker";
+export {
+  isInRange,
+  parseDateRange,
+  parseIsoDate,
+  serializeDateRange,
+  toIsoDate,
+} from "./components/DateRangePicker/dateRange";
+export type {
+  DateRange,
+  IsoDate,
+} from "./components/DateRangePicker/dateRange";
 export {
   SORT_DIRECTIONS,
   nextSort,
