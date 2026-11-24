@@ -117,3 +117,8 @@ const FilterableTable = (args: Story["args"]) => {
 export const Filterable: Story = {
   render: (args) => <FilterableTable {...args} />,
 };
+
+// Filtro con ícono: ocupa menos que la fila de campos y marca con un punto las columnas filtradas.
+export const FilterableWithIcon: Story = {
+  render: (args) => <FilterableTable {...args} filterMode="icon" />,
+};

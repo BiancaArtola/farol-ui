@@ -85,3 +85,91 @@
   padding: var(--farol-space-1) var(--farol-space-2);
   font-size: var(--farol-font-size-sm);
 }
+
+.visuallyHidden {
+  composes: visuallyHidden from "../../styles/a11y.module.css";
+}
+
+/* Cabecera con el filtro en ícono: el título (o su botón de orden) y el embudo en una línea. */
+.headerContent {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--farol-space-2);
+}
+
+.columnFilter {
+  display: inline-flex;
+  align-items: center;
+}
+
+.filterButton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--farol-space-1);
+  color: var(--farol-color-text-muted);
+  background: transparent;
+  border: 0;
+  border-radius: var(--farol-radius-sm);
+  cursor: pointer;
+}
+
+.filterButton:hover {
+  color: var(--farol-color-text);
+  background-color: var(--farol-color-bg);
+}
+
+.filterButton:focus-visible {
+  outline: 2px solid var(--farol-color-focus);
+  outline-offset: 2px;
+}
+
+.filterActive {
+  color: var(--farol-color-primary);
+}
+
+/* Punto sobre el ícono: la columna tiene un filtro puesto. */
+.filterDot {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  width: 6px;
+  height: 6px;
+  background-color: var(--farol-color-primary);
+  border-radius: 50%;
+}
+
+/* Fijo y no absoluto: el contenedor de la tabla tiene overflow y recortaría un panel que se sale. */
+.filterPanel {
+  position: fixed;
+  z-index: var(--farol-z-popover, 900);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--farol-space-2);
+  padding: var(--farol-space-3);
+  font-family: var(--farol-font-family, inherit);
+  font-weight: var(--farol-font-weight-normal, 400);
+  color: var(--farol-color-text);
+  background-color: var(--farol-color-bg);
+  border: 1px solid var(--farol-color-border);
+  border-radius: var(--farol-radius-md);
+  box-shadow: var(--farol-shadow-md);
+}
+
+.filterPanel .filterInput {
+  width: 100%;
+}
+
+.filterClear {
+  align-self: flex-start;
+  padding: 0;
+  font: inherit;
+  font-size: var(--farol-font-size-sm);
+  color: var(--farol-color-primary);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  text-decoration: underline;
+}

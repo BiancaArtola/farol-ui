@@ -197,4 +197,100 @@ describe("Table (filas)", () => {
       ).toHaveValue("maria");
     });
   });
+
+  // Caso real: la fila de campos bajo la cabecera ocupa lugar y no se nota cuál columna está
+  // filtrada; con `filterMode="icon"` cada columna filtrable tiene un ícono que abre su filtro.
+  describe("filtro con ícono en la cabecera", () => {
+    const filterable = columns.map((column) => ({
+      ...column,
+      filterable: column.key === "client",
+    }));
+
+    it("no dibuja la fila de campos: hay un botón por columna filtrable y el campo está cerrado", () => {
+      renderTable({
+        columns: filterable,
+        filterMode: "icon",
+        onFilterChange: vi.fn(),
+      });
+      expect(
+        screen.getByRole("button", { name: "Filtrar Cliente" }),
+      ).toHaveAttribute("aria-expanded", "false");
+      expect(screen.getAllByRole("button", { name: /^Filtrar/ })).toHaveLength(
+        1,
+      );
+      expect(screen.queryByRole("searchbox")).not.toBeInTheDocument();
+    });
+
+    it("el botón abre un panel con el campo enfocado y avisa cada cambio", async () => {
+      const handleFilterChange = vi.fn();
+      renderTable({
+        columns: filterable,
+        filterMode: "icon",
+        onFilterChange: handleFilterChange,
+      });
+      await userEvent.click(
+        screen.getByRole("button", { name: "Filtrar Cliente" }),
+      );
+      const field = screen.getByRole("searchbox", { name: "Filtrar Cliente" });
+      expect(field).toHaveFocus();
+      expect(
+        screen.getByRole("button", { name: "Filtrar Cliente" }),
+      ).toHaveAttribute("aria-expanded", "true");
+      await userEvent.type(field, "ju");
+      expect(handleFilterChange).toHaveBeenCalledWith("client", "u");
+    });
+
+    it("con un filtro puesto lo anuncia y permite limpiarlo", async () => {
+      const handleFilterChange = vi.fn();
+      renderTable({
+        columns: filterable,
+        filterMode: "icon",
+        filters: { client: "maria" },
+        onFilterChange: handleFilterChange,
+      });
+      expect(
+        screen.getByRole("button", { name: "Filtrar Cliente" }),
+      ).toHaveAccessibleDescription("Filtro activo: maria");
+      await userEvent.click(
+        screen.getByRole("button", { name: "Filtrar Cliente" }),
+      );
+      await userEvent.click(
+        screen.getByRole("button", { name: "Limpiar filtro" }),
+      );
+      expect(handleFilterChange).toHaveBeenCalledWith("client", "");
+    });
+
+    it("Escape y Enter cierran el panel y devuelven el foco al ícono", async () => {
+      renderTable({
+        columns: filterable,
+        filterMode: "icon",
+        onFilterChange: vi.fn(),
+      });
+      const trigger = screen.getByRole("button", { name: "Filtrar Cliente" });
+      await userEvent.click(trigger);
+      await userEvent.keyboard("{Escape}");
+      expect(screen.queryByRole("searchbox")).not.toBeInTheDocument();
+      expect(trigger).toHaveFocus();
+
+      await userEvent.click(trigger);
+      await userEvent.keyboard("{Enter}");
+      expect(screen.queryByRole("searchbox")).not.toBeInTheDocument();
+      expect(trigger).toHaveFocus();
+    });
+
+    it("la columna ordenable conserva su botón de orden junto al ícono", () => {
+      renderTable({
+        columns: filterable,
+        filterMode: "icon",
+        onSortChange: vi.fn(),
+        onFilterChange: vi.fn(),
+      });
+      expect(
+        screen.getByRole("button", { name: /^Cliente/ }),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: "Filtrar Cliente" }),
+      ).toBeInTheDocument();
+    });
+  });
 });

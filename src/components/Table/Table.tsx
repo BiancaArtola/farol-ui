@@ -1,5 +1,6 @@
 import { Fragment, type ReactNode } from "react";
 import { cx } from "../../utils/classNames";
+import { ColumnFilter } from "./ColumnFilter";
 import type { ColumnFilters } from "./filterRows";
 import type { SortDirection, TableSort } from "./sortRows";
 import styles from "./Table.module.css";
@@ -17,11 +18,13 @@ export interface TableColumn<Row> {
   numeric?: boolean;
   /** La cabecera pasa a ser un botón que ordena (requiere `onSortChange`). */
   sortable?: boolean;
-  /** Agrega un campo de texto bajo la cabecera para filtrar (requiere `onFilterChange`). */
+  /** Permite filtrar la columna: un campo de texto (ver `filterMode`; requiere `onFilterChange`). */
   filterable?: boolean;
   /** Nombre accesible del filtro; sin esto es "Filtrar" + la cabecera (si es texto) o la clave. */
   filterLabel?: string;
 }
+
+export type TableFilterMode = "row" | "icon";
 
 export interface TableProps<Row> {
   columns: readonly TableColumn<Row>[];
@@ -35,6 +38,12 @@ export interface TableProps<Row> {
   /** Texto de cada filtro por columna. La tabla no filtra sola: usar `filterRows` con este valor. */
   filters?: ColumnFilters;
   onFilterChange?: (key: string, value: string) => void;
+  /**
+   * Dónde se escribe el filtro: `"row"` (por defecto) una fila de campos bajo la cabecera, o
+   * `"icon"` un ícono de embudo junto al título de cada columna filtrable que abre un panel chico
+   * (ocupa menos y marca con un punto las columnas filtradas).
+   */
+  filterMode?: TableFilterMode;
   /** Texto cuando no hay filas. */
   emptyMessage?: string;
   className?: string;
@@ -55,6 +64,11 @@ const ARIA_SORT: Record<SortDirection, "ascending" | "descending"> = {
   desc: "descending",
 };
 const ARROWS: Record<SortDirection, string> = { asc: "▲", desc: "▼" };
+
+/** Nombre accesible del filtro de una columna: el `filterLabel` o "Filtrar" + la cabecera. */
+const filterLabelOf = <Row,>(column: TableColumn<Row>): string =>
+  column.filterLabel ??
+  `Filtrar ${typeof column.header === "string" ? column.header : column.key}`;
 
 interface FilterRowProps<Row> {
   columns: readonly TableColumn<Row>[];
@@ -78,10 +92,7 @@ const FilterRow = <Row,>({
           <input
             type="search"
             className={styles.filterInput}
-            aria-label={
-              column.filterLabel ??
-              `Filtrar ${typeof column.header === "string" ? column.header : column.key}`
-            }
+            aria-label={filterLabelOf(column)}
             value={filters[column.key] ?? ""}
             onChange={(event) => onFilterChange(column.key, event.target.value)}
           />
@@ -100,6 +111,7 @@ export const Table = <Row,>({
   onSortChange,
   filters = {},
   onFilterChange,
+  filterMode = "row",
   emptyMessage = "No data",
   className,
   rowClassName,
@@ -115,6 +127,20 @@ export const Table = <Row,>({
             const direction = sort?.key === column.key ? sort.direction : null;
             const isSortable = column.sortable && onSortChange;
             const ariaSort = direction ? ARIA_SORT[direction] : "none";
+            const title = isSortable ? (
+              <button
+                type="button"
+                className={styles.sortButton}
+                onClick={() => onSortChange(column.key)}
+              >
+                {column.header}
+                <span aria-hidden="true" className={styles.arrow}>
+                  {direction ? ARROWS[direction] : "↕"}
+                </span>
+              </button>
+            ) : (
+              column.header
+            );
             return (
               <th
                 key={column.key}
@@ -125,31 +151,33 @@ export const Table = <Row,>({
                 )}
                 aria-sort={isSortable ? ariaSort : undefined}
               >
-                {isSortable ? (
-                  <button
-                    type="button"
-                    className={styles.sortButton}
-                    onClick={() => onSortChange(column.key)}
-                  >
-                    {column.header}
-                    <span aria-hidden="true" className={styles.arrow}>
-                      {direction ? ARROWS[direction] : "↕"}
-                    </span>
-                  </button>
+                {filterMode === "icon" &&
+                onFilterChange &&
+                column.filterable ? (
+                  <span className={styles.headerContent}>
+                    {title}
+                    <ColumnFilter
+                      label={filterLabelOf(column)}
+                      value={filters[column.key] ?? ""}
+                      onChange={(value) => onFilterChange?.(column.key, value)}
+                    />
+                  </span>
                 ) : (
-                  column.header
+                  title
                 )}
               </th>
             );
           })}
         </tr>
-        {onFilterChange && columns.some((column) => column.filterable) && (
-          <FilterRow
-            columns={columns}
-            filters={filters}
-            onFilterChange={onFilterChange}
-          />
-        )}
+        {filterMode === "row" &&
+          onFilterChange &&
+          columns.some((column) => column.filterable) && (
+            <FilterRow
+              columns={columns}
+              filters={filters}
+              onFilterChange={onFilterChange}
+            />
+          )}
       </thead>
       <tbody>
         {rows.length === 0 ? (
