@@ -50,7 +50,11 @@
 
 .title {
   font-weight: var(--farol-font-weight-semibold);
-  text-transform: capitalize;
+}
+
+/* Solo la primera letra en mayúscula ("Noviembre de 2026"); capitalize pondría también "De". */
+.title::first-letter {
+  text-transform: uppercase;
 }
 
 .nav {
