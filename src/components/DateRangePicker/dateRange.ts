@@ -110,6 +110,26 @@ export const addMonths = (date: Date, months: number): Date => {
   );
 };
 
+/** A qué fecha lleva una tecla del calendario; `null` si la tecla no mueve el foco. */
+export const keyboardTarget = (
+  key: string,
+  date: Date,
+  weekStart = 1,
+): Date | null => {
+  const dayOfWeek = (date.getDay() - weekStart + DAYS_IN_WEEK) % DAYS_IN_WEEK;
+  const steps: Record<string, () => Date> = {
+    ArrowLeft: () => addDays(date, -1),
+    ArrowRight: () => addDays(date, 1),
+    ArrowUp: () => addDays(date, -DAYS_IN_WEEK),
+    ArrowDown: () => addDays(date, DAYS_IN_WEEK),
+    PageUp: () => addMonths(date, -1),
+    PageDown: () => addMonths(date, 1),
+    Home: () => addDays(date, -dayOfWeek),
+    End: () => addDays(date, DAYS_IN_WEEK - 1 - dayOfWeek),
+  };
+  return steps[key]?.() ?? null;
+};
+
 /** Atajos habituales para elegir un período de un clic, calculados a partir de "hoy". */
 export const presetRanges = (
   today: Date,

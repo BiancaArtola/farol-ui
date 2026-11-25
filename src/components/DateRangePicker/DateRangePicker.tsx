@@ -7,10 +7,10 @@ import {
 } from "react";
 import { cx } from "../../utils/classNames";
 import {
-  addDays,
   addMonths,
   buildMonthGrid,
   isInRange,
+  keyboardTarget,
   normalizeRange,
   parseIsoDate,
   presetRanges,
@@ -171,20 +171,10 @@ export const DateRangePicker = ({
     event: KeyboardEvent<HTMLButtonElement>,
     date: Date,
   ) => {
-    const steps: Record<string, () => Date> = {
-      ArrowLeft: () => addDays(date, -1),
-      ArrowRight: () => addDays(date, 1),
-      ArrowUp: () => addDays(date, -7),
-      ArrowDown: () => addDays(date, 7),
-      PageUp: () => addMonths(date, -1),
-      PageDown: () => addMonths(date, 1),
-      Home: () => addDays(date, -((date.getDay() - weekStart + 7) % 7)),
-      End: () => addDays(date, 6 - ((date.getDay() - weekStart + 7) % 7)),
-    };
-    const step = steps[event.key];
-    if (step) {
+    const target = keyboardTarget(event.key, date, weekStart);
+    if (target) {
       event.preventDefault();
-      moveFocus(step());
+      moveFocus(target);
     }
   };
 

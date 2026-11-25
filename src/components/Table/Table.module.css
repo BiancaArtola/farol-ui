@@ -148,6 +148,9 @@
   display: flex;
   flex-direction: column;
   gap: var(--farol-space-2);
+  /* Si no entra en la ventana se recorre por dentro, sin arrastrar el scroll de la página. */
+  overflow-y: auto;
+  overscroll-behavior: contain;
   padding: var(--farol-space-3);
   font-family: var(--farol-font-family, inherit);
   font-weight: var(--farol-font-weight-normal, 400);

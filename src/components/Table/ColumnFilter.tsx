@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { cx } from "../../utils/classNames";
 import { DateRangePicker } from "../DateRangePicker/DateRangePicker";
 import {
@@ -7,6 +7,7 @@ import {
   serializeDateRange,
 } from "../DateRangePicker/dateRange";
 import { useDismiss } from "../../utils/useDismiss";
+import { computePanelPosition, type PanelPosition } from "./panelPosition";
 import styles from "./Table.module.css";
 
 export interface ColumnFilterProps {
@@ -19,19 +20,14 @@ export interface ColumnFilterProps {
    * `"text"` (por defecto): un campo de texto. `"date"`: un calendario para elegir un rango; el
    * valor es el texto de `serializeDateRange` y las filas se filtran con `filterRows`.
    */
-  type?: "text" | "date";
+  type?: TableFilterType;
 }
 
-const PANEL_WIDTH = 240;
-const DATE_PANEL_WIDTH = 304;
-const VIEWPORT_MARGIN = 8;
+export type TableFilterType = "text" | "date";
 
-/**
- * Filtro de una columna: un ícono de embudo junto a la cabecera que abre un panel chico con un
- * campo de texto. El ícono cambia de color y lleva un punto cuando hay un filtro puesto. El panel
- * va con `position: fixed` (calculado desde el ícono) porque el contenedor de la tabla recorta lo
- * que se sale de él; se cierra con Escape, con un clic afuera, con Enter o al desplazar la página.
- */
+// El calendario trae su propio ancho; solo el campo de texto necesita uno fijo.
+const TEXT_PANEL_WIDTH = 240;
+
 /** Rango legible ("03/11/2026 – 20/11/2026") para anunciar el filtro de fecha puesto. */
 const describeRange = (value: string): string => {
   const range = parseDateRange(value);
@@ -51,6 +47,13 @@ const describeRange = (value: string): string => {
   return `${format(range.from)} – ${format(range.to)}`;
 };
 
+/**
+ * Filtro de una columna: un ícono de embudo junto a la cabecera que abre un panel chico con un
+ * campo de texto o un calendario. El ícono cambia de color y lleva un punto cuando hay un filtro
+ * puesto. El panel va con `position: fixed` (calculado desde el ícono) porque el contenedor de la
+ * tabla recorta lo que se sale de él; se cierra con Escape, con un clic afuera, con Enter en el
+ * campo de texto o al desplazar la página.
+ */
 export const ColumnFilter = ({
   label,
   value,
@@ -63,17 +66,15 @@ export const ColumnFilter = ({
   const buttonRef = useRef<HTMLButtonElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState<{
-    top: number;
-    left: number;
-  } | null>(null);
-  const isOpen = position !== null;
+  const [isOpen, setIsOpen] = useState(false);
+  // `null` mientras no se midió: el panel necesita estar dibujado para saber cuánto ocupa.
+  const [position, setPosition] = useState<PanelPosition | null>(null);
   const isActive = value.trim() !== "";
   const isDate = type === "date";
-  const panelWidth = isDate ? DATE_PANEL_WIDTH : PANEL_WIDTH;
+  const activeText = isActive && isDate ? describeRange(value) : value;
 
   const close = (restoreFocus: boolean) => {
-    setPosition(null);
+    setIsOpen(false);
     if (restoreFocus) {
       buttonRef.current?.focus();
     }
@@ -82,21 +83,34 @@ export const ColumnFilter = ({
   const toggle = () => {
     if (isOpen) {
       close(false);
-      return;
+    } else {
+      setPosition(null);
+      setIsOpen(true);
     }
-    const rect = buttonRef.current?.getBoundingClientRect();
-    if (!rect) {
-      return;
-    }
-    // Pegado al ícono, sin salirse de la ventana por la derecha.
-    const maxLeft = window.innerWidth - panelWidth - VIEWPORT_MARGIN;
-    setPosition({
-      top: rect.bottom + 4,
-      left: Math.max(VIEWPORT_MARGIN, Math.min(rect.left, maxLeft)),
-    });
   };
 
   useDismiss(isOpen, containerRef, (reason) => close(reason === "escape"));
+
+  // Antes de pintar, para que el panel no se vea saltar de lugar.
+  useLayoutEffect(() => {
+    const anchor = buttonRef.current;
+    const panel = panelRef.current;
+    if (!isOpen || !anchor || !panel) {
+      return;
+    }
+    setPosition(
+      computePanelPosition({
+        anchor: anchor.getBoundingClientRect(),
+        // El alto natural: con un `maxHeight` ya puesto, `offsetHeight` viene recortado.
+        panel: {
+          width: panel.offsetWidth,
+          height: panel.scrollHeight + panel.offsetHeight - panel.clientHeight,
+        },
+        viewport: { width: window.innerWidth, height: window.innerHeight },
+      }),
+    );
+    // Con un filtro puesto aparece "Limpiar filtro" y el panel crece: hay que volver a ubicarlo.
+  }, [isOpen, isActive]);
 
   // Con el panel abierto el campo recibe el foco, y el panel no sigue al ícono si la página se mueve.
   useEffect(() => {
@@ -110,7 +124,14 @@ export const ColumnFilter = ({
     } else {
       inputRef.current?.focus();
     }
-    const handleMove = () => setPosition(null);
+    const handleMove = (event: Event) => {
+      // El scroll del propio panel (cuando no entra en la ventana) no lo cierra.
+      const { target } = event;
+      if (target instanceof Node && panelRef.current?.contains(target)) {
+        return;
+      }
+      setIsOpen(false);
+    };
     window.addEventListener("scroll", handleMove, true);
     window.addEventListener("resize", handleMove);
     return () => {
@@ -130,11 +151,7 @@ export const ColumnFilter = ({
         aria-expanded={isOpen}
         aria-controls={isOpen ? panelId : undefined}
         aria-describedby={isActive ? activeId : undefined}
-        title={
-          isActive
-            ? `${label}: ${isDate ? describeRange(value) : value}`
-            : label
-        }
+        title={isActive ? `${label}: ${activeText}` : label}
         onClick={toggle}
       >
         <svg
@@ -154,17 +171,20 @@ export const ColumnFilter = ({
       </button>
       {isActive && (
         <span id={activeId} className={styles.visuallyHidden}>
-          Filtro activo: {isDate ? describeRange(value) : value}
+          Filtro activo: {activeText}
         </span>
       )}
-      {position && (
+      {isOpen && (
         <div
           id={panelId}
           role="dialog"
           aria-label={label}
           ref={panelRef}
           className={styles.filterPanel}
-          style={{ top: position.top, left: position.left, width: panelWidth }}
+          style={{
+            ...(position ?? { top: 0, left: 0 }),
+            width: isDate ? undefined : TEXT_PANEL_WIDTH,
+          }}
         >
           {isDate ? (
             <DateRangePicker

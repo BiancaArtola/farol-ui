@@ -4,6 +4,7 @@ import {
   addMonths,
   buildMonthGrid,
   isInRange,
+  keyboardTarget,
   normalizeRange,
   parseDateRange,
   parseIsoDate,
@@ -28,6 +29,7 @@ describe("fechas ISO", () => {
   });
 });
 
+// Caso real: el rango elegido en el calendario se guarda como texto en el filtro de una columna.
 describe("rangos", () => {
   it("ordena los extremos si vienen al revés", () => {
     expect(normalizeRange({ from: "2026-11-30", to: "2026-11-01" })).toEqual({
@@ -73,6 +75,7 @@ describe("rangos", () => {
   });
 });
 
+// Caso real: el calendario muestra la semana desde el lunes y no cambia de alto entre meses.
 describe("grilla del mes", () => {
   it("siempre tiene 6 semanas de 7 días, empezando en lunes", () => {
     const grid = buildMonthGrid(2026, 10); // noviembre de 2026: el 1.º es domingo
@@ -90,6 +93,7 @@ describe("grilla del mes", () => {
   });
 });
 
+// Caso real: pasar de mes parado en el día 31 no puede saltear febrero.
 describe("mover fechas", () => {
   it("suma días cruzando el mes", () => {
     expect(toIsoDate(addDays(new Date(2026, 10, 30), 1))).toBe("2026-12-01");
@@ -103,6 +107,35 @@ describe("mover fechas", () => {
   });
 });
 
+// Caso real: quien usa el calendario sin mouse tiene que poder llegar a cualquier fecha.
+describe("teclado", () => {
+  const wednesday = new Date(2026, 10, 18);
+  const targetIso = (key: string, weekStart?: number) => {
+    const date = keyboardTarget(key, wednesday, weekStart);
+    return date && toIsoDate(date);
+  };
+
+  it("las flechas mueven por día y semana, y Re Pág / Av Pág por mes", () => {
+    expect(targetIso("ArrowLeft")).toBe("2026-11-17");
+    expect(targetIso("ArrowDown")).toBe("2026-11-25");
+    expect(targetIso("ArrowUp")).toBe("2026-11-11");
+    expect(targetIso("PageDown")).toBe("2026-12-18");
+    expect(targetIso("PageUp")).toBe("2026-10-18");
+  });
+
+  it("Inicio y Fin van a los bordes de la semana según con qué día empieza", () => {
+    expect(targetIso("Home")).toBe("2026-11-16");
+    expect(targetIso("End")).toBe("2026-11-22");
+    expect(targetIso("Home", 0)).toBe("2026-11-15");
+    expect(targetIso("End", 0)).toBe("2026-11-21");
+  });
+
+  it("otras teclas no mueven el foco", () => {
+    expect(targetIso("Enter")).toBeNull();
+  });
+});
+
+// Caso real: elegir "este mes" o "el mes pasado" sin recorrer el calendario.
 describe("atajos", () => {
   const today = new Date(2026, 10, 24);
 

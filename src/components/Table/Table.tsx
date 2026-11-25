@@ -1,6 +1,6 @@
 import { Fragment, type ReactNode } from "react";
 import { cx } from "../../utils/classNames";
-import { ColumnFilter } from "./ColumnFilter";
+import { ColumnFilter, type TableFilterType } from "./ColumnFilter";
 import type { ColumnFilters } from "./filterRows";
 import type { SortDirection, TableSort } from "./sortRows";
 import styles from "./Table.module.css";
@@ -24,10 +24,10 @@ export interface TableColumn<Row> {
   filterLabel?: string;
   /**
    * Cómo se escribe el filtro: `"text"` (por defecto) un campo de texto o `"date"` un calendario de
-   * rango (solo con `filterMode="icon"`). Con `"date"` el valor del filtro es el texto de
-   * `serializeDateRange` y `filterRows` lo compara con la fecha de cada fila.
+   * rango, que se abre desde un ícono también con `filterMode="row"`. Con `"date"` el valor del
+   * filtro es el texto de `serializeDateRange` y `filterRows` lo compara con la fecha de cada fila.
    */
-  filterType?: "text" | "date";
+  filterType?: TableFilterType;
 }
 
 export type TableFilterMode = "row" | "icon";
@@ -94,15 +94,26 @@ const FilterRow = <Row,>({
         key={column.key}
         className={cx(column.numeric && styles.numeric, column.className)}
       >
-        {column.filterable && (
-          <input
-            type="search"
-            className={styles.filterInput}
-            aria-label={filterLabelOf(column)}
-            value={filters[column.key] ?? ""}
-            onChange={(event) => onFilterChange(column.key, event.target.value)}
-          />
-        )}
+        {column.filterable &&
+          // Un rango de fechas no se puede escribir en un campo de texto: usa el calendario.
+          (column.filterType === "date" ? (
+            <ColumnFilter
+              label={filterLabelOf(column)}
+              value={filters[column.key] ?? ""}
+              type="date"
+              onChange={(value) => onFilterChange(column.key, value)}
+            />
+          ) : (
+            <input
+              type="search"
+              className={styles.filterInput}
+              aria-label={filterLabelOf(column)}
+              value={filters[column.key] ?? ""}
+              onChange={(event) =>
+                onFilterChange(column.key, event.target.value)
+              }
+            />
+          ))}
       </td>
     ))}
   </tr>

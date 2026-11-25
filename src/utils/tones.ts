@@ -12,5 +12,4 @@ export const getStatusRole = (tone: StatusTone): "alert" | "status" =>
   tone === "warning" || tone === "danger" ? "alert" : "status";
 
 /** Tonos de un ícono (StatCard, Card): los de estado más "neutral", un gris sin significado. */
-export const ICON_TONES = ["neutral", ...STATUS_TONES] as const;
-export type IconTone = (typeof ICON_TONES)[number];
+export type IconTone = "neutral" | StatusTone;

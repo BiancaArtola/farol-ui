@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { Table, type TableColumn, type TableProps } from "./Table";
@@ -278,6 +278,21 @@ describe("Table (filas)", () => {
       expect(trigger).toHaveFocus();
     });
 
+    it("el scroll de la página lo cierra, pero el del propio panel no", async () => {
+      renderTable({
+        columns: filterable,
+        filterMode: "icon",
+        onFilterChange: vi.fn(),
+      });
+      await userEvent.click(
+        screen.getByRole("button", { name: "Filtrar Cliente" }),
+      );
+      fireEvent.scroll(screen.getByRole("dialog"));
+      expect(screen.getByRole("dialog")).toBeInTheDocument();
+      fireEvent.scroll(document);
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    });
+
     it("la columna ordenable conserva su botón de orden junto al ícono", () => {
       renderTable({
         columns: filterable,
@@ -307,6 +322,15 @@ describe("Table (filas)", () => {
         render: () => "",
       },
     ];
+
+    it("con la fila de filtros, la columna de fecha también usa el calendario", async () => {
+      renderTable({ columns: dateColumns, onFilterChange: vi.fn() });
+      await userEvent.click(
+        screen.getByRole("button", { name: "Filtrar por fecha" }),
+      );
+      expect(screen.getByRole("grid")).toBeInTheDocument();
+      expect(screen.queryByRole("searchbox")).not.toBeInTheDocument();
+    });
 
     it("el panel muestra un calendario y no un campo de texto", async () => {
       renderTable({
