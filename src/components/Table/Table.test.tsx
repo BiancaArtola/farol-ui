@@ -278,7 +278,9 @@ describe("Table (filas)", () => {
       expect(trigger).toHaveFocus();
     });
 
-    it("el scroll de la página lo cierra, pero el del propio panel no", async () => {
+    // Caso real: al elegir el "desde" la tabla se acorta, el navegador mueve la página y el
+    // calendario se cerraba antes de poder elegir el "hasta".
+    it("sigue abierto al moverse la página y se cierra si el ícono sale de la vista", async () => {
       renderTable({
         columns: filterable,
         filterMode: "icon",
@@ -289,6 +291,13 @@ describe("Table (filas)", () => {
       );
       fireEvent.scroll(screen.getByRole("dialog"));
       expect(screen.getByRole("dialog")).toBeInTheDocument();
+      fireEvent.scroll(document);
+      expect(screen.getByRole("dialog")).toBeInTheDocument();
+      // jsdom no calcula posiciones: se simula el ícono ya fuera de la ventana, por arriba.
+      vi.spyOn(
+        screen.getByRole("button", { name: "Filtrar Cliente" }),
+        "getBoundingClientRect",
+      ).mockReturnValue({ top: -40, bottom: -20, left: 0 } as DOMRect);
       fireEvent.scroll(document);
       expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     });
