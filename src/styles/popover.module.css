@@ -8,17 +8,10 @@
 }
 
 .panel {
+  composes: floating from "./surface.module.css";
   position: absolute;
-  z-index: var(--farol-z-popover, 900);
-  box-sizing: border-box;
   min-width: 12rem;
   padding: var(--farol-space-3);
-  font-family: var(--farol-font-family, inherit);
-  color: var(--farol-color-text);
-  background-color: var(--farol-color-bg);
-  border: 1px solid var(--farol-color-border);
-  border-radius: var(--farol-radius-md);
-  box-shadow: var(--farol-shadow-md);
 }
 
 .bottom-start {

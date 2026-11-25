@@ -142,9 +142,8 @@
 
 /* Fijo y no absoluto: el contenedor de la tabla tiene overflow y recortaría un panel que se sale. */
 .filterPanel {
+  composes: floating from "../../styles/surface.module.css";
   position: fixed;
-  z-index: var(--farol-z-popover, 900);
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: var(--farol-space-2);
@@ -152,13 +151,7 @@
   overflow-y: auto;
   overscroll-behavior: contain;
   padding: var(--farol-space-3);
-  font-family: var(--farol-font-family, inherit);
   font-weight: var(--farol-font-weight-normal, 400);
-  color: var(--farol-color-text);
-  background-color: var(--farol-color-bg);
-  border: 1px solid var(--farol-color-border);
-  border-radius: var(--farol-radius-md);
-  box-shadow: var(--farol-shadow-md);
 }
 
 .filterPanel .filterInput {

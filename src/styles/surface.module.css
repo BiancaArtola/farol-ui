@@ -1,0 +1,11 @@
+/* Aspecto común de lo que flota sobre la página: Popover, DropdownMenu, Combobox y filtros. */
+.floating {
+  z-index: var(--farol-z-popover, 900);
+  box-sizing: border-box;
+  font-family: var(--farol-font-family, inherit);
+  color: var(--farol-color-text);
+  background-color: var(--farol-color-bg);
+  border: 1px solid var(--farol-color-border);
+  border-radius: var(--farol-radius-md);
+  box-shadow: var(--farol-shadow-md);
+}

@@ -8,15 +8,15 @@ import {
 import { cx } from "../../utils/classNames";
 import {
   addMonths,
-  buildMonthGrid,
-  isInRange,
   keyboardTarget,
   normalizeRange,
   parseIsoDate,
   presetRanges,
   toIsoDate,
   type DateRange,
+  type PresetKey,
 } from "./dateRange";
+import { MonthGrid } from "./MonthGrid";
 import styles from "./DateRangePicker.module.css";
 
 export interface DateRangePickerLabels {
@@ -27,12 +27,7 @@ export interface DateRangePickerLabels {
   /** Botón que borra el rango. */
   clear: string;
   /** Atajos de período. */
-  presets: {
-    today: string;
-    last7Days: string;
-    thisMonth: string;
-    previousMonth: string;
-  };
+  presets: Record<PresetKey, string>;
 }
 
 const DEFAULT_LABELS: DateRangePickerLabels = {
@@ -98,7 +93,6 @@ export const DateRangePicker = ({
   const [focused, setFocused] = useState(() => anchor);
   const gridRef = useRef<HTMLTableElement>(null);
   const shouldFocusRef = useRef(false);
-  const todayIso = toIsoDate(today);
   // Con un "desde" y sin "hasta" el próximo clic completa el rango; si no, empieza uno nuevo.
   const isPickingEnd = value.from !== null && value.to === null;
 
@@ -109,24 +103,6 @@ export const DateRangePicker = ({
         year: "numeric",
       }).format(viewMonth),
     [locale, viewMonth],
-  );
-  const weekdays = useMemo(() => {
-    const short = new Intl.DateTimeFormat(locale, { weekday: "short" });
-    const long = new Intl.DateTimeFormat(locale, { weekday: "long" });
-    // 2026-11-01 es domingo: de ahí salen los siete días en orden.
-    return Array.from({ length: 7 }, (_, index) => {
-      const date = new Date(2026, 10, 1 + ((weekStart + index) % 7));
-      return { short: short.format(date), long: long.format(date) };
-    });
-  }, [locale, weekStart]);
-  const dayLabel = useMemo(
-    () => new Intl.DateTimeFormat(locale, { dateStyle: "full" }),
-    [locale],
-  );
-  const weeks = useMemo(
-    () =>
-      buildMonthGrid(viewMonth.getFullYear(), viewMonth.getMonth(), weekStart),
-    [viewMonth, weekStart],
   );
 
   // Tras moverse con el teclado el foco sigue a la fecha, también si cambió el mes que se ve.
@@ -196,18 +172,16 @@ export const DateRangePicker = ({
     >
       {presets && (
         <div className={styles.presets}>
-          {(Object.keys(text.presets) as (keyof typeof presetRange)[]).map(
-            (key) => (
-              <button
-                key={key}
-                type="button"
-                className={styles.preset}
-                onClick={() => applyPreset(presetRange[key])}
-              >
-                {text.presets[key]}
-              </button>
-            ),
-          )}
+          {(Object.keys(text.presets) as PresetKey[]).map((key) => (
+            <button
+              key={key}
+              type="button"
+              className={styles.preset}
+              onClick={() => applyPreset(presetRange[key])}
+            >
+              {text.presets[key]}
+            </button>
+          ))}
         </div>
       )}
       <div className={styles.header}>
@@ -231,64 +205,18 @@ export const DateRangePicker = ({
           <span aria-hidden="true">›</span>
         </button>
       </div>
-      <table
-        ref={gridRef}
-        role="grid"
-        aria-label={monthTitle}
-        className={styles.grid}
-      >
-        <thead>
-          <tr>
-            {weekdays.map((day) => (
-              <th key={day.long} scope="col" abbr={day.long}>
-                {day.short}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {weeks.map((week) => (
-            <tr key={toIsoDate(week[0]!)}>
-              {week.map((date) => {
-                const iso = toIsoDate(date);
-                const isOutside = date.getMonth() !== viewMonth.getMonth();
-                const isEdge = iso === value.from || iso === value.to;
-                const isBetween =
-                  !isEdge &&
-                  value.from !== null &&
-                  value.to !== null &&
-                  isInRange(iso, value);
-                return (
-                  <td
-                    key={iso}
-                    role="gridcell"
-                    aria-selected={isEdge || isBetween}
-                  >
-                    <button
-                      type="button"
-                      data-iso={iso}
-                      aria-label={dayLabel.format(date)}
-                      aria-pressed={isEdge}
-                      tabIndex={iso === toIsoDate(focused) ? 0 : -1}
-                      className={cx(
-                        styles.day,
-                        isOutside && styles.outside,
-                        iso === todayIso && styles.today,
-                        isEdge && styles.edge,
-                        isBetween && styles.between,
-                      )}
-                      onClick={() => pick(date)}
-                      onKeyDown={(event) => handleKeyDown(event, date)}
-                    >
-                      {date.getDate()}
-                    </button>
-                  </td>
-                );
-              })}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <MonthGrid
+        gridRef={gridRef}
+        title={monthTitle}
+        viewMonth={viewMonth}
+        value={value}
+        focused={focused}
+        todayIso={toIsoDate(today)}
+        locale={locale}
+        weekStart={weekStart}
+        onPick={pick}
+        onKeyDown={handleKeyDown}
+      />
       <div className={styles.footer}>
         <button
           type="button"

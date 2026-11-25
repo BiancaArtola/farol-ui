@@ -2,24 +2,18 @@
   position: relative;
 }
 
-.list,
-.empty {
+/* La lista y el aviso de "sin resultados" son el mismo panel bajo el campo. */
+.dropdown {
+  composes: floating from "../../styles/surface.module.css";
   position: absolute;
-  z-index: var(--farol-z-popover, 900);
   top: calc(100% + var(--farol-space-1));
   right: 0;
   left: 0;
-  box-sizing: border-box;
   margin: 0;
-  font-family: var(--farol-font-family, inherit);
-  color: var(--farol-color-text);
-  background-color: var(--farol-color-bg);
-  border: 1px solid var(--farol-color-border);
-  border-radius: var(--farol-radius-md);
-  box-shadow: var(--farol-shadow-md);
 }
 
 .list {
+  composes: dropdown;
   max-height: 14rem;
   padding: var(--farol-space-1);
   overflow-y: auto;
@@ -47,6 +41,7 @@
 }
 
 .empty {
+  composes: dropdown;
   padding: var(--farol-space-3);
   font-size: var(--farol-font-size-sm);
   color: var(--farol-color-text-muted);

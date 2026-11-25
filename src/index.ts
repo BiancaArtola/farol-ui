@@ -84,6 +84,7 @@ export type {
   TableFilterMode,
   TableProps,
 } from "./components/Table/Table";
+export type { TableFilterType } from "./components/Table/filterTypes";
 export { filterRows, setColumnFilter } from "./components/Table/filterRows";
 export type { ColumnFilters, FilterValue } from "./components/Table/filterRows";
 export { DateRangePicker } from "./components/DateRangePicker/DateRangePicker";

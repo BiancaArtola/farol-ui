@@ -2,11 +2,12 @@ import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { cx } from "../../utils/classNames";
 import { DateRangePicker } from "../DateRangePicker/DateRangePicker";
 import {
+  formatDateRange,
   parseDateRange,
-  parseIsoDate,
   serializeDateRange,
 } from "../DateRangePicker/dateRange";
 import { useDismiss } from "../../utils/useDismiss";
+import { FILTER_TYPES, type TableFilterType } from "./filterTypes";
 import { computePanelPosition, type PanelPosition } from "./panelPosition";
 import styles from "./Table.module.css";
 
@@ -23,28 +24,13 @@ export interface ColumnFilterProps {
   type?: TableFilterType;
 }
 
-export type TableFilterType = "text" | "date";
-
 // El calendario trae su propio ancho; solo el campo de texto necesita uno fijo.
 const TEXT_PANEL_WIDTH = 240;
 
-/** Rango legible ("03/11/2026 – 20/11/2026") para anunciar el filtro de fecha puesto. */
-const describeRange = (value: string): string => {
-  const range = parseDateRange(value);
-  if (!range) {
-    return value;
-  }
-  const format = (iso: string | null) => {
-    const date = iso && parseIsoDate(iso);
-    return date
-      ? new Intl.DateTimeFormat("es-AR", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-        }).format(date)
-      : "…";
-  };
-  return `${format(range.from)} – ${format(range.to)}`;
+/** Texto del filtro puesto: un rango de fechas se anuncia legible y no como "AAAA-MM-DD..". */
+const describeFilter = (value: string, type: TableFilterType): string => {
+  const range = type === FILTER_TYPES.date ? parseDateRange(value) : null;
+  return range ? formatDateRange(range) : value;
 };
 
 /**
@@ -58,7 +44,7 @@ export const ColumnFilter = ({
   label,
   value,
   onChange,
-  type = "text",
+  type = FILTER_TYPES.text,
 }: ColumnFilterProps) => {
   const panelId = useId();
   const activeId = useId();
@@ -70,8 +56,8 @@ export const ColumnFilter = ({
   // `null` mientras no se midió: el panel necesita estar dibujado para saber cuánto ocupa.
   const [position, setPosition] = useState<PanelPosition | null>(null);
   const isActive = value.trim() !== "";
-  const isDate = type === "date";
-  const activeText = isActive && isDate ? describeRange(value) : value;
+  const isDate = type === FILTER_TYPES.date;
+  const activeText = describeFilter(value, type);
 
   const close = (restoreFocus: boolean) => {
     setIsOpen(false);

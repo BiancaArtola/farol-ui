@@ -3,6 +3,7 @@ import {
   addDays,
   addMonths,
   buildMonthGrid,
+  formatDateRange,
   isInRange,
   keyboardTarget,
   normalizeRange,
@@ -11,6 +12,7 @@ import {
   presetRanges,
   serializeDateRange,
   toIsoDate,
+  weekdayNames,
 } from "./dateRange";
 
 // Caso real: filtrar cobros de un período ("todo noviembre"). Las fechas viajan como texto
@@ -151,5 +153,31 @@ describe("atajos", () => {
       from: "2025-12-01",
       to: "2025-12-31",
     });
+  });
+});
+
+// Caso real: con un filtro de fecha puesto, el ícono de la columna anuncia el período elegido.
+describe("formatDateRange", () => {
+  it("muestra los dos extremos en el formato local", () => {
+    expect(formatDateRange({ from: "2026-11-03", to: "2026-11-20" })).toBe(
+      "03/11/2026 – 20/11/2026",
+    );
+  });
+
+  it("marca el lado abierto", () => {
+    expect(formatDateRange({ from: null, to: "2026-11-20" })).toBe(
+      "… – 20/11/2026",
+    );
+  });
+});
+
+// Caso real: la cabecera del calendario arranca el lunes o el domingo según se configure.
+describe("weekdayNames", () => {
+  it("ordena los siete días desde el que empieza la semana", () => {
+    const fromMonday = weekdayNames("es-AR").map((day) => day.long);
+    expect(fromMonday).toHaveLength(7);
+    expect(fromMonday[0]).toBe("lunes");
+    expect(fromMonday[6]).toBe("domingo");
+    expect(weekdayNames("es-AR", 0)[0]?.long).toBe("domingo");
   });
 });

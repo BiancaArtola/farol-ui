@@ -63,6 +63,34 @@ export const parseDateRange = (text: string): DateRange | null => {
   return normalizeRange({ from: start ?? null, to: end ?? null });
 };
 
+/** El rango como "03/11/2026 – 20/11/2026"; un lado abierto se muestra como "…". */
+export const formatDateRange = (range: DateRange, locale = "es-AR"): string => {
+  const formatter = new Intl.DateTimeFormat(locale, {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+  const format = (iso: IsoDate | null) => {
+    const date = iso && parseIsoDate(iso);
+    return date ? formatter.format(date) : "…";
+  };
+  return `${format(range.from)} – ${format(range.to)}`;
+};
+
+/** Nombres (corto y largo) de los siete días, en el orden de la semana que empieza en `weekStart`. */
+export const weekdayNames = (
+  locale: string,
+  weekStart = 1,
+): { short: string; long: string }[] => {
+  const short = new Intl.DateTimeFormat(locale, { weekday: "short" });
+  const long = new Intl.DateTimeFormat(locale, { weekday: "long" });
+  return Array.from({ length: DAYS_IN_WEEK }, (_, index) => {
+    // 2026-11-01 es domingo: de ahí salen los siete días en orden.
+    const date = new Date(2026, 10, 1 + ((weekStart + index) % DAYS_IN_WEEK));
+    return { short: short.format(date), long: long.format(date) };
+  });
+};
+
 /**
  * Las semanas de un mes para dibujarlo: siempre 6 filas de 7 días, con los días del mes anterior
  * y del siguiente que completan la grilla. `weekStart` es el día con que empieza la semana
@@ -130,13 +158,10 @@ export const keyboardTarget = (
   return steps[key]?.() ?? null;
 };
 
+export type PresetKey = "today" | "last7Days" | "thisMonth" | "previousMonth";
+
 /** Atajos habituales para elegir un período de un clic, calculados a partir de "hoy". */
-export const presetRanges = (
-  today: Date,
-): Record<
-  "today" | "last7Days" | "thisMonth" | "previousMonth",
-  DateRange
-> => ({
+export const presetRanges = (today: Date): Record<PresetKey, DateRange> => ({
   today: { from: toIsoDate(today), to: toIsoDate(today) },
   last7Days: { from: toIsoDate(addDays(today, -6)), to: toIsoDate(today) },
   thisMonth: {

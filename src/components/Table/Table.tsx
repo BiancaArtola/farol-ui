@@ -1,7 +1,8 @@
 import { Fragment, type ReactNode } from "react";
 import { cx } from "../../utils/classNames";
-import { ColumnFilter, type TableFilterType } from "./ColumnFilter";
+import { ColumnFilter } from "./ColumnFilter";
 import type { ColumnFilters } from "./filterRows";
+import { FILTER_TYPES, type TableFilterType } from "./filterTypes";
 import type { SortDirection, TableSort } from "./sortRows";
 import styles from "./Table.module.css";
 
@@ -96,11 +97,11 @@ const FilterRow = <Row,>({
       >
         {column.filterable &&
           // Un rango de fechas no se puede escribir en un campo de texto: usa el calendario.
-          (column.filterType === "date" ? (
+          (column.filterType === FILTER_TYPES.date ? (
             <ColumnFilter
               label={filterLabelOf(column)}
               value={filters[column.key] ?? ""}
-              type="date"
+              type={FILTER_TYPES.date}
               onChange={(value) => onFilterChange(column.key, value)}
             />
           ) : (
@@ -118,6 +119,63 @@ const FilterRow = <Row,>({
     ))}
   </tr>
 );
+
+interface HeaderCellProps<Row> {
+  column: TableColumn<Row>;
+  sort: TableSort | null;
+  onSortChange?: (key: string) => void;
+  filters: ColumnFilters;
+  /** Si llega, la columna filtrable muestra su ícono de filtro junto al título. */
+  onFilterChange?: (key: string, value: string) => void;
+}
+
+/** Cabecera de una columna: el título (o su botón de orden) y, si corresponde, el filtro. */
+const HeaderCell = <Row,>({
+  column,
+  sort,
+  onSortChange,
+  filters,
+  onFilterChange,
+}: HeaderCellProps<Row>) => {
+  const direction = sort?.key === column.key ? sort.direction : null;
+  const isSortable = column.sortable && onSortChange;
+  const ariaSort = direction ? ARIA_SORT[direction] : "none";
+  const title = isSortable ? (
+    <button
+      type="button"
+      className={styles.sortButton}
+      onClick={() => onSortChange(column.key)}
+    >
+      {column.header}
+      <span aria-hidden="true" className={styles.arrow}>
+        {direction ? ARROWS[direction] : "↕"}
+      </span>
+    </button>
+  ) : (
+    column.header
+  );
+  return (
+    <th
+      scope="col"
+      className={cx(column.numeric && styles.numeric, column.className)}
+      aria-sort={isSortable ? ariaSort : undefined}
+    >
+      {onFilterChange && column.filterable ? (
+        <span className={styles.headerContent}>
+          {title}
+          <ColumnFilter
+            label={filterLabelOf(column)}
+            value={filters[column.key] ?? ""}
+            type={column.filterType}
+            onChange={(value) => onFilterChange(column.key, value)}
+          />
+        </span>
+      ) : (
+        title
+      )}
+    </th>
+  );
+};
 
 export const Table = <Row,>({
   columns,
@@ -140,52 +198,19 @@ export const Table = <Row,>({
       <caption className={styles.caption}>{caption}</caption>
       <thead>
         <tr>
-          {columns.map((column) => {
-            const direction = sort?.key === column.key ? sort.direction : null;
-            const isSortable = column.sortable && onSortChange;
-            const ariaSort = direction ? ARIA_SORT[direction] : "none";
-            const title = isSortable ? (
-              <button
-                type="button"
-                className={styles.sortButton}
-                onClick={() => onSortChange(column.key)}
-              >
-                {column.header}
-                <span aria-hidden="true" className={styles.arrow}>
-                  {direction ? ARROWS[direction] : "↕"}
-                </span>
-              </button>
-            ) : (
-              column.header
-            );
-            return (
-              <th
-                key={column.key}
-                scope="col"
-                className={cx(
-                  column.numeric && styles.numeric,
-                  column.className,
-                )}
-                aria-sort={isSortable ? ariaSort : undefined}
-              >
-                {filterMode === "icon" &&
-                onFilterChange &&
-                column.filterable ? (
-                  <span className={styles.headerContent}>
-                    {title}
-                    <ColumnFilter
-                      label={filterLabelOf(column)}
-                      value={filters[column.key] ?? ""}
-                      type={column.filterType}
-                      onChange={(value) => onFilterChange?.(column.key, value)}
-                    />
-                  </span>
-                ) : (
-                  title
-                )}
-              </th>
-            );
-          })}
+          {columns.map((column) => (
+            <HeaderCell
+              key={column.key}
+              column={column}
+              sort={sort}
+              onSortChange={onSortChange}
+              filters={filters}
+              // En modo fila el filtro va en `FilterRow`, no en la cabecera.
+              onFilterChange={
+                filterMode === "icon" ? onFilterChange : undefined
+              }
+            />
+          ))}
         </tr>
         {filterMode === "row" &&
           onFilterChange &&
