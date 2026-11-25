@@ -18,10 +18,16 @@ export interface PanelPositionInput {
   viewport: { width: number; height: number };
 }
 
+/** ¿El ícono sigue a la vista, aunque sea en parte? Si no, no hay de dónde colgar el panel. */
+export const isAnchorVisible = (
+  anchor: { top: number; bottom: number },
+  viewport: { height: number },
+): boolean => anchor.bottom >= 0 && anchor.top <= viewport.height;
+
 /**
  * Debajo del ícono si entra; si no, arriba si entra; y si no entra en ningún lado, ocupa la
  * ventana (tapando el ícono) y el resto se recorre con el scroll del propio panel. Desplazar la
- * página no sirve para llegar a lo cortado, porque el panel es fijo y al moverse la página se cierra.
+ * página no sirve para llegar a lo cortado, porque el panel es fijo y sigue al ícono.
  */
 export const computePanelPosition = ({
   anchor,

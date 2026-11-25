@@ -1,4 +1,11 @@
-import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { cx } from "../../utils/classNames";
 import { DateRangePicker } from "../DateRangePicker/DateRangePicker";
 import {
@@ -8,7 +15,11 @@ import {
 } from "../DateRangePicker/dateRange";
 import { useDismiss } from "../../utils/useDismiss";
 import { FILTER_TYPES, type TableFilterType } from "./filterTypes";
-import { computePanelPosition, type PanelPosition } from "./panelPosition";
+import {
+  computePanelPosition,
+  isAnchorVisible,
+  type PanelPosition,
+} from "./panelPosition";
 import styles from "./Table.module.css";
 
 export interface ColumnFilterProps {
@@ -38,7 +49,7 @@ const describeFilter = (value: string, type: TableFilterType): string => {
  * campo de texto o un calendario. El ícono cambia de color y lleva un punto cuando hay un filtro
  * puesto. El panel va con `position: fixed` (calculado desde el ícono) porque el contenedor de la
  * tabla recorta lo que se sale de él; se cierra con Escape, con un clic afuera, con Enter en el
- * campo de texto o al desplazar la página.
+ * campo de texto o cuando el ícono sale de la pantalla.
  */
 export const ColumnFilter = ({
   label,
@@ -77,11 +88,10 @@ export const ColumnFilter = ({
 
   useDismiss(isOpen, containerRef, (reason) => close(reason === "escape"));
 
-  // Antes de pintar, para que el panel no se vea saltar de lugar.
-  useLayoutEffect(() => {
+  const placePanel = useCallback(() => {
     const anchor = buttonRef.current;
     const panel = panelRef.current;
-    if (!isOpen || !anchor || !panel) {
+    if (!anchor || !panel) {
       return;
     }
     setPosition(
@@ -95,10 +105,17 @@ export const ColumnFilter = ({
         viewport: { width: window.innerWidth, height: window.innerHeight },
       }),
     );
-    // Con un filtro puesto aparece "Limpiar filtro" y el panel crece: hay que volver a ubicarlo.
-  }, [isOpen, isActive]);
+  }, []);
 
-  // Con el panel abierto el campo recibe el foco, y el panel no sigue al ícono si la página se mueve.
+  // Antes de pintar, para que el panel no se vea saltar de lugar.
+  useLayoutEffect(() => {
+    if (isOpen) {
+      placePanel();
+    }
+    // Con un filtro puesto aparece "Limpiar filtro" y el panel crece: hay que volver a ubicarlo.
+  }, [isOpen, isActive, placePanel]);
+
+  // Con el panel abierto el campo recibe el foco, y el panel sigue al ícono si la página se mueve.
   useEffect(() => {
     if (!isOpen) {
       return;
@@ -111,12 +128,19 @@ export const ColumnFilter = ({
       inputRef.current?.focus();
     }
     const handleMove = (event: Event) => {
-      // El scroll del propio panel (cuando no entra en la ventana) no lo cierra.
+      // El scroll del propio panel (cuando no entra en la ventana) no lo mueve.
       const { target } = event;
       if (target instanceof Node && panelRef.current?.contains(target)) {
         return;
       }
-      setIsOpen(false);
+      // No se cierra ante cualquier scroll: al filtrar, la tabla se acorta y el navegador mueve
+      // la página solo, justo cuando falta elegir el "hasta".
+      const anchor = buttonRef.current?.getBoundingClientRect();
+      if (anchor && isAnchorVisible(anchor, { height: window.innerHeight })) {
+        placePanel();
+      } else {
+        setIsOpen(false);
+      }
     };
     window.addEventListener("scroll", handleMove, true);
     window.addEventListener("resize", handleMove);
@@ -124,7 +148,7 @@ export const ColumnFilter = ({
       window.removeEventListener("scroll", handleMove, true);
       window.removeEventListener("resize", handleMove);
     };
-  }, [isOpen, isDate]);
+  }, [isOpen, isDate, placePanel]);
 
   return (
     <span ref={containerRef} className={styles.columnFilter}>
